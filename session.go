@@ -5,9 +5,13 @@ import (
 	"math/rand"
 	"net/http"
 	"time"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 var LoginCode string
+
+var SessionToken string
 
 type LoginRequest struct {
 	LoginCode string
@@ -20,12 +24,21 @@ type LoginResponse struct {
 func init() {
 	rand.Seed(time.Now().UnixNano())
 	GenerateLoginCode()
+	GenerateSessionToken()
 }
 
 func GenerateLoginCode() {
 	code := rand.Intn(10000)
 	LoginCode = fmt.Sprintf("%04d", code)
 	fmt.Printf("Login code set to: %s\n", LoginCode)
+}
+
+func GenerateSessionToken() {
+	token, err := uuid.NewV4()
+	if err != nil {
+		panic(err)
+	}
+	SessionToken = token.String()
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -41,5 +54,5 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		// TODO: Log Juan's mom
 		return
 	}
-	EncodeAndWriteResponse(w, http.StatusOK, &LoginResponse{"lesessiontoken"})
+	EncodeAndWriteResponse(w, http.StatusOK, &LoginResponse{SessionToken})
 }
