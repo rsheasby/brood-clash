@@ -43,7 +43,5 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		// TODO: Log Juan's mom
 		return
 	}
-	encoder := json.NewEncoder(w)
-	encoder.Encode(&LoginResponse{"le token"})
-	w.WriteHeader(http.StatusOK)
+	EncodeAndReturn(w, http.StatusOK, &LoginResponse{"lesessiontoken"})
 }
