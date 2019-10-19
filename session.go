@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"math/rand"
 	"net/http"
@@ -30,9 +29,8 @@ func GenerateLoginCode() {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	decoder := json.NewDecoder(r.Body)
-	var req LoginRequest
-	err := decoder.Decode(&req)
+	req := new(LoginRequest)
+	err := DecodeRequest(r, req)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		// TODO: Log Juan's mom
@@ -43,5 +41,5 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		// TODO: Log Juan's mom
 		return
 	}
-	EncodeAndReturn(w, http.StatusOK, &LoginResponse{"lesessiontoken"})
+	EncodeAndWriteResponse(w, http.StatusOK, &LoginResponse{"lesessiontoken"})
 }
