@@ -36,14 +36,14 @@
 <form on:submit|preventDefault="{handleSubmit}">
 	{#each questions as question (question.id)}
 	Question:<br />
-	<input type="text" bind:value="{question.question}"><br />
+	<input type="text" bind:value="{question.question}" on:keydown|stopPropagation><br />
 	Answers:<br />
 		{#each question.answers as answer, index}
-		{index + 1}: <input type="text" bind:value="{answer}"><br />
+		{index + 1}: <input type="text" bind:value="{answer}" on:keydown|stopPropagation><br />
 		{/each}
 	{/each}
 
-	<button type="submit">Submit</button>
+	<button type="submit" on:keydown|stopPropagation>Submit</button>
 </form>
 
-<button on:click={addQuestion}>Add question</button>
+<button on:click={addQuestion} on:keydown|stopPropagation>Add question</button>

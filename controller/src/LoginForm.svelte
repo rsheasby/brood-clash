@@ -25,9 +25,9 @@
 
 <form on:submit|preventDefault="{handleSubmit}">
 	<label for="login-code-input">Please enter your login code:</label>
-	<input type="text" id="login-code-input" placeholder="Login code" name="loginCode" required><br />
+	<input type="text" id="login-code-input" placeholder="Login code" name="loginCode" required on:keydown|stopPropagation><br />
 
-	<button type="submit">Login</button>
+	<button type="submit" on:keydown|stopPropagation>Login</button>
 </form>
 
 {#if invalidCode}
