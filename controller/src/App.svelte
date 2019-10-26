@@ -7,11 +7,15 @@
 	function handleLogin(event) {
 		sessionToken = event.detail.sessionToken;
 	}
+
+	function handleQuestionsSubmit(event) {
+		console.log(event);
+	}
 </script>
 
 <!-- TODO: We probably need a router -->
 {#if !sessionToken}
 	<LoginForm on:login="{handleLogin}"/>
 {:else}
-	<QuestionsForm />
+	<QuestionsForm on:submit="{handleQuestionsSubmit}"/>
 {/if}
