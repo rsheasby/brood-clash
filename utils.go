@@ -12,8 +12,8 @@ func DecodeRequest(r *http.Request, object interface{}) (err error) {
 }
 
 func EncodeAndWriteResponse(w http.ResponseWriter, status int, object interface{}) {
-	encoder := json.NewEncoder(w)
-	encoder.Encode(object)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(object)
 	if status != 200 {
 		w.WriteHeader(status)
 	}
