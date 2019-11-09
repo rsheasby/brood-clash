@@ -19,6 +19,7 @@ func main() {
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
 	e.GET("/ValidateCode/", api.ValidateCode)
+	e.POST("/AddQuestions/", api.AddQuestions)
 
 	e.Start(":1323")
 }
