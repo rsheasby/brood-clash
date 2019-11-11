@@ -19,7 +19,7 @@ func (d *Question) ToModel() (model *models.Question, err error) {
 	model.Description = d.Description
 	for i := range d.Answers {
 		a, _ := d.Answers[i].ToModel()
-		model.Answers[i] = *a
+		model.Answers = append(model.Answers, *a)
 	}
 
 	return

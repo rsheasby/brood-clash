@@ -15,10 +15,10 @@ func AddQuestions(c echo.Context) (err error) {
 	if err = c.Bind(&q); err != nil {
 		return
 	}
-	var models [8]models.Question
+	var models []models.Question
 	for i := range q {
 		m, _ := q[i].ToModel()
-		models[i] = *m
+		models = append(models, *m)
 	}
 	return c.String(http.StatusOK, spew.Sdump(q))
 }
