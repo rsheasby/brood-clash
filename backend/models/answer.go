@@ -1,6 +1,6 @@
 package models
 
 type Answer struct {
-	Text   string
-	Points int
+	Text   string `json:"text"`
+	Points int    `json:"points"`
 }

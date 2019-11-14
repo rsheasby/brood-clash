@@ -1,24 +1,27 @@
 package api
 
 import (
-	"backend/dtos"
 	"backend/models"
+	"backend/services"
 
 	"net/http"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/labstack/echo/v4"
 )
 
 func AddQuestions(c echo.Context) (err error) {
-	var q []dtos.Question
-	if err = c.Bind(&q); err != nil {
+	var questions []models.Question
+	if err = c.Bind(&questions); err != nil {
 		return
 	}
-	var models []models.Question
-	for i := range q {
-		m, _ := q[i].ToModel()
-		models = append(models, *m)	
+
+	for _, v := range questions {
+		services.CreateQuestion(v)
 	}
-	return c.String(http.StatusOK, spew.Sdump(q))
+
+	return c.JSON(http.StatusOK, services.GetQuestions())
+}
+
+func GetQuestions(c echo.Context) (err error) {
+	return c.JSON(http.StatusOK, services.GetQuestions())
 }

@@ -7,5 +7,5 @@ import (
 )
 
 func ValidateCode(c echo.Context) error {
-	return c.String(http.StatusOK, "")
+	return c.NoContent(http.StatusOK)
 }
