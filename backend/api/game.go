@@ -11,14 +11,14 @@ import (
 )
 
 func AddQuestions(c echo.Context) (err error) {
-	q := make([]dtos.Question, 0)
+	var q []dtos.Question
 	if err = c.Bind(&q); err != nil {
 		return
 	}
 	var models []models.Question
 	for i := range q {
 		m, _ := q[i].ToModel()
-		models = append(models, *m)
+		models = append(models, *m)	
 	}
 	return c.String(http.StatusOK, spew.Sdump(q))
 }
