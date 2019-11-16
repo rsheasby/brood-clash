@@ -21,6 +21,7 @@ func main() {
 
 	e.GET("/code/valid", api.ValidateCode)
 	e.GET("/questions", api.GetQuestions)
+	e.GET("/questions/:id", api.GetQuestion)
 	e.POST("/questions", api.AddQuestions)
 
 	e.Start(":1323")

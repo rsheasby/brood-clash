@@ -1,8 +1,10 @@
 package models
 
 type Answer struct {
-	Text   string `json:"text"`
-	Points int    `json:"points"`
+	ID      int    `json:"id"`
+	Text    string `json:"text"`
+	Points  int    `json:"points"`
+	Guessed bool   `json:"guessed"`
 }
 
 func (a *Answer) Validate() (err error) {

@@ -3,6 +3,7 @@ package models
 import "errors"
 
 type Question struct {
+	ID          int      `json:"id"`
 	Description string   `json:"description"`
 	Answers     []Answer `json:"answers"`
 }
