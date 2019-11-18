@@ -1,11 +1,12 @@
 <script>
-	export let name;
+	import Home from './Home.svelte';
+	import Display from './Display.svelte';
+	import page from 'page';
+
+	var component = Home;
+	page('/display', () => component = Display);
+	page('*', () => component = Home)
+	page();
 </script>
 
-<style>
-	h1 {
-		color: purple;
-	}
-</style>
-
-<h1>Hello {name}!</h1>
+<svelte:component this={component} />
