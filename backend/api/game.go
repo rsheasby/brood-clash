@@ -48,3 +48,28 @@ func GetQuestion(c echo.Context) (err error) {
 func GetQuestions(c echo.Context) (err error) {
 	return c.JSON(http.StatusOK, services.GetQuestions())
 }
+
+func RevealAnswer(c echo.Context) (err error) {
+	questionId, err := strconv.Atoi(c.Param("questionId"))
+	if err != nil {
+		fmt.Println(err)
+		return c.NoContent(http.StatusBadRequest)
+	}
+	question := services.GetQuestion(questionId)
+	if question == nil {
+		return c.NoContent(http.StatusNotFound)
+	}
+
+	answerId, err := strconv.Atoi(c.Param("answerId"))
+	if err != nil {
+		fmt.Println(err)
+		return c.NoContent(http.StatusBadRequest)
+	}
+	for i := range question.Answers {
+		if question.Answers[i].ID == answerId {
+			question.Answers[i].Revealed = true
+			return c.NoContent(http.StatusOK)
+		}
+	}
+	return c.NoContent(http.StatusNotFound)
+}

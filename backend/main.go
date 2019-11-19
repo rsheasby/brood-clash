@@ -51,6 +51,7 @@ func main() {
 	g.GET("/questions", api.GetQuestions)
 	g.GET("/questions/:id", api.GetQuestion)
 	g.POST("/questions", api.AddQuestions)
+	g.PUT("/questions/:questionId/answers/:answerId/revealed", api.RevealAnswer)
 
 	e.GET("/ws", hello)
 
