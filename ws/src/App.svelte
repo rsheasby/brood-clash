@@ -6,7 +6,7 @@
 	let messages = [];
 
 	function connect(e) {
-		ws = new WebSocket("ws://localhost:1323/ws");
+		ws = new WebSocket("ws://localhost:1323/present");
 
 		connectionStatus = WebSocket.CONNECTING;
 		ws.onerror = () => connectionStatus = connectionError;

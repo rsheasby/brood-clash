@@ -2,10 +2,9 @@ package main
 
 import (
 	"backend/api"
+	ffmiddleware "backend/middleware"
+	"backend/models"
 	"backend/services"
-
-	"fmt"
-	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -16,45 +15,19 @@ import (
 func hello(c echo.Context) error {
 	websocket.Handler(func(ws *websocket.Conn) {
 		defer ws.Close()
+		ch := make(chan []models.Question)
+		services.RegisterUpdateListener(ch)
+		defer services.UnregisterUpdateListener(ch)
+
 		for {
-			var err error
-			var msg string
-
-			err = websocket.Message.Receive(ws, &msg)
+			err := websocket.JSON.Send(ws, <-ch)
 			if err != nil {
 				c.Logger().Error(err)
-				continue
-			}
-			fmt.Printf("%s\n", msg)
-
-			err = websocket.Message.Send(ws, msg)
-			if err != nil {
-				c.Logger().Error(err)
+				break
 			}
 		}
 	}).ServeHTTP(c.Response(), c.Request())
 	return nil
-}
-
-// TODO: Need a better name for the function
-func foo(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		switch c.Request().Method {
-		case http.MethodPost:
-		case http.MethodPut:
-		case http.MethodPatch:
-		case http.MethodDelete:
-		default:
-			return next(c)
-		}
-
-		c.Response().Before(func() {
-			if c.Response().Status/100 == 2 {
-				println("Ladies and gentlemen...")
-			}
-		})
-		return next(c)
-	}
 }
 
 func main() {
@@ -72,13 +45,13 @@ func main() {
 	g.GET("/code/valid", api.ValidateCode)
 
 	q := g.Group("/questions")
-	q.Use(foo)
+	q.Use(ffmiddleware.DetectQuestionUpdates)
 	q.GET("", api.GetQuestions)
 	q.POST("", api.AddQuestions)
 	q.GET("/:id", api.GetQuestion)
 	q.PUT("/:questionId/answers/:answerId/revealed", api.RevealAnswer)
 
-	// e.GET("/present", api.Present)
+	e.GET("/present", hello)
 
 	e.Start(":1323")
 }
