@@ -3,7 +3,9 @@ package main
 import (
 	"backend/api"
 	"backend/services"
+
 	"fmt"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -34,6 +36,27 @@ func hello(c echo.Context) error {
 	return nil
 }
 
+// TODO: Need a better name for the function
+func foo(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		switch c.Request().Method {
+		case http.MethodPost:
+		case http.MethodPut:
+		case http.MethodPatch:
+		case http.MethodDelete:
+		default:
+			return next(c)
+		}
+
+		c.Response().Before(func() {
+			if c.Response().Status/100 == 2 {
+				println("Ladies and gentlemen...")
+			}
+		})
+		return next(c)
+	}
+}
+
 func main() {
 	e := echo.New()
 
@@ -46,14 +69,16 @@ func main() {
 		KeyLookup: "header:Authorization",
 		Validator: services.LoginCodeValidator,
 	}))
-
 	g.GET("/code/valid", api.ValidateCode)
-	g.GET("/questions", api.GetQuestions)
-	g.GET("/questions/:id", api.GetQuestion)
-	g.POST("/questions", api.AddQuestions)
-	g.PUT("/questions/:questionId/answers/:answerId/revealed", api.RevealAnswer)
 
-	e.GET("/ws", hello)
+	q := g.Group("/questions")
+	q.Use(foo)
+	q.GET("", api.GetQuestions)
+	q.POST("", api.AddQuestions)
+	q.GET("/:id", api.GetQuestion)
+	q.PUT("/:questionId/answers/:answerId/revealed", api.RevealAnswer)
+
+	// e.GET("/present", api.Present)
 
 	e.Start(":1323")
 }
