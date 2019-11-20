@@ -21,6 +21,10 @@ func DetectQuestionUpdates(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		c.Response().Before(func() {
+			// TODO: This seems to pass even if the final status is not >=200 && < 300
+			// I think it might be because we're using Response#Before instead
+			// of Response#After. Will look into it later as it's not really a
+			// problem, it will just send updates more often than it should.
 			if c.Response().Status/100 == 2 {
 				services.NotifyUpdateListeners()
 			}
