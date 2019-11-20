@@ -73,3 +73,21 @@ func RevealAnswer(c echo.Context) (err error) {
 	}
 	return c.NoContent(http.StatusNotFound)
 }
+
+func Present(c echo.Context) error {
+	websocket.Handler(func(ws *websocket.Conn) {
+		defer ws.Close()
+		ch := make(chan []models.Question)
+		services.RegisterUpdateListener(ch)
+		defer services.UnregisterUpdateListener(ch)
+
+		for {
+			err := websocket.JSON.Send(ws, <-ch)
+			if err != nil {
+				c.Logger().Error(err)
+				break
+			}
+		}
+	}).ServeHTTP(c.Response(), c.Request())
+	return nil
+}
