@@ -15,6 +15,7 @@ func main() {
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
+	e.Use(middleware.CORS())
 	e.GET("/present", api.Present)
 
 	g := e.Group("/api")

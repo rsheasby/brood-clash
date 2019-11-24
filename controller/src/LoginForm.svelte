@@ -1,10 +1,21 @@
 <script>
 	import axios from "axios";
+	import page from "page";
 
 	let invalidCode;
 
 	async function handleSubmit(event) {
-		const loginCode = event.target.loginCode.value;
+		const code = event.target.loginCode.value;
+		try {
+			const response = await axios({
+				url: "http://localhost:1323/api/code/valid",
+				headers: { "Authorization": `Bearer ${code}` }
+			});
+			window.localStorage.setItem("code", code);
+			window.location = "/controller";
+		} catch (e) {
+			invalidCode = true;
+		}
 	}
 </script>
 
