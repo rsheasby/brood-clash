@@ -1,24 +1,10 @@
 <script>
-	import { createEventDispatcher } from "svelte";
 	import axios from "axios";
-
-	const dispatch = createEventDispatcher();
 
 	let invalidCode;
 
 	async function handleSubmit(event) {
 		const loginCode = event.target.loginCode.value;
-		const response = await axios({
-			url: "http://localhost:3000/login",
-			method: "POST",
-			data: { LoginCode: loginCode }
-		});
-		console.log(response);
-		/*if (response && response.SessionToken && ) {
-			dispatch("login", { sessionToken: response.SessionToken });
-		} else {
-			invalidCode = true;
-		}*/
 	}
 </script>
 
