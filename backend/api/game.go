@@ -78,13 +78,21 @@ func RevealAnswer(c echo.Context) (err error) {
 
 func Present(c echo.Context) error {
 	websocket.Handler(func(ws *websocket.Conn) {
+		var err error
+
 		defer ws.Close()
 		ch := make(chan []models.Question)
 		services.RegisterUpdateListener(ch)
 		defer services.UnregisterUpdateListener(ch)
 
+		err = websocket.JSON.Send(ws, services.GetQuestions())
+		if err != nil {
+			c.Logger().Error(err)
+			return
+		}
+
 		for {
-			err := websocket.JSON.Send(ws, <-ch)
+			err = websocket.JSON.Send(ws, <-ch)
 			if err != nil {
 				c.Logger().Error(err)
 				break
