@@ -4,6 +4,7 @@ import (
 	"backend/api"
 	ffmiddleware "backend/middleware"
 	"backend/services"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -29,7 +30,7 @@ func main() {
 	q.GET("", api.GetQuestions)
 	q.POST("", api.AddQuestions)
 	q.GET("/:id", api.GetQuestion)
-	q.PUT("/:questionId/answers/:answerId/revealed", api.RevealAnswer)
+	q.PUT("/:questionId/answers/:answerId/reveal", api.RevealAnswer)
 
 	e.HideBanner = true
 	_ = e.Start(":1323")
