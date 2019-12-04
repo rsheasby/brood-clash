@@ -1,9 +1,8 @@
 <script>
-	import { createEventDispatcher, onMount } from "svelte";
+	import { onMount } from "svelte";
+	import "file-saver";
 	import page from "page";
 	import axios from "axios";
-
-	const dispatch = createEventDispatcher();
 
 	let questions = [];
 	let errors = [];
@@ -56,6 +55,25 @@
 		}
 
 	}
+
+	// TODO: This looks ugly, dunno how to make it look better, but I think it's
+	// the right way of doing it.
+	let saveQuestions = ((() => {
+		try {
+			const isFileSaverSupported = !!new Blob;
+			return () => {
+				saveAs(
+					new Blob(
+						JSON.stringify([questions]),
+						{type: "text/plain"}
+					),
+					"questions.json"
+				);
+			}
+		} catch (e) {
+			return undefined;
+		}
+	})())
 </script>
 
 <style>
@@ -82,7 +100,10 @@
 </form>
 
 <button on:click={addQuestion} on:keydown|stopPropagation>Add question</button>
+{#if saveQuestions}
+<button on:click={saveQuestions} on:keydown|stopPropagation>Save to file</button>
+{/if}
 
 {#each errors as error}
-<p class="error">{error}</p>
+	<p class="error">{error}</p>
 {/each}
