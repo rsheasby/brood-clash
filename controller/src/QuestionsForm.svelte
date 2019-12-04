@@ -61,14 +61,14 @@
 	let saveQuestions = ((() => {
 		try {
 			const isFileSaverSupported = !!new Blob;
+			if (!isFileSaverSupported) {
+				return undefined;
+			}
+
 			return () => {
-				saveAs(
-					new Blob(
-						JSON.stringify([questions]),
-						{type: "text/plain"}
-					),
-					"questions.json"
-				);
+				const questionsJSON = JSON.stringify([questions]);
+				const blob = new Blob(questionsJSON, {type: "text/plain"});
+				saveAs(blob, "questions.json");
 			}
 		} catch (e) {
 			return undefined;
