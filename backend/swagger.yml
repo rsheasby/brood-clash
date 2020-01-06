@@ -1,49 +1,75 @@
+host: localhost:3000
+basePath: /api/v0
+schemes:
+    - http
+securityDefinitions:
+    ApiKeyAuth:
+        type: apiKey
+        in: header
+        name: Authorization
 consumes:
 - application/json
 info:
-	contact:
-		name: Ryan's mom
-	description: Backend API for Brood Clash
-	title: Brood Clash
-	version: 0.1.0
+    contact:
+        name: Ryan's mom
+    description: Backend API for Brood Clash
+    title: Brood Clash
+    version: 0.1.0
 definitions:
-	answer:
-		type: object
-		required:
-			- text
-			- points
-		properties:
-			id:
-				type: integer
-				format: int64
-				readOnly: true
-			text:
-				type: string
-				minLength: 1
-			points:
-				type: integer
-				format: int32
-			revealed:
-				type: boolean
-	question:
-		type: object
-		required:
-			- text
-		properties:
-			id:
-				type: integer
-				format: int64
-				readOnly: true
-			text:
-				type: string
-				minLength: 1
-			answers:
-				type: array
-				items:
-					$ref: "#/definitions/answer"
-				minItems: 8
-				maxItems: 8
-paths: {}
+    answer:
+        type: object
+        required:
+            - text
+            - points
+        properties:
+            id:
+                type: integer
+                format: int64
+                readOnly: true
+            text:
+                type: string
+                minLength: 1
+            points:
+                type: integer
+                format: int32
+            revealed:
+                type: boolean
+    question:
+        type: object
+        required:
+            - text
+        properties:
+            id:
+                type: integer
+                format: int64
+                readOnly: true
+            text:
+                type: string
+                minLength: 1
+            answers:
+                type: array
+                items:
+                    $ref: "#/definitions/answer"
+                minItems: 8
+                maxItems: 8
+paths:
+    # CONTROLLER
+    /controller/authTest:
+        get:
+            summary: Test the authorization code
+            operationId: authTest
+            security:
+                - ApiKeyAuth: []
+            tags:
+                - controller
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+    # PRESENTER
+
+
 produces:
 - application/json
 schemes:
