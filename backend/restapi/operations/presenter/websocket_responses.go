@@ -11,26 +11,26 @@ import (
 	"github.com/go-openapi/runtime"
 )
 
-// WebsocketOKCode is the HTTP code returned for type WebsocketOK
-const WebsocketOKCode int = 200
+// WebsocketSwitchingProtocolsCode is the HTTP code returned for type WebsocketSwitchingProtocols
+const WebsocketSwitchingProtocolsCode int = 101
 
-/*WebsocketOK OK
+/*WebsocketSwitchingProtocols Switching Protocols
 
-swagger:response websocketOK
+swagger:response websocketSwitchingProtocols
 */
-type WebsocketOK struct {
+type WebsocketSwitchingProtocols struct {
 }
 
-// NewWebsocketOK creates WebsocketOK with default headers values
-func NewWebsocketOK() *WebsocketOK {
+// NewWebsocketSwitchingProtocols creates WebsocketSwitchingProtocols with default headers values
+func NewWebsocketSwitchingProtocols() *WebsocketSwitchingProtocols {
 
-	return &WebsocketOK{}
+	return &WebsocketSwitchingProtocols{}
 }
 
 // WriteResponse to the client
-func (o *WebsocketOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *WebsocketSwitchingProtocols) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
 
-	rw.WriteHeader(200)
+	rw.WriteHeader(101)
 }

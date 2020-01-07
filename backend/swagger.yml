@@ -75,8 +75,8 @@ paths:
             tags:
                 - presenter
             responses:
-                200:
-                    description: OK
+                101:
+                    description: Switching Protocols
 
 produces:
 - application/json

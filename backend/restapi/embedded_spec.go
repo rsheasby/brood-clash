@@ -69,8 +69,8 @@ func init() {
         "summary": "Establish a presenter websocket",
         "operationId": "websocket",
         "responses": {
-          "200": {
-            "description": "OK"
+          "101": {
+            "description": "Switching Protocols"
           }
         }
       }
@@ -188,8 +188,8 @@ func init() {
         "summary": "Establish a presenter websocket",
         "operationId": "websocket",
         "responses": {
-          "200": {
-            "description": "OK"
+          "101": {
+            "description": "Switching Protocols"
           }
         }
       }
