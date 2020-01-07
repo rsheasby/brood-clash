@@ -68,7 +68,15 @@ paths:
                 401:
                     description: Unauthorized
     # PRESENTER
-
+    /presenter/websocket:
+        get:
+            summary: Establish a presenter websocket
+            operationId: websocket
+            tags:
+                - presenter
+            responses:
+                200:
+                    description: OK
 
 produces:
 - application/json

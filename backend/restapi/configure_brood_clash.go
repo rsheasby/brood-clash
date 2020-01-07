@@ -10,6 +10,7 @@ import (
 	runtime "github.com/go-openapi/runtime"
 	middleware "github.com/go-openapi/runtime/middleware"
 
+	"backend/controllers"
 	"backend/restapi/operations"
 	"backend/restapi/operations/controller"
 )
@@ -49,6 +50,8 @@ func configureAPI(api *operations.BroodClashAPI) http.Handler {
 			return middleware.NotImplemented("operation controller.AuthTest has not yet been implemented")
 		})
 	}
+
+	controllers.ConfigurePresenterAPI(api)
 
 	api.ServerShutdown = func() {}
 

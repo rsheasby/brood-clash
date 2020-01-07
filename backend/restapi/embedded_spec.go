@@ -60,6 +60,20 @@ func init() {
           }
         }
       }
+    },
+    "/presenter/websocket": {
+      "get": {
+        "tags": [
+          "presenter"
+        ],
+        "summary": "Establish a presenter websocket",
+        "operationId": "websocket",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -162,6 +176,20 @@ func init() {
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/presenter/websocket": {
+      "get": {
+        "tags": [
+          "presenter"
+        ],
+        "summary": "Establish a presenter websocket",
+        "operationId": "websocket",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

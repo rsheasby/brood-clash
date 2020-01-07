@@ -20,6 +20,7 @@ import (
 	"github.com/go-openapi/swag"
 
 	"backend/restapi/operations/controller"
+	"backend/restapi/operations/presenter"
 )
 
 // NewBroodClashAPI creates a new BroodClash instance
@@ -41,6 +42,9 @@ func NewBroodClashAPI(spec *loads.Document) *BroodClashAPI {
 		JSONProducer:        runtime.JSONProducer(),
 		ControllerAuthTestHandler: controller.AuthTestHandlerFunc(func(params controller.AuthTestParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation ControllerAuthTest has not yet been implemented")
+		}),
+		PresenterWebsocketHandler: presenter.WebsocketHandlerFunc(func(params presenter.WebsocketParams) middleware.Responder {
+			return middleware.NotImplemented("operation PresenterWebsocket has not yet been implemented")
 		}),
 
 		// Applies when the "Authorization" header is set
@@ -90,6 +94,8 @@ type BroodClashAPI struct {
 
 	// ControllerAuthTestHandler sets the operation handler for the auth test operation
 	ControllerAuthTestHandler controller.AuthTestHandler
+	// PresenterWebsocketHandler sets the operation handler for the websocket operation
+	PresenterWebsocketHandler presenter.WebsocketHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -159,6 +165,10 @@ func (o *BroodClashAPI) Validate() error {
 
 	if o.ControllerAuthTestHandler == nil {
 		unregistered = append(unregistered, "controller.AuthTestHandler")
+	}
+
+	if o.PresenterWebsocketHandler == nil {
+		unregistered = append(unregistered, "presenter.WebsocketHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -274,6 +284,11 @@ func (o *BroodClashAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/controller/authTest"] = controller.NewAuthTest(o.context, o.ControllerAuthTestHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/presenter/websocket"] = presenter.NewWebsocket(o.context, o.PresenterWebsocketHandler)
 
 }
 
