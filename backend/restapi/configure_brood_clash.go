@@ -11,6 +11,7 @@ import (
 	middleware "github.com/go-openapi/runtime/middleware"
 
 	"backend/controllers"
+	ffmiddleware "backend/middleware"
 	"backend/restapi/operations"
 )
 
@@ -34,11 +35,6 @@ func configureAPI(api *operations.BroodClashAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	// Applies when the "Authorization" header is set
-	api.APIKeyAuthAuth = func(token string) (interface{}, error) {
-		return nil, errors.NotImplemented("api key auth (ApiKeyAuth) Authorization from header param [Authorization] has not yet been implemented")
-	}
-
 	// Set your custom authorizer if needed. Default one is security.Authorized()
 	// Expected interface runtime.Authorizer
 	//
@@ -51,6 +47,7 @@ func configureAPI(api *operations.BroodClashAPI) http.Handler {
 	}
 
 	controllers.ConfigurePresenterAPI(api)
+	ffmiddleware.ConfigureAuth(api)
 
 	api.ServerShutdown = func() {}
 
