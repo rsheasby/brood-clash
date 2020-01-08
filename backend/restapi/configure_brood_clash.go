@@ -46,8 +46,10 @@ func configureAPI(api *operations.BroodClashAPI) http.Handler {
 		})
 	}
 
-	controllers.ConfigurePresenterAPI(api)
 	ffmiddleware.ConfigureAuth(api)
+
+	controllers.ConfigureAuthTestAPI(api)
+	controllers.ConfigurePresenterAPI(api)
 
 	api.ServerShutdown = func() {}
 
