@@ -57,8 +57,8 @@ func NewBroodClashAPI(spec *loads.Document) *BroodClashAPI {
 		}),
 
 		// Applies when the "Authorization" header is set
-		APIKeyAuthAuth: func(token string) (interface{}, error) {
-			return nil, errors.NotImplemented("api key auth (ApiKeyAuth) Authorization from header param [Authorization] has not yet been implemented")
+		APIKeyAuth: func(token string) (interface{}, error) {
+			return nil, errors.NotImplemented("api key auth (ApiKey) Authorization from header param [Authorization] has not yet been implemented")
 		},
 
 		// default authorizer is authorized meaning no requests are blocked
@@ -94,9 +94,9 @@ type BroodClashAPI struct {
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
 
-	// APIKeyAuthAuth registers a function that takes a token and returns a principal
+	// APIKeyAuth registers a function that takes a token and returns a principal
 	// it performs authentication based on an api key Authorization provided in the header
-	APIKeyAuthAuth func(string) (interface{}, error)
+	APIKeyAuth func(string) (interface{}, error)
 
 	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
 	APIAuthorizer runtime.Authorizer
@@ -176,7 +176,7 @@ func (o *BroodClashAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
-	if o.APIKeyAuthAuth == nil {
+	if o.APIKeyAuth == nil {
 		unregistered = append(unregistered, "AuthorizationAuth")
 	}
 
@@ -223,10 +223,10 @@ func (o *BroodClashAPI) AuthenticatorsFor(schemes map[string]spec.SecurityScheme
 	for name := range schemes {
 		switch name {
 
-		case "ApiKeyAuth":
+		case "ApiKey":
 
 			scheme := schemes[name]
-			result[name] = o.APIKeyAuthenticator(scheme.Name, scheme.In, o.APIKeyAuthAuth)
+			result[name] = o.APIKeyAuthenticator(scheme.Name, scheme.In, o.APIKeyAuth)
 
 		}
 	}

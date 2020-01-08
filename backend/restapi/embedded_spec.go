@@ -43,7 +43,7 @@ func init() {
       "get": {
         "security": [
           {
-            "ApiKeyAuth": []
+            "ApiKey": []
           }
         ],
         "summary": "Test the authorization code",
@@ -76,7 +76,7 @@ func init() {
       "get": {
         "security": [
           {
-            "ApiKeyAuth": []
+            "ApiKey": []
           }
         ],
         "summary": "Get all questions",
@@ -102,7 +102,7 @@ func init() {
       "post": {
         "security": [
           {
-            "ApiKeyAuth": []
+            "ApiKey": []
           }
         ],
         "summary": "Create a new question",
@@ -127,7 +127,7 @@ func init() {
       "get": {
         "security": [
           {
-            "ApiKeyAuth": []
+            "ApiKey": []
           }
         ],
         "summary": "Get a question by ID",
@@ -164,7 +164,7 @@ func init() {
       "post": {
         "security": [
           {
-            "ApiKeyAuth": []
+            "ApiKey": []
           }
         ],
         "summary": "Marks an answer as revealed",
@@ -255,7 +255,7 @@ func init() {
     }
   },
   "securityDefinitions": {
-    "ApiKeyAuth": {
+    "ApiKey": {
       "type": "apiKey",
       "name": "Authorization",
       "in": "header"
@@ -288,7 +288,7 @@ func init() {
       "get": {
         "security": [
           {
-            "ApiKeyAuth": []
+            "ApiKey": []
           }
         ],
         "summary": "Test the authorization code",
@@ -321,7 +321,7 @@ func init() {
       "get": {
         "security": [
           {
-            "ApiKeyAuth": []
+            "ApiKey": []
           }
         ],
         "summary": "Get all questions",
@@ -347,7 +347,7 @@ func init() {
       "post": {
         "security": [
           {
-            "ApiKeyAuth": []
+            "ApiKey": []
           }
         ],
         "summary": "Create a new question",
@@ -372,7 +372,7 @@ func init() {
       "get": {
         "security": [
           {
-            "ApiKeyAuth": []
+            "ApiKey": []
           }
         ],
         "summary": "Get a question by ID",
@@ -409,7 +409,7 @@ func init() {
       "post": {
         "security": [
           {
-            "ApiKeyAuth": []
+            "ApiKey": []
           }
         ],
         "summary": "Marks an answer as revealed",
@@ -500,7 +500,7 @@ func init() {
     }
   },
   "securityDefinitions": {
-    "ApiKeyAuth": {
+    "ApiKey": {
       "type": "apiKey",
       "name": "Authorization",
       "in": "header"

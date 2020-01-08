@@ -3,7 +3,7 @@ basePath: /api/v0
 schemes:
     - http
 securityDefinitions:
-    ApiKeyAuth:
+    ApiKey:
         type: apiKey
         in: header
         name: Authorization
@@ -61,7 +61,7 @@ paths:
             summary: Test the authorization code
             operationId: authTest
             security:
-                - ApiKeyAuth: []
+                - ApiKey: []
             responses:
                 204:
                     description: No Content
@@ -74,7 +74,7 @@ paths:
             summary: Get all questions
             operationId: getQuestions
             security:
-                - ApiKeyAuth: []
+                - ApiKey: []
             responses:
                 200:
                     description: OK
@@ -90,7 +90,7 @@ paths:
             summary: Create a new question
             operationId: createQuestion
             security:
-                - ApiKeyAuth: []
+                - ApiKey: []
             responses:
                 201:
                     description: Created
@@ -105,7 +105,7 @@ paths:
             summary: Get a question by ID
             operationId: getQuestion
             security:
-                - ApiKeyAuth: []
+                - ApiKey: []
             parameters:
                 - name: id
                   in: path
@@ -128,7 +128,7 @@ paths:
             summary: Marks an answer as revealed
             operationId: revealAnswer
             security:
-                - ApiKeyAuth: []
+                - ApiKey: []
             parameters:
                 - name: questionId
                   in: path
