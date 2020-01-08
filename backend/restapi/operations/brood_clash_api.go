@@ -18,9 +18,6 @@ import (
 	spec "github.com/go-openapi/spec"
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	"backend/restapi/operations/controller"
-	"backend/restapi/operations/presenter"
 )
 
 // NewBroodClashAPI creates a new BroodClash instance
@@ -40,11 +37,23 @@ func NewBroodClashAPI(spec *loads.Document) *BroodClashAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
-		ControllerAuthTestHandler: controller.AuthTestHandlerFunc(func(params controller.AuthTestParams, principal interface{}) middleware.Responder {
-			return middleware.NotImplemented("operation ControllerAuthTest has not yet been implemented")
+		AuthTestHandler: AuthTestHandlerFunc(func(params AuthTestParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation AuthTest has not yet been implemented")
 		}),
-		PresenterWebsocketHandler: presenter.WebsocketHandlerFunc(func(params presenter.WebsocketParams) middleware.Responder {
-			return middleware.NotImplemented("operation PresenterWebsocket has not yet been implemented")
+		CreateQuestionHandler: CreateQuestionHandlerFunc(func(params CreateQuestionParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation CreateQuestion has not yet been implemented")
+		}),
+		GetQuestionHandler: GetQuestionHandlerFunc(func(params GetQuestionParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation GetQuestion has not yet been implemented")
+		}),
+		GetQuestionsHandler: GetQuestionsHandlerFunc(func(params GetQuestionsParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation GetQuestions has not yet been implemented")
+		}),
+		RevealAnswerHandler: RevealAnswerHandlerFunc(func(params RevealAnswerParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation RevealAnswer has not yet been implemented")
+		}),
+		WebsocketHandler: WebsocketHandlerFunc(func(params WebsocketParams) middleware.Responder {
+			return middleware.NotImplemented("operation Websocket has not yet been implemented")
 		}),
 
 		// Applies when the "Authorization" header is set
@@ -92,10 +101,18 @@ type BroodClashAPI struct {
 	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
 	APIAuthorizer runtime.Authorizer
 
-	// ControllerAuthTestHandler sets the operation handler for the auth test operation
-	ControllerAuthTestHandler controller.AuthTestHandler
-	// PresenterWebsocketHandler sets the operation handler for the websocket operation
-	PresenterWebsocketHandler presenter.WebsocketHandler
+	// AuthTestHandler sets the operation handler for the auth test operation
+	AuthTestHandler AuthTestHandler
+	// CreateQuestionHandler sets the operation handler for the create question operation
+	CreateQuestionHandler CreateQuestionHandler
+	// GetQuestionHandler sets the operation handler for the get question operation
+	GetQuestionHandler GetQuestionHandler
+	// GetQuestionsHandler sets the operation handler for the get questions operation
+	GetQuestionsHandler GetQuestionsHandler
+	// RevealAnswerHandler sets the operation handler for the reveal answer operation
+	RevealAnswerHandler RevealAnswerHandler
+	// WebsocketHandler sets the operation handler for the websocket operation
+	WebsocketHandler WebsocketHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -163,12 +180,28 @@ func (o *BroodClashAPI) Validate() error {
 		unregistered = append(unregistered, "AuthorizationAuth")
 	}
 
-	if o.ControllerAuthTestHandler == nil {
-		unregistered = append(unregistered, "controller.AuthTestHandler")
+	if o.AuthTestHandler == nil {
+		unregistered = append(unregistered, "AuthTestHandler")
 	}
 
-	if o.PresenterWebsocketHandler == nil {
-		unregistered = append(unregistered, "presenter.WebsocketHandler")
+	if o.CreateQuestionHandler == nil {
+		unregistered = append(unregistered, "CreateQuestionHandler")
+	}
+
+	if o.GetQuestionHandler == nil {
+		unregistered = append(unregistered, "GetQuestionHandler")
+	}
+
+	if o.GetQuestionsHandler == nil {
+		unregistered = append(unregistered, "GetQuestionsHandler")
+	}
+
+	if o.RevealAnswerHandler == nil {
+		unregistered = append(unregistered, "RevealAnswerHandler")
+	}
+
+	if o.WebsocketHandler == nil {
+		unregistered = append(unregistered, "WebsocketHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -283,12 +316,32 @@ func (o *BroodClashAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/controller/authTest"] = controller.NewAuthTest(o.context, o.ControllerAuthTestHandler)
+	o.handlers["GET"]["/authTest"] = NewAuthTest(o.context, o.AuthTestHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/questions"] = NewCreateQuestion(o.context, o.CreateQuestionHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/presenter/websocket"] = presenter.NewWebsocket(o.context, o.PresenterWebsocketHandler)
+	o.handlers["GET"]["/questions/{id}"] = NewGetQuestion(o.context, o.GetQuestionHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/questions"] = NewGetQuestions(o.context, o.GetQuestionsHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/questions/{questionId}/answers/{answerId}/reveal"] = NewRevealAnswer(o.context, o.RevealAnswerHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/presenter/websocket"] = NewWebsocket(o.context, o.WebsocketHandler)
 
 }
 

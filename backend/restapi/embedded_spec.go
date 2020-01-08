@@ -39,38 +39,164 @@ func init() {
   "host": "localhost:3000",
   "basePath": "/api/v0",
   "paths": {
-    "/controller/authTest": {
+    "/authTest": {
       "get": {
         "security": [
           {
             "ApiKeyAuth": []
           }
         ],
-        "tags": [
-          "controller"
-        ],
         "summary": "Test the authorization code",
         "operationId": "authTest",
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "default": {
+            "description": "Unknown error"
           }
         }
       }
     },
     "/presenter/websocket": {
       "get": {
-        "tags": [
-          "presenter"
-        ],
         "summary": "Establish a presenter websocket",
         "operationId": "websocket",
         "responses": {
           "101": {
             "description": "Switching Protocols"
+          }
+        }
+      }
+    },
+    "/questions": {
+      "get": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get all questions",
+        "operationId": "getQuestions",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/question"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "default": {
+            "description": "Unknown error"
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Create a new question",
+        "operationId": "createQuestion",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "default": {
+            "description": "Unknown error"
+          }
+        }
+      }
+    },
+    "/questions/{id}": {
+      "get": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get a question by ID",
+        "operationId": "getQuestion",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/question"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "default": {
+            "description": "Unknown error"
+          }
+        }
+      }
+    },
+    "/questions/{questionId}/answers/{answerId}/reveal": {
+      "post": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Marks an answer as revealed",
+        "operationId": "revealAnswer",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "name": "questionId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "name": "answerId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "default": {
+            "description": "Unknown error"
           }
         }
       }
@@ -158,38 +284,164 @@ func init() {
   "host": "localhost:3000",
   "basePath": "/api/v0",
   "paths": {
-    "/controller/authTest": {
+    "/authTest": {
       "get": {
         "security": [
           {
             "ApiKeyAuth": []
           }
         ],
-        "tags": [
-          "controller"
-        ],
         "summary": "Test the authorization code",
         "operationId": "authTest",
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "default": {
+            "description": "Unknown error"
           }
         }
       }
     },
     "/presenter/websocket": {
       "get": {
-        "tags": [
-          "presenter"
-        ],
         "summary": "Establish a presenter websocket",
         "operationId": "websocket",
         "responses": {
           "101": {
             "description": "Switching Protocols"
+          }
+        }
+      }
+    },
+    "/questions": {
+      "get": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get all questions",
+        "operationId": "getQuestions",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/question"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "default": {
+            "description": "Unknown error"
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Create a new question",
+        "operationId": "createQuestion",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "default": {
+            "description": "Unknown error"
+          }
+        }
+      }
+    },
+    "/questions/{id}": {
+      "get": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get a question by ID",
+        "operationId": "getQuestion",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/question"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "default": {
+            "description": "Unknown error"
+          }
+        }
+      }
+    },
+    "/questions/{questionId}/answers/{answerId}/reveal": {
+      "post": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Marks an answer as revealed",
+        "operationId": "revealAnswer",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "name": "questionId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "name": "answerId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "default": {
+            "description": "Unknown error"
           }
         }
       }
