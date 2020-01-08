@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"backend/restapi/operations"
-	"backend/restapi/operations/presenter"
 	"net/http"
 	"time"
 
@@ -12,7 +11,7 @@ import (
 )
 
 func ConfigurePresenterAPI(api *operations.BroodClashAPI) {
-	api.PresenterWebsocketHandler = presenter.WebsocketHandlerFunc(func(params presenter.WebsocketParams) middleware.Responder {
+	api.WebsocketHandler = operations.WebsocketHandlerFunc(func(params operations.WebsocketParams) middleware.Responder {
 		return middleware.ResponderFunc(func(rw http.ResponseWriter, producer runtime.Producer) {
 			websocket.Handler(func(ws *websocket.Conn) {
 				var err error

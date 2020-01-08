@@ -12,7 +12,6 @@ import (
 
 	"backend/controllers"
 	"backend/restapi/operations"
-	"backend/restapi/operations/controller"
 )
 
 //go:generate swagger generate server --target ../../backend --name BroodClash --spec ../swagger.yml
@@ -45,9 +44,9 @@ func configureAPI(api *operations.BroodClashAPI) http.Handler {
 	//
 	// Example:
 	// api.APIAuthorizer = security.Authorized()
-	if api.ControllerAuthTestHandler == nil {
-		api.ControllerAuthTestHandler = controller.AuthTestHandlerFunc(func(params controller.AuthTestParams, principal interface{}) middleware.Responder {
-			return middleware.NotImplemented("operation controller.AuthTest has not yet been implemented")
+	if api.AuthTestHandler == nil {
+		api.AuthTestHandler = operations.AuthTestHandlerFunc(func(params operations.AuthTestParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation operations.AuthTest has not yet been implemented")
 		})
 	}
 
