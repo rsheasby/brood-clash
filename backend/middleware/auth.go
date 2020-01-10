@@ -6,6 +6,10 @@ import (
 	"github.com/go-openapi/errors"
 )
 
+func init() {
+	MiddlewareConfigList.Register(ConfigureAuth)
+}
+
 func ConfigureAuth(api *operations.BroodClashAPI) {
 	api.APIKeyAuth = func(token string) (interface{}, error) {
 		if services.ValidateLoginCode(token) {

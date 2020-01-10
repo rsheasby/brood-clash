@@ -10,6 +10,10 @@ import (
 	"golang.org/x/net/websocket"
 )
 
+func init() {
+	ControllerConfigList.Register(ConfigurePresenterAPI)
+}
+
 func ConfigurePresenterAPI(api *operations.BroodClashAPI) {
 	api.WebsocketHandler = operations.WebsocketHandlerFunc(func(params operations.WebsocketParams) middleware.Responder {
 		return middleware.ResponderFunc(func(rw http.ResponseWriter, producer runtime.Producer) {

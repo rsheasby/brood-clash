@@ -3,6 +3,8 @@
 package restapi
 
 import (
+	"backend/controllers"
+	ffmiddleware "backend/middleware"
 	"crypto/tls"
 	"net/http"
 
@@ -10,8 +12,6 @@ import (
 	runtime "github.com/go-openapi/runtime"
 	middleware "github.com/go-openapi/runtime/middleware"
 
-	"backend/controllers"
-	ffmiddleware "backend/middleware"
 	"backend/restapi/operations"
 )
 
@@ -46,10 +46,13 @@ func configureAPI(api *operations.BroodClashAPI) http.Handler {
 		})
 	}
 
-	ffmiddleware.ConfigureAuth(api)
+	//ffmiddleware.ConfigureAuth(api)
+	//
+	//controllers.ConfigureAuthTestAPI(api)
+	//controllers.ConfigurePresenterAPI(api)
 
-	controllers.ConfigureAuthTestAPI(api)
-	controllers.ConfigurePresenterAPI(api)
+	ffmiddleware.MiddlewareConfigList.Init(api)
+	controllers.ControllerConfigList.Init(api)
 
 	api.ServerShutdown = func() {}
 
