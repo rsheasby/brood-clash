@@ -106,7 +106,20 @@ func init() {
           }
         ],
         "summary": "Create a new question",
-        "operationId": "createQuestion",
+        "operationId": "createQuestions",
+        "parameters": [
+          {
+            "name": "questions",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/question"
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -351,7 +364,20 @@ func init() {
           }
         ],
         "summary": "Create a new question",
-        "operationId": "createQuestion",
+        "operationId": "createQuestions",
+        "parameters": [
+          {
+            "name": "questions",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/question"
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"

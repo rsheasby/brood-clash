@@ -40,8 +40,8 @@ func NewBroodClashAPI(spec *loads.Document) *BroodClashAPI {
 		AuthTestHandler: AuthTestHandlerFunc(func(params AuthTestParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation AuthTest has not yet been implemented")
 		}),
-		CreateQuestionHandler: CreateQuestionHandlerFunc(func(params CreateQuestionParams, principal interface{}) middleware.Responder {
-			return middleware.NotImplemented("operation CreateQuestion has not yet been implemented")
+		CreateQuestionsHandler: CreateQuestionsHandlerFunc(func(params CreateQuestionsParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation CreateQuestions has not yet been implemented")
 		}),
 		GetQuestionHandler: GetQuestionHandlerFunc(func(params GetQuestionParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation GetQuestion has not yet been implemented")
@@ -103,8 +103,8 @@ type BroodClashAPI struct {
 
 	// AuthTestHandler sets the operation handler for the auth test operation
 	AuthTestHandler AuthTestHandler
-	// CreateQuestionHandler sets the operation handler for the create question operation
-	CreateQuestionHandler CreateQuestionHandler
+	// CreateQuestionsHandler sets the operation handler for the create questions operation
+	CreateQuestionsHandler CreateQuestionsHandler
 	// GetQuestionHandler sets the operation handler for the get question operation
 	GetQuestionHandler GetQuestionHandler
 	// GetQuestionsHandler sets the operation handler for the get questions operation
@@ -184,8 +184,8 @@ func (o *BroodClashAPI) Validate() error {
 		unregistered = append(unregistered, "AuthTestHandler")
 	}
 
-	if o.CreateQuestionHandler == nil {
-		unregistered = append(unregistered, "CreateQuestionHandler")
+	if o.CreateQuestionsHandler == nil {
+		unregistered = append(unregistered, "CreateQuestionsHandler")
 	}
 
 	if o.GetQuestionHandler == nil {
@@ -321,7 +321,7 @@ func (o *BroodClashAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/questions"] = NewCreateQuestion(o.context, o.CreateQuestionHandler)
+	o.handlers["POST"]["/questions"] = NewCreateQuestions(o.context, o.CreateQuestionsHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
