@@ -1,2 +1,2 @@
-# family-feud
-Display and controller for Family Feud
+# brood-clash
+Reimplementation of the family feud gameshow
