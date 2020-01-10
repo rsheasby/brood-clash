@@ -88,9 +88,17 @@ paths:
                     description: Unknown error
         post:
             summary: Create a new question
-            operationId: createQuestion
+            operationId: createQuestions
             security:
                 - ApiKey: []
+            parameters:
+                - name: questions
+                  in: body
+                  schema:
+                    type: array
+                    items:
+                      $ref: "#/definitions/question"
+                  required: true
             responses:
                 201:
                     description: Created
