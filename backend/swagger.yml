@@ -164,6 +164,7 @@ paths:
         get:
             summary: Establish a presenter websocket
             operationId: websocket
+            schemes: ws
             responses:
                 101:
                     description: Switching Protocols
