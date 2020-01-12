@@ -17,7 +17,7 @@
     "svelte": "^3.16.7"
   },
   "dependencies": {
-    "brood_clash": "file:../swagger-client",
+    "brood_clash": "file:api",
     "file-saver": "^2.0.2",
     "page": "^1.11.5",
     "sirv-cli": "^0.4.4"
