@@ -63,6 +63,9 @@ func init() {
     },
     "/presenter/websocket": {
       "get": {
+        "schemes": [
+          "ws"
+        ],
         "summary": "Establish a presenter websocket",
         "operationId": "websocket",
         "responses": {
@@ -322,6 +325,9 @@ func init() {
     },
     "/presenter/websocket": {
       "get": {
+        "schemes": [
+          "ws"
+        ],
         "summary": "Establish a presenter websocket",
         "operationId": "websocket",
         "responses": {
