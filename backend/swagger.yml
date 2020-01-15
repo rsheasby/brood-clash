@@ -96,9 +96,9 @@ paths:
                 - name: questions
                   in: body
                   schema:
-                    type: array
-                    items:
-                      $ref: "#/definitions/question"
+                      type: array
+                      items:
+                          $ref: "#/definitions/question"
                   required: true
             responses:
                 201:
@@ -164,33 +164,9 @@ paths:
         get:
             summary: Establish a presenter websocket
             operationId: websocket
-            schemes: ws
+            schemes: [ws]
             responses:
                 101:
                     description: Switching Protocols
 
 swagger: "2.0"
-
-# e := echo.New()
-#	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-#		Format: "method=${method}, uri=${uri}, status=${status}\n",
-#	}))
-# e.Use(middleware.CORS())
-# e.GET("/present", api.Present)
-
-# g := e.Group("/api")
-# g.Use(middleware.KeyAuthWithConfig(middleware.KeyAuthConfig{
-# 	KeyLookup: "header:Authorization",
-# 	Validator: services.LoginCodeValidator,
-# }))
-# g.GET("/code/valid", api.ValidateCode)
-
-# q := g.Group("/questions")
-# q.Use(ffmiddleware.DetectQuestionUpdates)
-# q.GET("", api.GetQuestions)
-# q.POST("", api.AddQuestions)
-# q.GET("/:id", api.GetQuestion)
-# q.PUT("/:questionId/answers/:answerId/reveal", api.RevealAnswer)
-
-# e.HideBanner = true
-#_ = e.Start(":1323")
