@@ -37,6 +37,7 @@ definitions:
                 format: int32
             revealed:
                 type: boolean
+                readOnly: true
     question:
         type: object
         required:

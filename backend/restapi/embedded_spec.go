@@ -237,7 +237,8 @@ func init() {
           "format": "int32"
         },
         "revealed": {
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "text": {
           "type": "string",
@@ -499,7 +500,8 @@ func init() {
           "format": "int32"
         },
         "revealed": {
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "text": {
           "type": "string",
