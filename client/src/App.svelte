@@ -1,7 +1,12 @@
 <script>
     import page from 'page';
+    import Display from './presenter/Display.svelte';
+    import LoginForm from './controller/LoginForm.svelte'
 
-    page()
+    var component = LoginForm;
+
+    page("/presenter", () => component = Display);
+    page();
 </script>
 
-<p>Hello, world!</p>
+<svelte:component this={component} />
