@@ -7,6 +7,7 @@ Backend API for Brood Clash
 
     Schemes:
       http
+      ws
     Host: localhost:3000
     BasePath: /api/v0
     Version: 0.1.0

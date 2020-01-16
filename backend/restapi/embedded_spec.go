@@ -63,6 +63,9 @@ func init() {
     },
     "/presenter/websocket": {
       "get": {
+        "schemes": [
+          "ws"
+        ],
         "summary": "Establish a presenter websocket",
         "operationId": "websocket",
         "responses": {
@@ -234,7 +237,8 @@ func init() {
           "format": "int32"
         },
         "revealed": {
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "text": {
           "type": "string",
@@ -322,6 +326,9 @@ func init() {
     },
     "/presenter/websocket": {
       "get": {
+        "schemes": [
+          "ws"
+        ],
         "summary": "Establish a presenter websocket",
         "operationId": "websocket",
         "responses": {
@@ -493,7 +500,8 @@ func init() {
           "format": "int32"
         },
         "revealed": {
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "text": {
           "type": "string",

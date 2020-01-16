@@ -27,7 +27,8 @@ type Answer struct {
 
 	// revealed
 	// Required: true
-	Revealed *bool `json:"revealed"`
+	// Read Only: true
+	Revealed bool `json:"revealed"`
 
 	// text
 	// Required: true
@@ -68,7 +69,7 @@ func (m *Answer) validatePoints(formats strfmt.Registry) error {
 
 func (m *Answer) validateRevealed(formats strfmt.Registry) error {
 
-	if err := validate.Required("revealed", "body", m.Revealed); err != nil {
+	if err := validate.Required("revealed", "body", bool(m.Revealed)); err != nil {
 		return err
 	}
 
