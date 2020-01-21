@@ -6,6 +6,7 @@ import (
 	"backend/controllers"
 	ffmiddleware "backend/middleware"
 	"crypto/tls"
+	"github.com/rs/cors"
 	"net/http"
 
 	errors "github.com/go-openapi/errors"
@@ -80,8 +81,10 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Add("Access-Control-Allow-Origin", "*")
-		handler.ServeHTTP(w, r)
+	handleCORS := cors.New(cors.Options{
+		AllowedOrigins:         []string{"*"},
+		AllowCredentials:       true,
 	})
+
+	return handleCORS.Handler(handler)
 }
