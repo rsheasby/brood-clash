@@ -223,8 +223,7 @@ func init() {
       "type": "object",
       "required": [
         "text",
-        "points",
-        "revealed"
+        "points"
       ],
       "properties": {
         "id": {
@@ -486,8 +485,7 @@ func init() {
       "type": "object",
       "required": [
         "text",
-        "points",
-        "revealed"
+        "points"
       ],
       "properties": {
         "id": {

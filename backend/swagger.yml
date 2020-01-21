@@ -23,7 +23,6 @@ definitions:
         required:
             - text
             - points
-            - revealed
         properties:
             id:
                 type: integer

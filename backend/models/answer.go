@@ -26,9 +26,8 @@ type Answer struct {
 	Points *int32 `json:"points"`
 
 	// revealed
-	// Required: true
 	// Read Only: true
-	Revealed bool `json:"revealed"`
+	Revealed *bool `json:"revealed,omitempty"`
 
 	// text
 	// Required: true
@@ -41,10 +40,6 @@ func (m *Answer) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validatePoints(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateRevealed(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -61,15 +56,6 @@ func (m *Answer) Validate(formats strfmt.Registry) error {
 func (m *Answer) validatePoints(formats strfmt.Registry) error {
 
 	if err := validate.Required("points", "body", m.Points); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *Answer) validateRevealed(formats strfmt.Registry) error {
-
-	if err := validate.Required("revealed", "body", bool(m.Revealed)); err != nil {
 		return err
 	}
 
