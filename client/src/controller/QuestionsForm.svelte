@@ -36,12 +36,13 @@
     	loading = true;
     	try {
             await client.createQuestions(questions);
+            // TODO: we should prompt if the user wants to be redirected, not
+            // not just do it.
+            window.location = '/controller/controller';
     	} catch (e) {
     		console.error("Could not upload questions:", e);
+    		loading = false;
     	}
-        // TODO: we should prompt the user if they want to go to the controller
-        // after questions have successfully been uploaded.
-        loading = false;
     }
 </script>
 
