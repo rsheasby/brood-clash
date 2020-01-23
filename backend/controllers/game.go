@@ -55,7 +55,11 @@ func RevealAnswerHandler(params operations.RevealAnswerParams, _ interface{}) mi
 
 	for i := range question.Answers {
 		if question.Answers[i].ID == params.AnswerID {
-			*question.Answers[i].Revealed = true
+			answer := question.Answers[i]
+			if answer.Revealed == nil {
+				answer.Revealed = new(bool)
+			}
+			*answer.Revealed = true
 			services.NotifyUpdateListeners()
 			return operations.NewRevealAnswerNoContent()
 		}
