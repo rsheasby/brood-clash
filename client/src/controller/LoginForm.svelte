@@ -16,6 +16,7 @@
     	}
 
         ApiClient.instance.authentications.ApiKey.apiKey = code;
+    	window.localStorage.setItem('code', code);
     	try {
             const client = new DefaultApi();
             await client.authTest();
