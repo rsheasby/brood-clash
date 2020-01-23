@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { ApiClient, DefaultApi, Question } from 'brood_clash';
+    import { ApiClient, DefaultApi } from 'brood_clash';
 
     let questions = [];
     let loading = true;
