@@ -1,0 +1,43 @@
+# Brood Clash
+# Backend API for Brood Clash
+
+###
+
+# Test the authorization code
+GET {{host}}/authTest
+Authorization: Bearer {{ auth_token }}
+
+###
+
+# Get all questions
+GET {{host}}/questions
+Authorization: Bearer {{ auth_token }}
+
+###
+
+# Create a new question
+POST {{host}}/questions
+Authorization: Bearer {{ auth_token }}
+Content-Type: application/json
+
+{
+    "questions": []
+}
+
+###
+
+# Get a question by ID
+GET {{host}}/questions/{{param_id}}
+Authorization: Bearer {{ auth_token }}
+
+###
+
+# Marks an answer as revealed
+POST {{host}}/questions/{{param_questionId}}/answers/{{param_answerId}}/reveal
+Authorization: Bearer {{ auth_token }}
+
+###
+
+# Establish a presenter websocket
+GET {{host}}/presenter/websocket
+
