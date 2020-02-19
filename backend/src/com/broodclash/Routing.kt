@@ -34,7 +34,7 @@ class Questions {
 class Websocket
 
 fun Routing.configureApi() {
-	authenticate(AUTH_NAME) {
+	authenticate {
 		get<AuthTest> {
 			throw NotImplementedError()
 		}
