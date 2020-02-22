@@ -9,5 +9,3 @@ export 'dart:io';
 export 'package:aqueduct/aqueduct.dart';
 
 export 'channel.dart';
-
-export 'websocket_controller.dart';

@@ -1,10 +1,14 @@
 import 'brood_clash.dart';
+import 'socket_service.dart';
+import 'websocket_controller.dart';
 
 /// This type initializes an application.
 ///
 /// Override methods in this class to set up routes and initialize services like
 /// database connections. See http://aqueduct.io/docs/http/channel/.
 class BroodClashChannel extends ApplicationChannel {
+  SocketService socketService;
+
   /// Initialize services in this method.
   ///
   /// Implement this method to initialize services, read values from [options]
@@ -15,6 +19,12 @@ class BroodClashChannel extends ApplicationChannel {
   Future prepare() async {
     logger.onRecord.listen(
         (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
+
+    socketService = SocketService();
+
+    messageHub.listen((data) {
+      socketService.broadcast(data);
+    });
   }
 
   /// Construct the request channel.
@@ -27,13 +37,13 @@ class BroodClashChannel extends ApplicationChannel {
   Controller get entryPoint {
     final router = Router();
 
-    // Prefer to use `link` instead of `linkFunction`.
-    // See: https://aqueduct.io/docs/http/request_controller/
-    router.route("/example").linkFunction((request) async {
-      return Response.ok({"key": "value"});
+    router.route("/present").link(() => WebsocketController(socketService));
+    router.route("/send").linkFunction((request) async {
+      final message = await request.body.decode();
+      socketService.broadcast(message);
+      messageHub.add(message);
+      return Response.ok(null);
     });
-
-    router.route("/present").link(() => WebsocketController());
 
     return router;
   }
