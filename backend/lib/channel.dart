@@ -1,8 +1,8 @@
 import 'bc_config.dart';
 import 'brood_clash.dart';
 
-import 'controllers/websocket_controller.dart';
 import 'controllers/auth.dart';
+import 'controllers/websocket_controller.dart';
 
 /// This type initializes an application.
 ///

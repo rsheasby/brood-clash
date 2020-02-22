@@ -1,4 +1,4 @@
-import 'package:brood_clash/backend.dart';
+import 'package:aqueduct/aqueduct.dart';
 
 class User extends ManagedObject<_User> implements _User , Serializable {}
 

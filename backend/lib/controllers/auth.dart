@@ -1,10 +1,12 @@
-import 'package:brood_clash/backend.dart';
+import 'dart:async';
+
+import 'package:aqueduct/aqueduct.dart';
 import 'package:brood_clash/model/user.dart';
 
 class UserController extends ResourceController {
-  final ManagedContext context;
-
   UserController(this.context);
+
+  final ManagedContext context;
 
   @Operation.post()
   Future<Response> createUser(@Bind.body() User user) async {
