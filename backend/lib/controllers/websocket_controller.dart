@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:aqueduct/aqueduct.dart';
-import 'socket_service.dart';
+import 'package:brood_clash/services/socket_service.dart';
 
 class WebsocketController extends Controller {
   WebsocketController(this.socketService);
