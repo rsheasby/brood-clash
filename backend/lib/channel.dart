@@ -1,10 +1,15 @@
+import 'bc_config.dart';
 import 'brood_clash.dart';
+
+import 'controllers/websocket_controller.dart';
+import 'controllers/auth.dart';
 
 /// This type initializes an application.
 ///
 /// Override methods in this class to set up routes and initialize services like
 /// database connections. See http://aqueduct.io/docs/http/channel/.
 class BroodClashChannel extends ApplicationChannel {
+  ManagedContext context;
   /// Initialize services in this method.
   ///
   /// Implement this method to initialize services, read values from [options]
@@ -13,8 +18,19 @@ class BroodClashChannel extends ApplicationChannel {
   /// This method is invoked prior to [entryPoint] being accessed.
   @override
   Future prepare() async {
-    logger.onRecord.listen(
-        (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
+    logger.onRecord.listen((rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
+
+    final config = BcConfiguration(options.configurationFilePath);
+
+    final dataModel = ManagedDataModel.fromCurrentMirrorSystem();
+    final psc = PostgreSQLPersistentStore.fromConnectionInfo(
+        config.database.username,
+        config.database.password,
+        config.database.host,
+        config.database.port,
+        config.database.databaseName);
+
+    context = ManagedContext(dataModel, psc);
   }
 
   /// Construct the request channel.
@@ -34,6 +50,8 @@ class BroodClashChannel extends ApplicationChannel {
     });
 
     router.route("/present").link(() => WebsocketController());
+
+    router.route("/user").link(() => UserController(context));
 
     return router;
   }

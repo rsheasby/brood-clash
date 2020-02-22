@@ -1,7 +1,7 @@
-/// brood_clash
+/// backend
 ///
 /// A Aqueduct web server.
-library brood_clash;
+library backend;
 
 export 'dart:async';
 export 'dart:io';
