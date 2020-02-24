@@ -1,0 +1,6 @@
+database:
+  username: brood-clash
+  password: brood-clash
+  host: localhost
+  port: 5432
+  databaseName: brood-clash
