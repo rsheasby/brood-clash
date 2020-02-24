@@ -59,7 +59,7 @@ class BroodClashChannel extends ApplicationChannel {
         .link(() => UserController(context))
       ..route("/questions/[:id]")
         .link(() => QuestionController(context))
-      ..route("/answers/[:id]")
+      ..route("/answers/:id/reveal")
         .link(() => AnswerController(context))
       ..route("/present")
         .link(() => WebsocketController(socketService))
