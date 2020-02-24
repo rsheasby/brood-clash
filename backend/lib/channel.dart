@@ -1,3 +1,6 @@
+import 'package:brood_clash/controllers/answer_controller.dart';
+import 'package:brood_clash/controllers/question_controller.dart';
+
 import 'bc_config.dart';
 import 'brood_clash.dart';
 import 'controllers/auth.dart';
@@ -50,18 +53,22 @@ class BroodClashChannel extends ApplicationChannel {
   /// This method is invoked after [prepare].
   @override
   Controller get entryPoint {
-    final router = Router();
-
-    router.route("/present").link(() => WebsocketController(socketService));
-    router.route("/send").linkFunction((request) async {
-      final message = await request.body.decode();
-      socketService.broadcast(message);
-      messageHub.add(message);
-      return Response.ok(null);
-    });
-
-    router.route("/user").link(() => UserController(context));
-
-    return router;
+    // TODO: Missing auth.
+    return Router()
+      ..route("/user")
+        .link(() => UserController(context))
+      ..route("/questions/[:id]")
+        .link(() => QuestionController(context))
+      ..route("/answers/[:id]")
+        .link(() => AnswerController(context))
+      ..route("/present")
+        .link(() => WebsocketController(socketService))
+      ..route("/send")
+        .linkFunction((request) async {
+          final message = await request.body.decode();
+          socketService.broadcast(message);
+          messageHub.add(message);
+          return Response.ok(null);
+        });
   }
 }
