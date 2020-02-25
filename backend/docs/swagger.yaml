@@ -1,0 +1,12 @@
+info:
+  contact: {}
+  license: {}
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /ping:
+    get:
+      responses:
+        "200": {}
+      summary: Ping the server to receive a pong
+swagger: "2.0"
