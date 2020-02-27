@@ -6,7 +6,7 @@ import (
 	"github.com/rsheasby/brood-clash/backend/controllers"
 	"github.com/rsheasby/brood-clash/backend/middleware"
 	"github.com/rsheasby/brood-clash/backend/models"
-	"github.com/rsheasby/brood-clash/backend/services"
+	"github.com/rsheasby/brood-clash/backend/services/database"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"net/http"
@@ -36,7 +36,7 @@ func main() {
 	auth.GET("/authPing", func(c *gin.Context) {
 		// This was just for testing the database stuffs.
 		// TODO: Remember to remove
-		err := services.InsertQuestion(models.Question{
+		err := database.InsertQuestion(models.Question{
 			Text: "test",
 			Answers: []models.Answer{
 				{

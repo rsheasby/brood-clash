@@ -15,7 +15,8 @@ func init() {
 	// TODO: Remove before releasing
 	intCode = 1234
 	authCode = fmt.Sprintf("%04d", intCode)
-	figure.NewFigure(authCode, "small", true).Print()
+	fmt.Println("Login Code:")
+	figure.NewFigure(authCode, "big", true).Print()
 }
 
 func IsValidCode(code string) bool {

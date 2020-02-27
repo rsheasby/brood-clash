@@ -1,4 +1,4 @@
-backend/cmd/brood-clash-server/__debug_bin
 swagger-codegen-cli.jar
 .idea/
 *.db
+.DS_Store
