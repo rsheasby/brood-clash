@@ -1,13 +1,16 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/rsheasby/brood-clash/backend/services/database"
+)
 
 // ShowAccount godoc
 // @Summary Ping the server to receive a pong
 // @Success 200
 // @Router /ping [get]
 func Pong(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "pong",
-	})
+	count := database.GetUnshownQuestionCount()
+	c.String(200, fmt.Sprint(count))
 }

@@ -45,3 +45,11 @@ func GetUnshownQuestion() (result *models.Question, err error) {
 
 	return
 }
+
+func GetUnshownQuestionCount() (result int) {
+	err := db.Model(&models.Question{}).Where("has_been_shown = false").Count(&result).Error
+	if err != nil {
+		return 0
+	}
+	return
+}
