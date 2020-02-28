@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/rsheasby/brood-clash/backend/controllers"
 	"github.com/rsheasby/brood-clash/backend/middleware"
-	"github.com/rsheasby/brood-clash/backend/models"
 	"github.com/rsheasby/brood-clash/backend/services/database"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
@@ -33,19 +33,10 @@ func main() {
 	anon := api.Group("")
 
 	// Authenticated requests go here
-	auth.GET("/authPing", func(c *gin.Context) {
+	auth.GET("/authPing/:ID", func(c *gin.Context) {
 		// This was just for testing the database stuffs.
 		// TODO: Remember to remove
-		err := database.InsertQuestion(models.Question{
-			Text: "test",
-			Answers: []models.Answer{
-				{
-					Text:       "testanswer",
-					Points:     1,
-					Revealed:   false,
-				},
-			},
-		})
+		err := database.RevealAnswer(uuid.MustParse(c.Param("ID")))
 		if err != nil {
 			c.AbortWithError(http.StatusBadRequest, fmt.Errorf("failed to add question: %v", err))
 		}
