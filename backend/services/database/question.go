@@ -25,6 +25,23 @@ func InsertQuestion(question models.Question) error {
 		return fmt.Errorf("answer points can't total to over 100")
 	}
 
-	db.Create(&question)
-	return nil
+	return fmt.Errorf("unable to insert question: %v", db.Create(&question).Error)
+}
+
+func GetUnshownQuestion() (result *models.Question, err error) {
+	// Get unshown question
+	result = new(models.Question)
+	err = db.First(result, "has_been_shown = false").Error
+	if err != nil {
+		return nil, fmt.Errorf("unable to get unshown question: %v", err)
+	}
+
+	// Mark question as shown
+	result.HasBeenShown = true
+	err = db.Save(result).Error
+	if err != nil {
+		return nil, fmt.Errorf("unable to mark question as shown: %v", err)
+	}
+
+	return
 }
