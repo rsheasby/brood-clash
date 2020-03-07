@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+
 	"github.com/rsheasby/brood-clash/backend/models"
 )
 
@@ -24,8 +25,11 @@ func InsertQuestion(question models.Question) error {
 	if totalPoints > 100 {
 		return fmt.Errorf("answer points can't total to over 100")
 	}
-
-	return fmt.Errorf("unable to insert question: %v", db.Create(&question).Error)
+	err := db.Create(&question).Error
+	if err != nil {
+		return fmt.Errorf("unable to insert question: %v", err)
+	}
+	return nil
 }
 
 func GetUnshownQuestion() (result *models.Question, err error) {
@@ -36,12 +40,22 @@ func GetUnshownQuestion() (result *models.Question, err error) {
 		return nil, fmt.Errorf("unable to get unshown question: %v", err)
 	}
 
+	tx := db.Begin()
+
 	// Mark question as shown
 	result.HasBeenShown = true
-	err = db.Save(result).Error
+	err = tx.Save(result).Error
 	if err != nil {
 		return nil, fmt.Errorf("unable to mark question as shown: %v", err)
 	}
+
+	// Update current question in GameState
+	err = tx.Model(&models.GameState{}).Update("question_id", result.ID).Error
+	if err != nil {
+		return nil, fmt.Errorf("unable to update GameState with new question ID: %v", err)
+	}
+
+	tx.Commit()
 
 	return
 }
@@ -50,6 +64,23 @@ func GetUnshownQuestionCount() (result int) {
 	err := db.Model(&models.Question{}).Where("has_been_shown = false").Count(&result).Error
 	if err != nil {
 		return 0
+	}
+	return
+}
+
+func GetCurrentQuestionWithAnswers() (result *models.Question, err error) {
+	gs := new(models.GameState)
+	err = db.Take(gs).Error
+	if err != nil {
+		return nil, fmt.Errorf("unable to get current GameState: %v", err)
+	}
+	if gs.QuestionID == nil {
+		return nil, fmt.Errorf("there isn't a current question yet; run GetUnshownQuestion first")
+	}
+	result = new(models.Question)
+	err = db.Take(result, "id = ?", gs.QuestionID).Related(&models.Answer{}).Error
+	if err != nil {
+		return nil, fmt.Errorf("unable to get current Question/Answers: %v", err)
 	}
 	return
 }

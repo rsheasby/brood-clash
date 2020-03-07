@@ -16,3 +16,13 @@ func RevealAnswer(ID uuid.UUID) error {
 	db.Save(a)
 	return nil
 }
+
+func GetAnswer(ID uuid.UUID) (answer *models.Answer, err error) {
+	answer = new(models.Answer)
+
+	err = db.Take(answer, "id = ?", ID).Error
+	if err != nil {
+		return nil, fmt.Errorf("error retrieving answer from database: %v", err)
+	}
+	return
+}

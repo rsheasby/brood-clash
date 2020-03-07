@@ -1,21 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/rsheasby/brood-clash/backend/controllers"
+	_ "github.com/rsheasby/brood-clash/backend/docs"
 	"github.com/rsheasby/brood-clash/backend/middleware"
-	"github.com/rsheasby/brood-clash/backend/services/database"
+	"github.com/rsheasby/brood-clash/backend/services"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-	"net/http"
-
-	_ "github.com/rsheasby/brood-clash/backend/docs"
 )
 
-// @title Swagger Example API
+// @title Brood-Clash API
 // @version 1.0
-// @licence.name Apache 2.0
+// @licence.name MIT
 
 func main() {
 	r := gin.New()
@@ -33,18 +30,16 @@ func main() {
 
 	// Authenticated requests go here
 	auth.GET("/authPing", func(c *gin.Context) {
-		// This was just for testing the database stuffs.
-		// TODO: Remember to remove
-		q, err := database.GetUnshownQuestion()
+		err := services.Melody.Broadcast([]byte("Testing"))
 		if err != nil {
-			c.AbortWithError(http.StatusNotFound, fmt.Errorf("failed to add question: %v", err))
-			return
+			c.AbortWithError(500, err)
 		}
-		c.String(200, q.ID.String())
+		c.Status(200)
 	})
+	auth.POST("/questions", controllers.PostQuestions)
 
 	// Anonymous requests go here
-	anon.GET("/ping", controllers.Pong)
+	anon.GET("/presenter/websocket",  controllers.GetPresenterWebsocket)
 
 	r.Run(":8080")
 }

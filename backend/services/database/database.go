@@ -19,6 +19,9 @@ func init() {
 
 	db.AutoMigrate(
 		models.Question{},
-		models.Answer{})
+		models.Answer{},
+		models.GameState{})
+
+	initGameState()
 }
 

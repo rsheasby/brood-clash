@@ -6,7 +6,6 @@ import (
 	"github.com/rsheasby/brood-clash/backend/services/database"
 )
 
-// ShowAccount godoc
 // @Summary Ping the server to receive a pong
 // @Success 200
 // @Router /ping [get]
