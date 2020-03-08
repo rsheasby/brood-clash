@@ -1,34 +1,56 @@
 <script>
-    import { ApiClient, DefaultApi } from 'brood_clash';
+	import { ApiClient, DefaultApi } from 'brood_clash';
+	import * as auth from '../auth.js';
 
-    let loading = true;
-    let invalidCode = false;
+	let loading = false;
+	let error = false;
 
-    async function login(code) {
-    	loading = true;
-    	invalidCode = false;
+	async function handleLogin(event) {
+		await login(event.target.code.value);
+	}
 
-    	code = String(code);
-    	if (!/^\d{4}$/.test(code)) {
-    		loading = false;
-    		invalidCode = true;
-    		return;
-    	}
+	async function login(code) {
+		if (loading) {
+			return;
+		}
 
-        ApiClient.instance.authentications.ApiKey.apiKey = code;
-    	window.localStorage.setItem('code', code);
-    	try {
-            const client = new DefaultApi();
-            await client.authTest();
-            window.location = '/controller/add-questions';
-    	} catch (e) {
-            invalidCode = true;
-            loading = false;
-    	}
-    }
+		loading = true;
+		error = undefined;
+
+		try {
+			auth.setCode(code);
+		} catch (e) {
+			error = "Invalid code.";
+			loading = false;
+			return;
+		}
+
+		ApiClient.instance.authentications.ApiKey.apiKey = auth.getCode();
+		const client = new DefaultApi();
+
+		try {
+			await client.authTest();
+			window.location = '/controller/add-questions';
+		} catch (e) {
+			if (e.status === 403) {
+				error = "Invalid code.";
+			} else {
+				error = "Something unexpected happened. Please refresh and try again.";
+			}
+			loading = false;
+		}
+	}
 </script>
 
-<form on:submit|preventDefault="{(event) => login(event.target.code.value)}">
-    <input type="text" name="code">
-    <label for="name">Code</label>
+<form on:submit|preventDefault="{handleLogin}">
+	<label for="name">Code</label>
+	<input type="text" name="code" disabled="{loading}">
 </form>
+
+{#if loading}
+	<p>Loading...</p>
+{/if}
+
+{#if error}
+	<p>{error}</p>
+{/if}
