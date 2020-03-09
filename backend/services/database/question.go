@@ -35,7 +35,7 @@ func InsertQuestion(question models.Question) error {
 func GetUnshownQuestion() (result *models.Question, err error) {
 	// Get unshown question
 	result = new(models.Question)
-	err = db.First(result, "has_been_shown = false").Error
+	err = db.First(result, "has_been_shown = false").Related(&result.Answers).Error
 	if err != nil {
 		return nil, fmt.Errorf("unable to get unshown question: %v", err)
 	}

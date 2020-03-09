@@ -10,6 +10,19 @@ import (
 	"github.com/rsheasby/brood-clash/backend/services/database"
 )
 
+func GetUnshownQuestion (c *gin.Context) {
+	if database.GetUnshownQuestionCount() <= 0 {
+		c.String(http.StatusNotFound, "No more questions.")
+		return
+	}
+	q, err := database.GetUnshownQuestion()
+	if err != nil {
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+	c.JSON(http.StatusOK, q)
+}
+
 func PostQuestions (c *gin.Context) {
 	var questions []models.Question
 	fails := make([]error, 0)
