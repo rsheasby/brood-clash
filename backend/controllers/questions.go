@@ -23,6 +23,15 @@ func GetUnshownQuestion (c *gin.Context) {
 	c.JSON(http.StatusOK, q)
 }
 
+func GetCurrentQuestion (c *gin.Context) {
+	q, err := database.GetCurrentQuestionWithAnswers()
+	if err != nil {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	c.JSON(http.StatusOK, q)
+}
+
 func PostQuestions (c *gin.Context) {
 	var questions []models.Question
 	fails := make([]error, 0)

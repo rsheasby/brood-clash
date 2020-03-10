@@ -78,7 +78,7 @@ func GetCurrentQuestionWithAnswers() (result *models.Question, err error) {
 		return nil, fmt.Errorf("there isn't a current question yet; run GetUnshownQuestion first")
 	}
 	result = new(models.Question)
-	err = db.Take(result, "id = ?", gs.QuestionID).Related(&models.Answer{}).Error
+	err = db.Take(result, "id = ?", gs.QuestionID).Related(&result.Answers).Error
 	if err != nil {
 		return nil, fmt.Errorf("unable to get current Question/Answers: %v", err)
 	}

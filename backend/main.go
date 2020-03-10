@@ -28,7 +28,8 @@ func main() {
 	anon := api.Group("")
 
 	// Authenticated requests go here
-	auth.GET("/question", controllers.GetUnshownQuestion)
+	auth.GET("/unshownQuestion", controllers.GetUnshownQuestion)
+	auth.GET("/currentQuestion", controllers.GetCurrentQuestion)
 	auth.POST("/questions", controllers.PostQuestions)
 
 	// Anonymous requests go here
