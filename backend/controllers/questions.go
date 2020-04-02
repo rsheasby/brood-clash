@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/gin-gonic/gin"
 	"github.com/rsheasby/brood-clash/backend/models"
 	"github.com/rsheasby/brood-clash/backend/services/database"
@@ -25,6 +24,7 @@ func GetUnshownQuestion (c *gin.Context) {
 
 func GetCurrentQuestion (c *gin.Context) {
 	q, err := database.GetCurrentQuestionWithAnswers()
+	// TODO: Return message to client that there is no current question.
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return
@@ -40,7 +40,6 @@ func PostQuestions (c *gin.Context) {
 		c.Status(http.StatusBadRequest)
 		return
 	}
-	spew.Dump(questions)
 	for i := range questions {
 		err := database.InsertQuestion(questions[i])
 		if err != nil {
