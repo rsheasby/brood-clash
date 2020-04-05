@@ -25,7 +25,7 @@ func GetUnshownQuestion (c *gin.Context) {
 	if err != nil {
 		c.Status(http.StatusInternalServerError)
 	}
-	services.BroadcastStateUpdate()
+	go services.BroadcastStateUpdate()
 	c.JSON(http.StatusOK, q)
 }
 

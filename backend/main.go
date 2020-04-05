@@ -31,6 +31,7 @@ func main() {
 	auth.GET("/unshownQuestion", controllers.GetUnshownQuestion)
 	auth.GET("/currentQuestion", controllers.GetCurrentQuestion)
 	auth.POST("/questions", controllers.PostQuestions)
+	auth.POST("/answers/:id/reveal", controllers.RevealAnswer)
 
 	// Anonymous requests go here
 	anon.GET("/presenter/websocket",  controllers.GetPresenterWebsocket)
