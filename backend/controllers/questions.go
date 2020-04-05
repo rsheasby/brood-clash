@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rotisserie/eris"
 	"github.com/rsheasby/brood-clash/backend/models"
 	"github.com/rsheasby/brood-clash/backend/services/database"
 )
@@ -24,9 +25,12 @@ func GetUnshownQuestion (c *gin.Context) {
 
 func GetCurrentQuestion (c *gin.Context) {
 	q, err := database.GetCurrentQuestionWithAnswers()
-	// TODO: Return message to client that there is no current question.
+	if eris.Is(err, database.ErrNoCurrentQuestion) {
+		c.String(http.StatusNotFound, "No current question yet. You should GET /unshownQuestion before calling me.")
+		return
+	}
 	if err != nil {
-		c.AbortWithStatus(http.StatusInternalServerError)
+		c.Status(http.StatusInternalServerError)
 		return
 	}
 	c.JSON(http.StatusOK, q)

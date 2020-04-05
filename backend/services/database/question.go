@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 
+	"github.com/rotisserie/eris"
 	"github.com/rsheasby/brood-clash/backend/models"
 )
 
@@ -75,7 +76,7 @@ func GetCurrentQuestionWithAnswers() (result *models.Question, err error) {
 		return nil, fmt.Errorf("unable to get current GameState: %v", err)
 	}
 	if gs.QuestionID == nil {
-		return nil, fmt.Errorf("there isn't a current question yet; run GetUnshownQuestion first")
+		return nil, eris.Wrap(ErrNoCurrentQuestion, "testing the wrapping")
 	}
 	result = new(models.Question)
 	err = db.Take(result, "id = ?", gs.QuestionID).Related(&result.Answers).Error

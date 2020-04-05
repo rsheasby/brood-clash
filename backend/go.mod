@@ -16,6 +16,7 @@ require (
 	github.com/mailru/easyjson v0.7.1 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/olahol/melody v0.0.0-20180227134253-7bd65910e5ab
+	github.com/rotisserie/eris v0.3.0
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.5
 	golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e // indirect
