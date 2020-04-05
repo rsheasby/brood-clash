@@ -9,7 +9,7 @@ import (
 )
 
 func GetPresenterWebsocket(c *gin.Context) {
-	err := services.Melody.HandleRequest(c.Writer, c.Request)
+	err := services.UpgradeToWebsocket(c.Writer, c.Request)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, fmt.Errorf("couldn't upgrade to websocket: %v", err))
 		return

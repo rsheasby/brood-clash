@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/rotisserie/eris"
 	"github.com/rsheasby/brood-clash/backend/models"
+	"github.com/rsheasby/brood-clash/backend/services"
 	"github.com/rsheasby/brood-clash/backend/services/database"
 )
 
@@ -20,6 +21,11 @@ func GetUnshownQuestion (c *gin.Context) {
 		c.Status(http.StatusInternalServerError)
 		return
 	}
+	q, err = database.GetCurrentQuestionWithAnswers()
+	if err != nil {
+		c.Status(http.StatusInternalServerError)
+	}
+	services.BroadcastStateUpdate()
 	c.JSON(http.StatusOK, q)
 }
 
