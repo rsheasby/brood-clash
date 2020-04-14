@@ -54,6 +54,141 @@
                     }
                 }
             }
+        },
+        "/currentQuestion": {
+            "get": {
+                "security": [
+                    {
+                        "CodeAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Current Question",
+                "operationId": "get-current-question",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/models.Question"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    },
+                    "404": {
+                        "description": "No current question"
+                    }
+                }
+            }
+        },
+        "/questions": {
+            "post": {
+                "security": [
+                    {
+                        "CodeAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "summary": "Post Questions",
+                "operationId": "post-questions",
+                "parameters": [
+                    {
+                        "description": "Questions to be created",
+                        "name": "questions",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Question"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Questions created"
+                    },
+                    "202": {
+                        "description": "Some questions couldn't be created"
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    }
+                }
+            }
+        },
+        "/unshownQuestion": {
+            "get": {
+                "security": [
+                    {
+                        "CodeAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Unshown Question",
+                "operationId": "get-unshown-question",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/models.Question"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    },
+                    "404": {
+                        "description": "No more unshown questions"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Answer": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "readOnly": true
+                },
+                "points": {
+                    "type": "integer",
+                    "maximum": 100,
+                    "minimum": 1
+                },
+                "revealed": {
+                    "type": "boolean"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Question": {
+            "type": "object",
+            "properties": {
+                "answers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Answer"
+                    }
+                },
+                "id": {
+                    "type": "string",
+                    "readOnly": true
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
         }
     },
     "securityDefinitions": {

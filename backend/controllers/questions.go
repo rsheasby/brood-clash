@@ -11,7 +11,15 @@ import (
 	"github.com/rsheasby/brood-clash/backend/services/database"
 )
 
-func GetUnshownQuestion (c *gin.Context) {
+// @Summary Get Unshown Question
+// @ID get-unshown-question
+// @Produce json
+// @Security CodeAuth
+// @Success 200 {object} models.Question "Success"
+// @Failure 401 "Unauthorised"
+// @Failure 404 "No more unshown questions"
+// @Router /unshownQuestion [get]
+func GetUnshownQuestion(c *gin.Context) {
 	if database.GetUnshownQuestionCount() <= 0 {
 		c.String(http.StatusNotFound, "No more questions.")
 		return
@@ -29,7 +37,15 @@ func GetUnshownQuestion (c *gin.Context) {
 	c.JSON(http.StatusOK, q)
 }
 
-func GetCurrentQuestion (c *gin.Context) {
+// @Summary Get Current Question
+// @ID get-current-question
+// @Produce json
+// @Security CodeAuth
+// @Success 200 {object} models.Question "Success"
+// @Failure 401 "Unauthorised"
+// @Failure 404 "No current question"
+// @Router /currentQuestion [get]
+func GetCurrentQuestion(c *gin.Context) {
 	q, err := database.GetCurrentQuestionWithAnswers()
 	if eris.Is(err, database.ErrNoCurrentQuestion) {
 		c.String(http.StatusNotFound, "No current question yet. You should GET /unshownQuestion before calling me.")
@@ -42,7 +58,16 @@ func GetCurrentQuestion (c *gin.Context) {
 	c.JSON(http.StatusOK, q)
 }
 
-func PostQuestions (c *gin.Context) {
+// @Summary Post Questions
+// @ID post-questions
+// @Accept json
+// @Param questions body []models.Question true "Questions to be created"
+// @Security CodeAuth
+// @Success 201 "Questions created"
+// @Failure 202 "Some questions couldn't be created"
+// @Failure 401 "Unauthorised"
+// @Router /questions [post]
+func PostQuestions(c *gin.Context) {
 	var questions []models.Question
 	fails := make([]error, 0)
 	err := c.BindJSON(&questions)
@@ -58,7 +83,7 @@ func PostQuestions (c *gin.Context) {
 		}
 	}
 	if len(fails) > 0 {
-		c.String(http.StatusAccepted, fmt.Sprintf("%d questions could not be created. %d have succeeded. Double check your entities are valid.", len(fails), len(questions) - len(fails)))
+		c.String(http.StatusAccepted, fmt.Sprintf("%d questions could not be created. %d have succeeded. Double check your entities are valid.", len(fails), len(questions)-len(fails)))
 		return
 	}
 	c.Status(http.StatusCreated)

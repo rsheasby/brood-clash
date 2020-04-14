@@ -1,4 +1,31 @@
 basePath: /api/v1
+definitions:
+  models.Answer:
+    properties:
+      id:
+        readOnly: true
+        type: string
+      points:
+        maximum: 100
+        minimum: 1
+        type: integer
+      revealed:
+        type: boolean
+      text:
+        type: string
+    type: object
+  models.Question:
+    properties:
+      answers:
+        items:
+          $ref: '#/definitions/models.Answer'
+        type: array
+      id:
+        readOnly: true
+        type: string
+      text:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -35,6 +62,64 @@ paths:
       security:
       - CodeAuth: []
       summary: Reveal answer
+  /currentQuestion:
+    get:
+      operationId: get-current-question
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/models.Question'
+        "401":
+          description: Unauthorised
+        "404":
+          description: No current question
+      security:
+      - CodeAuth: []
+      summary: Get Current Question
+  /questions:
+    post:
+      consumes:
+      - application/json
+      operationId: post-questions
+      parameters:
+      - description: Questions to be created
+        in: body
+        name: questions
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/models.Question'
+          type: array
+      responses:
+        "201":
+          description: Questions created
+        "202":
+          description: Some questions couldn't be created
+        "401":
+          description: Unauthorised
+      security:
+      - CodeAuth: []
+      summary: Post Questions
+  /unshownQuestion:
+    get:
+      operationId: get-unshown-question
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/models.Question'
+        "401":
+          description: Unauthorised
+        "404":
+          description: No more unshown questions
+      security:
+      - CodeAuth: []
+      summary: Get Unshown Question
 securityDefinitions:
   CodeAuth:
     in: header

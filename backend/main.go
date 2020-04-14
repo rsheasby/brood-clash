@@ -30,9 +30,7 @@ func main() {
 	// Serve Swagger Docs
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	api := r.Group("/api/v1")
-	auth := api.Group("", middleware.Auth)
-	anon := api.Group("")
+	auth := r.Group("/api/v1", middleware.Auth)
 
 	// Authenticated requests go here
 	auth.GET("/unshownQuestion", controllers.GetUnshownQuestion)
@@ -41,7 +39,7 @@ func main() {
 	auth.POST("/answers/:id/reveal", controllers.RevealAnswer)
 
 	// Anonymous requests go here
-	anon.GET("/presenter/websocket", controllers.GetPresenterWebsocket)
+	r.GET("/presenter/websocket", controllers.GetPresenterWebsocket)
 
 	r.Run(":8080")
 }

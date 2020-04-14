@@ -2,12 +2,13 @@ package models
 
 import (
 	"fmt"
+
 	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
 )
 
 type BaseModel struct {
-	ID uuid.UUID `gorm:"type:string;primary_key;auto_increment:false"`
+	ID uuid.UUID `gorm:"type:string;primary_key;auto_increment:false" readonly:"true"`
 }
 
 func (base *BaseModel) BeforeCreate(scope *gorm.Scope) error {
