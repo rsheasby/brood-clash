@@ -5,7 +5,6 @@ go 1.13
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/common-nighthawk/go-figure v0.0.0-20190529165535-67e0ed34491a
-	github.com/davecgh/go-spew v1.1.1
 	github.com/gin-gonic/gin v1.6.2
 	github.com/go-openapi/spec v0.19.7 // indirect
 	github.com/go-openapi/swag v0.19.8 // indirect

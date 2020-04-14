@@ -13,6 +13,13 @@ import (
 // @version 1.0
 // @licence.name MIT
 
+// @host localhost:8080
+// @BasePath /api/v1
+
+// @securityDefinitions.apikey CodeAuth
+// @in header
+// @name Authorization
+
 func main() {
 	r := gin.New()
 
@@ -34,7 +41,7 @@ func main() {
 	auth.POST("/answers/:id/reveal", controllers.RevealAnswer)
 
 	// Anonymous requests go here
-	anon.GET("/presenter/websocket",  controllers.GetPresenterWebsocket)
+	anon.GET("/presenter/websocket", controllers.GetPresenterWebsocket)
 
 	r.Run(":8080")
 }

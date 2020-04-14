@@ -1,19 +1,66 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "Swagger Example API",
+        "title": "Brood-Clash API",
         "contact": {},
         "license": {},
         "version": "1.0"
     },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
     "paths": {
-        "/ping": {
-            "get": {
-                "summary": "Ping the server to receive a pong",
+        "/answers/{id}/reveal": {
+            "post": {
+                "security": [
+                    {
+                        "CodeAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Reveal answer",
+                "operationId": "reveal-answer",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Answer ID, must be UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
-                    "200": {}
+                    "204": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Couldn't parse ID param into UUID"
+                    },
+                    "403": {
+                        "description": "Unauthorised"
+                    },
+                    "404": {
+                        "description": "Answer doesn't exist"
+                    },
+                    "418": {
+                        "description": "Answer already revealed",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "CodeAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

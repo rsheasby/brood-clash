@@ -1,12 +1,43 @@
+basePath: /api/v1
+host: localhost:8080
 info:
   contact: {}
   license: {}
-  title: Swagger Example API
+  title: Brood-Clash API
   version: "1.0"
 paths:
-  /ping:
-    get:
+  /answers/{id}/reveal:
+    post:
+      consumes:
+      - application/json
+      operationId: reveal-answer
+      parameters:
+      - description: Answer ID, must be UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
       responses:
-        "200": {}
-      summary: Ping the server to receive a pong
+        "204":
+          description: Success
+        "400":
+          description: Couldn't parse ID param into UUID
+        "403":
+          description: Unauthorised
+        "404":
+          description: Answer doesn't exist
+        "418":
+          description: Answer already revealed
+          schema:
+            type: string
+      security:
+      - CodeAuth: []
+      summary: Reveal answer
+securityDefinitions:
+  CodeAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
