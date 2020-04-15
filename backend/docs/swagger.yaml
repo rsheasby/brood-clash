@@ -10,6 +10,7 @@ definitions:
         minimum: 1
         type: integer
       revealed:
+        readOnly: true
         type: boolean
       text:
         type: string
@@ -103,6 +104,19 @@ paths:
       security:
       - CodeAuth: []
       summary: Post Questions
+  /reset:
+    post:
+      operationId: reset-game-state
+      responses:
+        "204":
+          description: Successfully reset the game state
+        "401":
+          description: Unauthorised
+        "500":
+          description: Failed to reset game state
+      security:
+      - CodeAuth: []
+      summary: Reset Game State
   /unshownQuestion:
     get:
       operationId: get-unshown-question

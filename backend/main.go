@@ -30,13 +30,14 @@ func main() {
 	// Serve Swagger Docs
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	auth := r.Group("/api/v1", middleware.Auth)
+	api := r.Group("/api/v1", middleware.Auth)
 
 	// Authenticated requests go here
-	auth.GET("/unshownQuestion", controllers.GetUnshownQuestion)
-	auth.GET("/currentQuestion", controllers.GetCurrentQuestion)
-	auth.POST("/questions", controllers.PostQuestions)
-	auth.POST("/answers/:id/reveal", controllers.RevealAnswer)
+	api.GET("/unshownQuestion", controllers.GetUnshownQuestion)
+	api.GET("/currentQuestion", controllers.GetCurrentQuestion)
+	api.POST("/questions", controllers.PostQuestions)
+	api.POST("/answers/:id/reveal", controllers.RevealAnswer)
+	api.POST("/reset", controllers.ResetGameState)
 
 	// Anonymous requests go here
 	r.GET("/presenter/websocket", controllers.GetPresenterWebsocket)

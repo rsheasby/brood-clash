@@ -122,6 +122,28 @@
                 }
             }
         },
+        "/reset": {
+            "post": {
+                "security": [
+                    {
+                        "CodeAuth": []
+                    }
+                ],
+                "summary": "Reset Game State",
+                "operationId": "reset-game-state",
+                "responses": {
+                    "204": {
+                        "description": "Successfully reset the game state"
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    },
+                    "500": {
+                        "description": "Failed to reset game state"
+                    }
+                }
+            }
+        },
         "/unshownQuestion": {
             "get": {
                 "security": [
@@ -165,7 +187,8 @@
                     "minimum": 1
                 },
                 "revealed": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "readOnly": true
                 },
                 "text": {
                     "type": "string"
