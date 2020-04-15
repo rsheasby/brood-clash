@@ -81,6 +81,24 @@ paths:
       - CodeAuth: []
       summary: Get Current Question
   /questions:
+    get:
+      operationId: get-all-questions
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            items:
+              $ref: '#/definitions/models.Question'
+            type: array
+        "401":
+          description: Unauthorised
+        "500":
+          description: Failed to retrieve questions
+      security:
+      - CodeAuth: []
+      summary: Get All Questions
     post:
       consumes:
       - application/json

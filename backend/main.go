@@ -35,6 +35,7 @@ func main() {
 	// Authenticated requests go here
 	api.GET("/unshownQuestion", controllers.GetUnshownQuestion)
 	api.GET("/currentQuestion", controllers.GetCurrentQuestion)
+	api.GET("/questions", controllers.GetAllQuestions)
 	api.POST("/questions", controllers.PostQuestions)
 	api.POST("/answers/:id/reveal", controllers.RevealAnswer)
 	api.POST("/reset", controllers.ResetGameState)

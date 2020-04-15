@@ -58,6 +58,24 @@ func GetCurrentQuestion(c *gin.Context) {
 	c.JSON(http.StatusOK, q)
 }
 
+// @Summary Get All Questions
+// @ID get-all-questions
+// @Produce json
+// @Security CodeAuth
+// @Success 200 {array} models.Question "Success"
+// @Failure 401 "Unauthorised"
+// @Failure 500 "Failed to retrieve questions"
+// @Router /questions [get]
+func GetAllQuestions(c *gin.Context) {
+	q, err := database.GetAllQuestions()
+	if err != nil {
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+
+	c.JSON(http.StatusOK, q)
+}
+
 // @Summary Post Questions
 // @ID post-questions
 // @Accept json

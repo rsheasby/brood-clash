@@ -60,6 +60,11 @@ func GetUnshownQuestion() (result *models.Question, err error) {
 	return
 }
 
+func GetAllQuestions() (results []models.Question, err error) {
+	err = db.Find(&results).Error
+	return
+}
+
 func GetUnshownQuestionCount() (result int) {
 	err := db.Model(&models.Question{}).Where("has_been_shown = false").Count(&result).Error
 	if err != nil {

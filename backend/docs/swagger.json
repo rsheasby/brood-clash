@@ -84,6 +84,35 @@
             }
         },
         "/questions": {
+            "get": {
+                "security": [
+                    {
+                        "CodeAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get All Questions",
+                "operationId": "get-all-questions",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Question"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    },
+                    "500": {
+                        "description": "Failed to retrieve questions"
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
