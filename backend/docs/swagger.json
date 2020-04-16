@@ -6,7 +6,6 @@
         "license": {},
         "version": "1.0"
     },
-    "host": "localhost:8080",
     "basePath": "/api/v1",
     "paths": {
         "/answers/{id}/reveal": {
@@ -188,6 +187,49 @@
                 }
             }
         },
+        "/questions/{id}/select": {
+            "post": {
+                "security": [
+                    {
+                        "CodeAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Select Question",
+                "operationId": "select-question",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Question ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/models.Question"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    },
+                    "404": {
+                        "description": "Question not found"
+                    },
+                    "418": {
+                        "description": "Question has already been shown before"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    }
+                }
+            }
+        },
         "/reset": {
             "post": {
                 "security": [
@@ -206,34 +248,6 @@
                     },
                     "500": {
                         "description": "Failed to reset game state"
-                    }
-                }
-            }
-        },
-        "/unshownQuestion": {
-            "get": {
-                "security": [
-                    {
-                        "CodeAuth": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Get Unshown Question",
-                "operationId": "get-unshown-question",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "schema": {
-                            "$ref": "#/definitions/models.Question"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorised"
-                    },
-                    "404": {
-                        "description": "No more unshown questions"
                     }
                 }
             }
@@ -269,6 +283,10 @@
                     "items": {
                         "$ref": "#/definitions/models.Answer"
                     }
+                },
+                "hasBeenShown": {
+                    "type": "boolean",
+                    "readOnly": true
                 },
                 "id": {
                     "type": "string",

@@ -33,31 +33,35 @@ func InsertQuestion(question models.Question) error {
 	return nil
 }
 
-func GetUnshownQuestion() (result *models.Question, err error) {
-	// Get unshown question
-	result = new(models.Question)
-	err = db.First(result, "has_been_shown = false").Related(&result.Answers).Error
-	if err != nil {
-		return nil, fmt.Errorf("unable to get unshown question: %v", err)
-	}
-
+func SelectQuestion(id uuid.UUID) (result *models.Question, err error) {
 	tx := db.Begin()
 
-	// Mark question as shown
+	result = new(models.Question)
+	err = tx.Take(result, "id = ?", id).Related(&result.Answers).Error
+	if err != nil {
+		tx.Rollback()
+		return nil, ErrIDNotFound
+	}
+
+	if result.HasBeenShown {
+		tx.Rollback()
+		return nil, ErrHasAlreadyBeenShown
+	}
+
 	result.HasBeenShown = true
 	err = tx.Save(result).Error
 	if err != nil {
-		return nil, fmt.Errorf("unable to mark question as shown: %v", err)
+		tx.Rollback()
+		return nil, err
 	}
 
-	// Update current question in GameState
 	err = tx.Model(&models.GameState{}).Update("question_id", result.ID).Error
 	if err != nil {
-		return nil, fmt.Errorf("unable to update GameState with new question ID: %v", err)
+		tx.Rollback()
+		return nil, err
 	}
 
 	tx.Commit()
-
 	return
 }
 
@@ -84,6 +88,21 @@ func DeleteQuestion(questionId uuid.UUID) (err error) {
 		}
 	}
 
+	gs := new(models.GameState)
+	err = tx.Take(gs).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	if *gs.QuestionID == questionId {
+		err = tx.Model(&models.GameState{}).Update("question_id", nil).Error
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+
 	err = tx.Delete(&q).Error
 	if err != nil {
 		tx.Rollback()
@@ -91,14 +110,6 @@ func DeleteQuestion(questionId uuid.UUID) (err error) {
 	}
 
 	return tx.Commit().Error
-}
-
-func GetUnshownQuestionCount() (result int) {
-	err := db.Model(&models.Question{}).Where("has_been_shown = false").Count(&result).Error
-	if err != nil {
-		return 0
-	}
-	return
 }
 
 func GetCurrentQuestionWithAnswers() (result *models.Question, err error) {

@@ -13,30 +13,42 @@ import (
 	"github.com/rsheasby/brood-clash/backend/services/database"
 )
 
-// @Summary Get Unshown Question
-// @ID get-unshown-question
+// @Summary Select Question
+// @ID select-question
 // @Produce json
+// @Param id path string true "Question ID"
 // @Security CodeAuth
 // @Success 200 {object} models.Question "Success"
 // @Failure 401 "Unauthorised"
-// @Failure 404 "No more unshown questions"
-// @Router /unshownQuestion [get]
-func GetUnshownQuestion(c *gin.Context) {
-	if database.GetUnshownQuestionCount() <= 0 {
-		c.String(http.StatusNotFound, "No more questions.")
+// @Failure 404 "Question not found"
+// @Failure 418 "Question has already been shown before"
+// @Failure 500 "Unknown error"
+// @Router /questions/{id}/select [post]
+func SelectQuestion(c *gin.Context) {
+	id, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		c.Status(http.StatusBadRequest)
 		return
 	}
-	q, err := database.GetUnshownQuestion()
-	if err != nil {
-		c.Status(http.StatusInternalServerError)
+
+	question, err := database.SelectQuestion(id)
+	if eris.Is(err, database.ErrIDNotFound) {
+		c.Status(http.StatusNotFound)
 		return
 	}
-	q, err = database.GetCurrentQuestionWithAnswers()
+
+	if eris.Is(err, database.ErrHasAlreadyBeenShown) {
+		c.Status(http.StatusTeapot)
+		return
+	}
+
 	if err != nil {
 		c.Status(http.StatusInternalServerError)
 	}
+
 	go services.BroadcastStateUpdate()
-	c.JSON(http.StatusOK, q)
+
+	c.JSON(http.StatusOK, question)
 }
 
 // @Summary Get Current Question
@@ -50,7 +62,7 @@ func GetUnshownQuestion(c *gin.Context) {
 func GetCurrentQuestion(c *gin.Context) {
 	q, err := database.GetCurrentQuestionWithAnswers()
 	if eris.Is(err, database.ErrNoCurrentQuestion) {
-		c.String(http.StatusNotFound, "No current question yet. You should GET /unshownQuestion before calling me.")
+		c.String(http.StatusNotFound, "No current question yet. You need to select a question first.")
 		return
 	}
 	if err != nil {

@@ -13,7 +13,6 @@ import (
 // @version 1.0
 // @licence.name MIT
 
-// @host localhost:8080
 // @BasePath /api/v1
 
 // @securityDefinitions.apikey CodeAuth
@@ -33,11 +32,11 @@ func main() {
 	api := r.Group("/api/v1", middleware.Auth)
 
 	// Authenticated requests go here
-	api.GET("/unshownQuestion", controllers.GetUnshownQuestion)
 	api.GET("/currentQuestion", controllers.GetCurrentQuestion)
 	api.GET("/questions", controllers.GetAllQuestions)
 	api.POST("/questions", controllers.PostQuestions)
 	api.DELETE("/questions/:id", controllers.DeleteQuestion)
+	api.POST("/questions/:id/select", controllers.SelectQuestion)
 	api.POST("/answers/:id/reveal", controllers.RevealAnswer)
 	api.POST("/reset", controllers.ResetGameState)
 

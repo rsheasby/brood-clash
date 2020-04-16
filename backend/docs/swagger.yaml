@@ -21,13 +21,15 @@ definitions:
         items:
           $ref: '#/definitions/models.Answer'
         type: array
+      hasBeenShown:
+        readOnly: true
+        type: boolean
       id:
         readOnly: true
         type: string
       text:
         type: string
     type: object
-host: localhost:8080
 info:
   contact: {}
   license: {}
@@ -145,6 +147,33 @@ paths:
       security:
       - CodeAuth: []
       summary: Delete Question
+  /questions/{id}/select:
+    post:
+      operationId: select-question
+      parameters:
+      - description: Question ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/models.Question'
+        "401":
+          description: Unauthorised
+        "404":
+          description: Question not found
+        "418":
+          description: Question has already been shown before
+        "500":
+          description: Unknown error
+      security:
+      - CodeAuth: []
+      summary: Select Question
   /reset:
     post:
       operationId: reset-game-state
@@ -158,23 +187,6 @@ paths:
       security:
       - CodeAuth: []
       summary: Reset Game State
-  /unshownQuestion:
-    get:
-      operationId: get-unshown-question
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: '#/definitions/models.Question'
-        "401":
-          description: Unauthorised
-        "404":
-          description: No more unshown questions
-      security:
-      - CodeAuth: []
-      summary: Get Unshown Question
 securityDefinitions:
   CodeAuth:
     in: header
