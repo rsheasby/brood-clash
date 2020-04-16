@@ -16,7 +16,7 @@ import (
 // @Summary Select Question
 // @ID select-question
 // @Produce json
-// @Param id path string true "Question ID"
+// @Param id path string true "Question ID, must be UUID" format(uuid)
 // @Security CodeAuth
 // @Success 200 {object} models.Question "Success"
 // @Failure 401 "Unauthorised"
@@ -123,7 +123,7 @@ func PostQuestions(c *gin.Context) {
 
 // @Summary Delete Question
 // @ID delete-question
-// @Param id path string true "Question ID"
+// @Param id path string true "Question ID, must be UUID" format(uuid)
 // @Security CodeAuth
 // @Success 204 "Success"
 // @Failure 400 "Couldn't parse ID param into UUID"

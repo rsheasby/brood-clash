@@ -15,17 +15,12 @@
                         "CodeAuth": []
                     }
                 ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "summary": "Reveal answer",
                 "operationId": "reveal-answer",
                 "parameters": [
                     {
                         "type": "string",
+                        "format": "uuid",
                         "description": "Answer ID, must be UUID",
                         "name": "id",
                         "in": "path",
@@ -181,7 +176,8 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Question ID",
+                        "format": "uuid",
+                        "description": "Question ID, must be UUID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -221,7 +217,8 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Question ID",
+                        "format": "uuid",
+                        "description": "Question ID, must be UUID",
                         "name": "id",
                         "in": "path",
                         "required": true

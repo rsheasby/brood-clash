@@ -38,17 +38,14 @@ info:
 paths:
   /answers/{id}/reveal:
     post:
-      consumes:
-      - application/json
       operationId: reveal-answer
       parameters:
       - description: Answer ID, must be UUID
+        format: uuid
         in: path
         name: id
         required: true
         type: string
-      produces:
-      - application/json
       responses:
         "204":
           description: Success
@@ -139,7 +136,8 @@ paths:
     delete:
       operationId: delete-question
       parameters:
-      - description: Question ID
+      - description: Question ID, must be UUID
+        format: uuid
         in: path
         name: id
         required: true
@@ -162,7 +160,8 @@ paths:
     post:
       operationId: select-question
       parameters:
-      - description: Question ID
+      - description: Question ID, must be UUID
+        format: uuid
         in: path
         name: id
         required: true

@@ -12,9 +12,7 @@ import (
 
 // @Summary Reveal answer
 // @ID reveal-answer
-// @Accept json
-// @Produce json
-// @Param id path string true "Answer ID, must be UUID"
+// @Param id path string true "Answer ID, must be UUID" format(uuid)
 // @Security CodeAuth
 // @Success 204 "Success"
 // @Failure 400 "Couldn't parse ID param into UUID"
