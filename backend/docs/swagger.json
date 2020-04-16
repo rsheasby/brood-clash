@@ -151,6 +151,43 @@
                 }
             }
         },
+        "/questions/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "CodeAuth": []
+                    }
+                ],
+                "summary": "Delete Question",
+                "operationId": "delete-question",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Question ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Couldn't parse ID param into UUID"
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    },
+                    "404": {
+                        "description": "Question doesn't exist"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    }
+                }
+            }
+        },
         "/reset": {
             "post": {
                 "security": [

@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 
+	"github.com/google/uuid"
 	"github.com/rsheasby/brood-clash/backend/models"
 )
 
@@ -63,6 +64,33 @@ func GetUnshownQuestion() (result *models.Question, err error) {
 func GetAllQuestions() (results []models.Question, err error) {
 	err = db.Find(&results).Error
 	return
+}
+
+func DeleteQuestion(questionId uuid.UUID) (err error) {
+	tx := db.Begin()
+
+	q := new(models.Question)
+	err = tx.Find(&q, "id = ?", questionId).Related(&q.Answers).Error
+	if err != nil {
+		tx.Rollback()
+		return ErrIDNotFound
+	}
+
+	for i := range q.Answers {
+		err = tx.Delete(q.Answers[i]).Error
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+
+	err = tx.Delete(&q).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return tx.Commit().Error
 }
 
 func GetUnshownQuestionCount() (result int) {

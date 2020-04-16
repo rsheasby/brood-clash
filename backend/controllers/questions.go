@@ -2,9 +2,11 @@ package controllers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/rotisserie/eris"
 	"github.com/rsheasby/brood-clash/backend/models"
 	"github.com/rsheasby/brood-clash/backend/services"
@@ -105,4 +107,36 @@ func PostQuestions(c *gin.Context) {
 		return
 	}
 	c.Status(http.StatusCreated)
+}
+
+// @Summary Delete Question
+// @ID delete-question
+// @Param id path string true "Question ID"
+// @Security CodeAuth
+// @Success 204 "Success"
+// @Failure 400 "Couldn't parse ID param into UUID"
+// @Failure 401 "Unauthorised"
+// @Failure 404 "Question doesn't exist"
+// @Failure 500 "Unknown error"
+// @Router /questions/{id} [delete]
+func DeleteQuestion(c *gin.Context) {
+	id, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		c.Status(http.StatusBadRequest)
+		return
+	}
+
+	// In hindsight the deep deleting should've been implemented in a delete hook, but I can't be arsed to rewrite it now. If it comes up again, we can move it.
+	err = database.DeleteQuestion(id)
+	if eris.Is(err, database.ErrIDNotFound) {
+		c.Status(http.StatusNotFound)
+		return
+	}
+	if err != nil {
+		log.Println(err)
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+
+	c.Status(http.StatusNoContent)
 }

@@ -37,6 +37,7 @@ func main() {
 	api.GET("/currentQuestion", controllers.GetCurrentQuestion)
 	api.GET("/questions", controllers.GetAllQuestions)
 	api.POST("/questions", controllers.PostQuestions)
+	api.DELETE("/questions/:id", controllers.DeleteQuestion)
 	api.POST("/answers/:id/reveal", controllers.RevealAnswer)
 	api.POST("/reset", controllers.ResetGameState)
 

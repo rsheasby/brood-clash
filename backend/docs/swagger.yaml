@@ -122,6 +122,29 @@ paths:
       security:
       - CodeAuth: []
       summary: Post Questions
+  /questions/{id}:
+    delete:
+      operationId: delete-question
+      parameters:
+      - description: Question ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Success
+        "400":
+          description: Couldn't parse ID param into UUID
+        "401":
+          description: Unauthorised
+        "404":
+          description: Question doesn't exist
+        "500":
+          description: Unknown error
+      security:
+      - CodeAuth: []
+      summary: Delete Question
   /reset:
     post:
       operationId: reset-game-state
