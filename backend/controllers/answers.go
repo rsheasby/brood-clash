@@ -40,3 +40,14 @@ func RevealAnswer(c *gin.Context) {
 	go services.BroadcastRevealAnswer(id)
 	c.Status(http.StatusNoContent)
 }
+
+// @Summary Incorrect Answer
+// @ID incorrect-answer
+// @Security CodeAuth
+// @Success 204 "Success"
+// @Failure 401 "Unauthorised"
+// @Router /incorrectAnswer [post]
+func IncorrectAnswer(c *gin.Context) {
+	go services.BroadcastIncorrectAnswer()
+	c.Status(http.StatusNoContent)
+}

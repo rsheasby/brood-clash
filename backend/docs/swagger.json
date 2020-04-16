@@ -82,6 +82,25 @@
                 }
             }
         },
+        "/incorrectAnswer": {
+            "post": {
+                "security": [
+                    {
+                        "CodeAuth": []
+                    }
+                ],
+                "summary": "Incorrect Answer",
+                "operationId": "incorrect-answer",
+                "responses": {
+                    "204": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    }
+                }
+            }
+        },
         "/questions": {
             "get": {
                 "security": [

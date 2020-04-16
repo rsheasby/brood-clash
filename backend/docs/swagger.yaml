@@ -82,6 +82,17 @@ paths:
       security:
       - CodeAuth: []
       summary: Get Current Question
+  /incorrectAnswer:
+    post:
+      operationId: incorrect-answer
+      responses:
+        "204":
+          description: Success
+        "401":
+          description: Unauthorised
+      security:
+      - CodeAuth: []
+      summary: Incorrect Answer
   /questions:
     get:
       operationId: get-all-questions

@@ -39,6 +39,7 @@ func main() {
 	api.POST("/questions/:id/select", controllers.SelectQuestion)
 	api.POST("/answers/:id/reveal", controllers.RevealAnswer)
 	api.POST("/reset", controllers.ResetGameState)
+	api.POST("/incorrectAnswer", controllers.IncorrectAnswer)
 
 	// Anonymous requests go here
 	r.GET("/presenter/websocket", controllers.GetPresenterWebsocket)
