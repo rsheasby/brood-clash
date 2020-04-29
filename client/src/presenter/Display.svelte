@@ -10,7 +10,16 @@
 	onMount(async () => {
 		ws = new WebSocket('ws://localhost:8080/presenter/websocket');
 		ws.onmessage = event => handleUpdate(JSON.parse(event.data));
-	});
+   });
+   
+   function updateAnswer(answer) {
+      answers.forEach((a, i) => {
+         if (a.ID === answer.ID) {
+            answers[i] = answer;
+            return;
+         }
+      })
+   }
 
 	function handleUpdate(update) {
 		switch (update.Type) {
@@ -19,7 +28,11 @@
 				answers = [];
 				update.Update.Answers.forEach((a, i) => {
 					answers[i] = a;
-				});
+            });
+            break;
+         case 'revealAnswer':
+            updateAnswer(update.Update)
+            break;
 		}
 	}
 </script>
@@ -80,7 +93,7 @@
 
 	.answer-revealer {
 		/* I hardly know her */
-      perspective: 1000px;
+		perspective: 1000px;
 		box-sizing: border-box;
 	}
 
@@ -93,7 +106,7 @@
 		box-sizing: border-box;
 	}
 
-	.answer-revealer:hover .answer-inner {
+	.reveal .answer-inner {
 		transform: rotateX(180deg);
 	}
 
@@ -107,15 +120,15 @@
 		box-sizing: border-box;
 	}
 
-	.answer-unshown {
+	.answer-shown {
 		transform: rotateX(180deg);
 	}
 
 	.full-center {
-      padding: 0;
-      margin: 0;
-      width: 100%;
-      height: 100%;
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		height: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -144,33 +157,18 @@
 <div id="display" class="center-container">
 	<div id="ring" class="center-container">
 		<div id="container">
-			<div class="answer-revealer">
-				<div class="answer-inner">
-					<div class="answer answer-unshown">
-						<div class="full-center">
-							<div class="unshown-answer-container">1</div>
+			{#each answers as answer, i}
+				<div class="answer-revealer" class:reveal="{answer.Revealed}">
+					<div class="answer-inner">
+						<div class="answer answer-unshown">
+							<div class="full-center">
+								<div class="unshown-answer-container">{i + 1}</div>
+							</div>
 						</div>
+						<div class="answer answer-shown">{answer.Text}</div>
 					</div>
-					<div class="answer answer-shown">le answer</div>
 				</div>
-			</div>
+			{/each}
 		</div>
 	</div>
 </div>
-
-<!-- Example of what the questions will look like -->
-<!-- {#each questions as question (question.id)}
-<div>
-	{question.description}
-	<ul>
-		{#each question.answers as answer (answer.id)}
-			{#if answer.revealed}
-				<li>({answer.points}) {answer.text}</li>
-			{:else}
-				<li><em>hidden</em></li>
-			{/if}
-		{/each}
-	</ul>
-</div>
-{/each}
--->
