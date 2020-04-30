@@ -82,13 +82,13 @@
 		border: 15px solid #e86f32;
 		background-color: #292e36;
 		box-sizing: border-box;
-		padding: 10px;
+		padding: 2%;
 
 		display: grid;
 		grid-template-rows: 1fr 1fr 1fr 1fr;
 		grid-template-columns: 1fr 1fr;
 		grid-auto-flow: column;
-		gap: 10px;
+		gap: 2%;
 	}
 
 	.answer-revealer {
@@ -116,7 +116,6 @@
 		position: absolute;
 		height: 100%;
 		width: 100%;
-		backface-visibility: hidden;
 		box-sizing: border-box;
 	}
 
@@ -156,11 +155,35 @@
 		width: 100%;
 	}
 
-   .unshown-answer-number text {
+	.unshown-answer-number text {
 		font-size: 400%;
 		font-family: Verdana, Geneva, Tahoma, sans-serif;
 		font-weight: bolder;
 		fill: #eee;
+	}
+
+	.answer-shown {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.answer-points-container {
+		width: 33%;
+		position: relative;
+      background-color: #544be8;
+      border-right: 10px solid #001f54;
+	}
+
+	.answer-points text {
+		font-size: 300%;
+		font-family: Verdana, Geneva, Tahoma, sans-serif;
+		font-weight: bolder;
+		fill: #eee;
+	}
+   
+   .answer-points {
+      width: 100%;
+      height: 100%;
    }
 </style>
 
@@ -180,9 +203,15 @@
 							</div>
 						</div>
 						<div class="answer answer-shown">
-                  <div class="answer-points">{answer.Points}</div>
-                  <div class="answer-text">{answer.Text}</div>
-                  </div>
+							<div class="answer-points-container">
+								<svg
+									viewBox="0 0 100 100"
+									class="answer-points">
+									<text x="50" y="70" text-anchor="middle">{answer.Points}</text>
+								</svg>
+							</div>
+							<div class="answer-text">{answer.Text}</div>
+						</div>
 					</div>
 				</div>
 			{/each}
