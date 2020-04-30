@@ -10,16 +10,16 @@
 	onMount(async () => {
 		ws = new WebSocket('ws://localhost:8080/presenter/websocket');
 		ws.onmessage = event => handleUpdate(JSON.parse(event.data));
-   });
-   
-   function updateAnswer(answer) {
-      answers.forEach((a, i) => {
-         if (a.ID === answer.ID) {
-            answers[i] = answer;
-            return;
-         }
-      })
-   }
+	});
+
+	function updateAnswer(answer) {
+		answers.forEach((a, i) => {
+			if (a.ID === answer.ID) {
+				answers[i] = answer;
+				return;
+			}
+		});
+	}
 
 	function handleUpdate(update) {
 		switch (update.Type) {
@@ -28,11 +28,11 @@
 				answers = [];
 				update.Update.Answers.forEach((a, i) => {
 					answers[i] = a;
-            });
-            break;
-         case 'revealAnswer':
-            updateAnswer(update.Update)
-            break;
+				});
+				break;
+			case 'revealAnswer':
+				updateAnswer(update.Update);
+				break;
 		}
 	}
 </script>
@@ -111,7 +111,7 @@
 	}
 
 	.answer {
-		border: 5px solid #001f54;
+		border: 10px solid #001f54;
 		background-color: #222ca0;
 		position: absolute;
 		height: 100%;
@@ -136,14 +136,13 @@
 
 	.unshown-answer-container {
 		background-color: #544be8;
+		position: relative;
 		width: 30%;
 		border-radius: 100%;
-		border: 5px solid #0f1961;
+		border: 10px solid #0f1961;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		font-size: 3em;
-		color: #eee;
 		box-sizing: border-box;
 	}
 
@@ -152,20 +151,38 @@
 		display: block;
 		padding-bottom: 100%;
 	}
+
+	.unshown-answer-number {
+		width: 100%;
+	}
+
+   .unshown-answer-number text {
+		font-size: 400%;
+		font-family: Verdana, Geneva, Tahoma, sans-serif;
+		font-weight: bolder;
+		fill: #eee;
+   }
 </style>
 
 <div id="display" class="center-container">
 	<div id="ring" class="center-container">
 		<div id="container">
 			{#each answers as answer, i}
-				<div class="answer-revealer" class:reveal="{answer.Revealed}">
+				<div class="answer-revealer" class:reveal={answer.Revealed}>
 					<div class="answer-inner">
-						<div class="answer answer-unshown">
-							<div class="full-center">
-								<div class="unshown-answer-container">{i + 1}</div>
+						<div class="answer answer-unshown full-center">
+							<div class="unshown-answer-container">
+								<svg
+									viewBox="0 0 100 100"
+									class="unshown-answer-number">
+									<text x="27.5" y="75">{i + 1}</text>
+								</svg>
 							</div>
 						</div>
-						<div class="answer answer-shown">{answer.Text}</div>
+						<div class="answer answer-shown">
+                  <div class="answer-points">{answer.Points}</div>
+                  <div class="answer-text">{answer.Text}</div>
+                  </div>
 					</div>
 				</div>
 			{/each}
