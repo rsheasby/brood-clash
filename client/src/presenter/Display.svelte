@@ -63,12 +63,12 @@
 	#ring {
 		background-image: url('bg.png');
 		background-position: center;
-		max-height: 75vw;
-		max-width: 95vw;
 		min-width: 0;
 		min-height: 0;
+		max-height: 70vw;
+		max-width: 97vw;
 		height: 95vh;
-		width: 120vh;
+		width: 132vh;
 		border-radius: 50%;
 		border: 15px solid #e86f32;
 
@@ -168,10 +168,12 @@
 	}
 
 	.answer-points-container {
-		width: 33%;
+		flex-basis: auto;
+		flex-shrink: 0;
+		width: 31%;
 		position: relative;
-      background-color: #544be8;
-      border-right: 10px solid #001f54;
+		background-color: #544be8;
+		border-right: 10px solid #001f54;
 	}
 
 	.answer-points text {
@@ -180,11 +182,47 @@
 		font-weight: bolder;
 		fill: #eee;
 	}
-   
-   .answer-points {
-      width: 100%;
-      height: 100%;
-   }
+
+	.answer-points {
+		width: 100%;
+		height: 100%;
+	}
+
+	.answer-text {
+		flex-basis: auto;
+		flex-grow: 1;
+		width: 0;
+		height: 100%;
+		color: #eee;
+		font-family: Verdana, Geneva, Tahoma, sans-serif;
+		font-weight: bolder;
+		padding: 0 10px;
+		box-sizing: border-box;
+	}
+
+	.answer-text span {
+		max-height: 100%;
+		max-width: 100%;
+		overflow-wrap: break-word;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      text-align: center;
+	}
+
+	@media (max-aspect-ratio: 132/95) {
+		.answer-text {
+			font-size: calc((95vw / 100 * 2.6) - 2.5pt);
+		}
+	}
+
+	@media (min-aspect-ratio: 132/95) {
+		.answer-text {
+			font-size: calc((132vh / 100 * 2.6) - 2.5pt);
+		}
+	}
 </style>
 
 <div id="display" class="center-container">
@@ -198,7 +236,13 @@
 								<svg
 									viewBox="0 0 100 100"
 									class="unshown-answer-number">
-									<text x="27.5" y="75">{i + 1}</text>
+									<text
+										x="50"
+										y="50"
+										text-anchor="middle"
+										dominant-baseline="central">
+										{i + 1}
+									</text>
 								</svg>
 							</div>
 						</div>
@@ -207,10 +251,20 @@
 								<svg
 									viewBox="0 0 100 100"
 									class="answer-points">
-									<text x="50" y="70" text-anchor="middle">{answer.Points}</text>
+									<text
+										x="50"
+										y="50"
+										text-anchor="middle"
+										dominant-baseline="central">
+										{answer.Points}
+									</text>
 								</svg>
 							</div>
-							<div class="answer-text">{answer.Text}</div>
+							<div
+								class="answer-text full-center"
+								class:answer-text-revealed={answer.Revealed}>
+								<span>{answer.Text}</span>
+							</div>
 						</div>
 					</div>
 				</div>
