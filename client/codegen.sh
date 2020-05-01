@@ -2,8 +2,8 @@
 
 FILENAME='swagger-codegen-cli.jar'
 URL='http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.4.10/swagger-codegen-cli-2.4.10.jar'
-OUTPUT_DIR='swagger-client'
-SWAGGER_FILE='backend/swagger.yml'
+OUTPUT_DIR='api'
+SWAGGER_FILE='../backend/docs/swagger.yaml'
 
 if [ ! -e $FILENAME ]; then
 	echo $FILENAME "does not exist, downloading..."

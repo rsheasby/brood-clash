@@ -1,36 +1,170 @@
-# BroodClash.DefaultApi
+# BroodClashApi.DefaultApi
 
-All URIs are relative to *http://localhost:3000/api/v0*
+All URIs are relative to *https://localhost/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**authTest**](DefaultApi.md#authTest) | **GET** /authTest | Test the authorization code
-[**createQuestions**](DefaultApi.md#createQuestions) | **POST** /questions | Create a new question
-[**getQuestion**](DefaultApi.md#getQuestion) | **GET** /questions/{id} | Get a question by ID
-[**getQuestions**](DefaultApi.md#getQuestions) | **GET** /questions | Get all questions
-[**revealAnswer**](DefaultApi.md#revealAnswer) | **POST** /questions/{questionId}/answers/{answerId}/reveal | Marks an answer as revealed
-[**websocket**](DefaultApi.md#websocket) | **GET** /presenter/websocket | Establish a presenter websocket
+[**deleteQuestion**](DefaultApi.md#deleteQuestion) | **DELETE** /questions/{id} | Delete Question
+[**getAllQuestions**](DefaultApi.md#getAllQuestions) | **GET** /questions | Get All Questions
+[**getCurrentQuestion**](DefaultApi.md#getCurrentQuestion) | **GET** /currentQuestion | Get Current Question
+[**incorrectAnswer**](DefaultApi.md#incorrectAnswer) | **POST** /incorrectAnswer | Incorrect Answer
+[**postQuestions**](DefaultApi.md#postQuestions) | **POST** /questions | Post Questions
+[**resetGameState**](DefaultApi.md#resetGameState) | **POST** /reset | Reset Game State
+[**revealAnswer**](DefaultApi.md#revealAnswer) | **POST** /answers/{id}/reveal | Reveal answer
+[**selectQuestion**](DefaultApi.md#selectQuestion) | **POST** /questions/{id}/select | Select Question
 
 
-<a name="authTest"></a>
-# **authTest**
-> authTest()
+<a name="deleteQuestion"></a>
+# **deleteQuestion**
+> deleteQuestion(id)
 
-Test the authorization code
+Delete Question
 
 ### Example
 ```javascript
-import {BroodClash} from 'brood_clash';
-let defaultClient = BroodClash.ApiClient.instance;
+import {BroodClashApi} from 'brood_clash_api';
+let defaultClient = BroodClashApi.ApiClient.instance;
 
-// Configure API key authorization: ApiKey
-let ApiKey = defaultClient.authentications['ApiKey'];
-ApiKey.apiKey = 'YOUR API KEY';
+// Configure API key authorization: CodeAuth
+let CodeAuth = defaultClient.authentications['CodeAuth'];
+CodeAuth.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKey.apiKeyPrefix = 'Token';
+//CodeAuth.apiKeyPrefix = 'Token';
 
-let apiInstance = new BroodClash.DefaultApi();
-apiInstance.authTest().then(() => {
+let apiInstance = new BroodClashApi.DefaultApi();
+
+let id = "id_example"; // String | Question ID, must be UUID
+
+apiInstance.deleteQuestion(id).then(() => {
+  console.log('API called successfully.');
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | [**String**](.md)| Question ID, must be UUID | 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[CodeAuth](../README.md#CodeAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a name="getAllQuestions"></a>
+# **getAllQuestions**
+> [ModelsQuestion] getAllQuestions()
+
+Get All Questions
+
+### Example
+```javascript
+import {BroodClashApi} from 'brood_clash_api';
+let defaultClient = BroodClashApi.ApiClient.instance;
+
+// Configure API key authorization: CodeAuth
+let CodeAuth = defaultClient.authentications['CodeAuth'];
+CodeAuth.apiKey = 'YOUR API KEY';
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//CodeAuth.apiKeyPrefix = 'Token';
+
+let apiInstance = new BroodClashApi.DefaultApi();
+apiInstance.getAllQuestions().then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**[ModelsQuestion]**](ModelsQuestion.md)
+
+### Authorization
+
+[CodeAuth](../README.md#CodeAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a name="getCurrentQuestion"></a>
+# **getCurrentQuestion**
+> ModelsQuestion getCurrentQuestion()
+
+Get Current Question
+
+### Example
+```javascript
+import {BroodClashApi} from 'brood_clash_api';
+let defaultClient = BroodClashApi.ApiClient.instance;
+
+// Configure API key authorization: CodeAuth
+let CodeAuth = defaultClient.authentications['CodeAuth'];
+CodeAuth.apiKey = 'YOUR API KEY';
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//CodeAuth.apiKeyPrefix = 'Token';
+
+let apiInstance = new BroodClashApi.DefaultApi();
+apiInstance.getCurrentQuestion().then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**ModelsQuestion**](ModelsQuestion.md)
+
+### Authorization
+
+[CodeAuth](../README.md#CodeAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a name="incorrectAnswer"></a>
+# **incorrectAnswer**
+> incorrectAnswer()
+
+Incorrect Answer
+
+### Example
+```javascript
+import {BroodClashApi} from 'brood_clash_api';
+let defaultClient = BroodClashApi.ApiClient.instance;
+
+// Configure API key authorization: CodeAuth
+let CodeAuth = defaultClient.authentications['CodeAuth'];
+CodeAuth.apiKey = 'YOUR API KEY';
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//CodeAuth.apiKeyPrefix = 'Token';
+
+let apiInstance = new BroodClashApi.DefaultApi();
+apiInstance.incorrectAnswer().then(() => {
   console.log('API called successfully.');
 }, (error) => {
   console.error(error);
@@ -47,35 +181,35 @@ null (empty response body)
 
 ### Authorization
 
-[ApiKey](../README.md#ApiKey)
+[CodeAuth](../README.md#CodeAuth)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
-<a name="createQuestions"></a>
-# **createQuestions**
-> createQuestions(questions)
+<a name="postQuestions"></a>
+# **postQuestions**
+> postQuestions(questions)
 
-Create a new question
+Post Questions
 
 ### Example
 ```javascript
-import {BroodClash} from 'brood_clash';
-let defaultClient = BroodClash.ApiClient.instance;
+import {BroodClashApi} from 'brood_clash_api';
+let defaultClient = BroodClashApi.ApiClient.instance;
 
-// Configure API key authorization: ApiKey
-let ApiKey = defaultClient.authentications['ApiKey'];
-ApiKey.apiKey = 'YOUR API KEY';
+// Configure API key authorization: CodeAuth
+let CodeAuth = defaultClient.authentications['CodeAuth'];
+CodeAuth.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKey.apiKeyPrefix = 'Token';
+//CodeAuth.apiKeyPrefix = 'Token';
 
-let apiInstance = new BroodClash.DefaultApi();
+let apiInstance = new BroodClashApi.DefaultApi();
 
-let questions = [new BroodClash.Question()]; // [Question] | 
+let questions = [new BroodClashApi.ModelsQuestion()]; // [ModelsQuestion] | Questions to be created
 
-apiInstance.createQuestions(questions).then(() => {
+apiInstance.postQuestions(questions).then(() => {
   console.log('API called successfully.');
 }, (error) => {
   console.error(error);
@@ -87,7 +221,7 @@ apiInstance.createQuestions(questions).then(() => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **questions** | [**[Question]**](Question.md)|  | 
+ **questions** | [**[ModelsQuestion]**](ModelsQuestion.md)| Questions to be created | 
 
 ### Return type
 
@@ -95,81 +229,33 @@ null (empty response body)
 
 ### Authorization
 
-[ApiKey](../README.md#ApiKey)
+[CodeAuth](../README.md#CodeAuth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Accept**: Not defined
 
-<a name="getQuestion"></a>
-# **getQuestion**
-> Question getQuestion(id)
+<a name="resetGameState"></a>
+# **resetGameState**
+> resetGameState()
 
-Get a question by ID
-
-### Example
-```javascript
-import {BroodClash} from 'brood_clash';
-let defaultClient = BroodClash.ApiClient.instance;
-
-// Configure API key authorization: ApiKey
-let ApiKey = defaultClient.authentications['ApiKey'];
-ApiKey.apiKey = 'YOUR API KEY';
-// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKey.apiKeyPrefix = 'Token';
-
-let apiInstance = new BroodClash.DefaultApi();
-
-let id = 789; // Number | 
-
-apiInstance.getQuestion(id).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
-}, (error) => {
-  console.error(error);
-});
-
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **Number**|  | 
-
-### Return type
-
-[**Question**](Question.md)
-
-### Authorization
-
-[ApiKey](../README.md#ApiKey)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-<a name="getQuestions"></a>
-# **getQuestions**
-> [Question] getQuestions()
-
-Get all questions
+Reset Game State
 
 ### Example
 ```javascript
-import {BroodClash} from 'brood_clash';
-let defaultClient = BroodClash.ApiClient.instance;
+import {BroodClashApi} from 'brood_clash_api';
+let defaultClient = BroodClashApi.ApiClient.instance;
 
-// Configure API key authorization: ApiKey
-let ApiKey = defaultClient.authentications['ApiKey'];
-ApiKey.apiKey = 'YOUR API KEY';
+// Configure API key authorization: CodeAuth
+let CodeAuth = defaultClient.authentications['CodeAuth'];
+CodeAuth.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKey.apiKeyPrefix = 'Token';
+//CodeAuth.apiKeyPrefix = 'Token';
 
-let apiInstance = new BroodClash.DefaultApi();
-apiInstance.getQuestions().then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+let apiInstance = new BroodClashApi.DefaultApi();
+apiInstance.resetGameState().then(() => {
+  console.log('API called successfully.');
 }, (error) => {
   console.error(error);
 });
@@ -181,41 +267,39 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**[Question]**](Question.md)
+null (empty response body)
 
 ### Authorization
 
-[ApiKey](../README.md#ApiKey)
+[CodeAuth](../README.md#CodeAuth)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 <a name="revealAnswer"></a>
 # **revealAnswer**
-> revealAnswer(questionId, answerId)
+> revealAnswer(id)
 
-Marks an answer as revealed
+Reveal answer
 
 ### Example
 ```javascript
-import {BroodClash} from 'brood_clash';
-let defaultClient = BroodClash.ApiClient.instance;
+import {BroodClashApi} from 'brood_clash_api';
+let defaultClient = BroodClashApi.ApiClient.instance;
 
-// Configure API key authorization: ApiKey
-let ApiKey = defaultClient.authentications['ApiKey'];
-ApiKey.apiKey = 'YOUR API KEY';
+// Configure API key authorization: CodeAuth
+let CodeAuth = defaultClient.authentications['CodeAuth'];
+CodeAuth.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKey.apiKeyPrefix = 'Token';
+//CodeAuth.apiKeyPrefix = 'Token';
 
-let apiInstance = new BroodClash.DefaultApi();
+let apiInstance = new BroodClashApi.DefaultApi();
 
-let questionId = 789; // Number | 
+let id = "id_example"; // String | Answer ID, must be UUID
 
-let answerId = 789; // Number | 
-
-apiInstance.revealAnswer(questionId, answerId).then(() => {
+apiInstance.revealAnswer(id).then(() => {
   console.log('API called successfully.');
 }, (error) => {
   console.error(error);
@@ -227,8 +311,7 @@ apiInstance.revealAnswer(questionId, answerId).then(() => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **questionId** | **Number**|  | 
- **answerId** | **Number**|  | 
+ **id** | [**String**](.md)| Answer ID, must be UUID | 
 
 ### Return type
 
@@ -236,26 +319,36 @@ null (empty response body)
 
 ### Authorization
 
-[ApiKey](../README.md#ApiKey)
+[CodeAuth](../README.md#CodeAuth)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
-<a name="websocket"></a>
-# **websocket**
-> websocket()
+<a name="selectQuestion"></a>
+# **selectQuestion**
+> ModelsQuestion selectQuestion(id)
 
-Establish a presenter websocket
+Select Question
 
 ### Example
 ```javascript
-import {BroodClash} from 'brood_clash';
+import {BroodClashApi} from 'brood_clash_api';
+let defaultClient = BroodClashApi.ApiClient.instance;
 
-let apiInstance = new BroodClash.DefaultApi();
-apiInstance.websocket().then(() => {
-  console.log('API called successfully.');
+// Configure API key authorization: CodeAuth
+let CodeAuth = defaultClient.authentications['CodeAuth'];
+CodeAuth.apiKey = 'YOUR API KEY';
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//CodeAuth.apiKeyPrefix = 'Token';
+
+let apiInstance = new BroodClashApi.DefaultApi();
+
+let id = "id_example"; // String | Question ID, must be UUID
+
+apiInstance.selectQuestion(id).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
 }, (error) => {
   console.error(error);
 });
@@ -263,18 +356,21 @@ apiInstance.websocket().then(() => {
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | [**String**](.md)| Question ID, must be UUID | 
 
 ### Return type
 
-null (empty response body)
+[**ModelsQuestion**](ModelsQuestion.md)
 
 ### Authorization
 
-No authorization required
+[CodeAuth](../README.md#CodeAuth)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 

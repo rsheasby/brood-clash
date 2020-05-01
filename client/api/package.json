@@ -1,7 +1,7 @@
 {
-  "name": "brood_clash",
-  "version": "0.1.0",
-  "description": "Backend_API_for_Brood_Clash",
+  "name": "brood_clash_api",
+  "version": "1.0",
+  "description": "ERROR_UNKNOWN",
   "license": "Unlicense",
   "main": "src/index.js",
   "scripts": {
