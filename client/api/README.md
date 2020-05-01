@@ -105,6 +105,7 @@ Class | Method | HTTP request | Description
 *BroodClashApi.DefaultApi* | [**resetGameState**](docs/DefaultApi.md#resetGameState) | **POST** /reset | Reset Game State
 *BroodClashApi.DefaultApi* | [**revealAnswer**](docs/DefaultApi.md#revealAnswer) | **POST** /answers/{id}/reveal | Reveal answer
 *BroodClashApi.DefaultApi* | [**selectQuestion**](docs/DefaultApi.md#selectQuestion) | **POST** /questions/{id}/select | Select Question
+*BroodClashApi.DefaultApi* | [**test**](docs/DefaultApi.md#test) | **GET** /test | Test
 
 
 ## Documentation for Models

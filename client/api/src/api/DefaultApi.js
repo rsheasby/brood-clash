@@ -395,4 +395,45 @@ export class DefaultApi {
     }
 
 
+    /**
+     * Test
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testWithHttpInfo() {
+      let postBody = null;
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['CodeAuth'];
+      let contentTypes = [];
+      let accepts = [];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/test', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * Test
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    test() {
+      return this.testWithHttpInfo()
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
 }

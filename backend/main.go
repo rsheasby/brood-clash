@@ -32,6 +32,7 @@ func main() {
 	api := r.Group("/api/v1", middleware.Auth)
 
 	// Authenticated requests go here
+	api.GET("/test", controllers.Test)
 	api.GET("/currentQuestion", controllers.GetCurrentQuestion)
 	api.GET("/questions", controllers.GetAllQuestions)
 	api.POST("/questions", controllers.PostQuestions)

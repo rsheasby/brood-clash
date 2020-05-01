@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**resetGameState**](DefaultApi.md#resetGameState) | **POST** /reset | Reset Game State
 [**revealAnswer**](DefaultApi.md#revealAnswer) | **POST** /answers/{id}/reveal | Reveal answer
 [**selectQuestion**](DefaultApi.md#selectQuestion) | **POST** /questions/{id}/select | Select Question
+[**test**](DefaultApi.md#test) | **GET** /test | Test
 
 
 <a name="deleteQuestion"></a>
@@ -373,4 +374,46 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+<a name="test"></a>
+# **test**
+> test()
+
+Test
+
+### Example
+```javascript
+import {BroodClashApi} from 'brood_clash_api';
+let defaultClient = BroodClashApi.ApiClient.instance;
+
+// Configure API key authorization: CodeAuth
+let CodeAuth = defaultClient.authentications['CodeAuth'];
+CodeAuth.apiKey = 'YOUR API KEY';
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//CodeAuth.apiKeyPrefix = 'Token';
+
+let apiInstance = new BroodClashApi.DefaultApi();
+apiInstance.test().then(() => {
+  console.log('API called successfully.');
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[CodeAuth](../README.md#CodeAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 

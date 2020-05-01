@@ -267,6 +267,25 @@
                     }
                 }
             }
+        },
+        "/test": {
+            "get": {
+                "security": [
+                    {
+                        "CodeAuth": []
+                    }
+                ],
+                "summary": "Test",
+                "operationId": "test",
+                "responses": {
+                    "204": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    }
+                }
+            }
         }
     },
     "definitions": {

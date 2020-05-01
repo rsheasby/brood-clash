@@ -197,6 +197,17 @@ paths:
       security:
       - CodeAuth: []
       summary: Reset Game State
+  /test:
+    get:
+      operationId: test
+      responses:
+        "204":
+          description: Success
+        "401":
+          description: Unauthorised
+      security:
+      - CodeAuth: []
+      summary: Test
 securityDefinitions:
   CodeAuth:
     in: header
