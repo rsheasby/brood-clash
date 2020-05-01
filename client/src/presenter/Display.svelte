@@ -24,6 +24,7 @@
 
 	function displayX() {
 		wrongAnswer = true;
+		document.getElementById('buzzer').play();
 		setTimeout(() => {
 			wrongAnswer = false;
 		}, 1000);
@@ -311,6 +312,9 @@
 					</div>
 				</div>
 			{/each}
+			<audio id="buzzer" preload="auto">
+				<source src="buzzer.mp3" type="audio/mpeg"/>
+			</audio>
 			<div class="wrong-answer-display" class:hidden={!wrongAnswer}>
 				<svg viewBox="0 0 2000 2000" class="wrong-answer-x">
 					<text
