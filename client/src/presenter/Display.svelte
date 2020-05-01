@@ -5,6 +5,7 @@
 	// modified in the backend.
 	let question = '';
 	let answers = [];
+	let wrongAnswer = false;
 
 	let ws;
 	onMount(async () => {
@@ -21,6 +22,13 @@
 		});
 	}
 
+	function displayX() {
+		wrongAnswer = true;
+		setTimeout(() => {
+			wrongAnswer = false;
+		}, 1000);
+	}
+
 	function handleUpdate(update) {
 		switch (update.Type) {
 			case 'stateUpdate':
@@ -32,6 +40,9 @@
 				break;
 			case 'revealAnswer':
 				updateAnswer(update.Update);
+				break;
+			case 'incorrectAnswer':
+				displayX();
 				break;
 		}
 	}
@@ -78,6 +89,8 @@
 	#container {
 		height: 85%;
 		width: 85%;
+
+		position: relative;
 
 		border: 15px solid #e86f32;
 		background-color: #292e36;
@@ -208,8 +221,8 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
-      text-overflow: ellipsis;
-      text-align: center;
+		text-overflow: ellipsis;
+		text-align: center;
 	}
 
 	@media (max-aspect-ratio: 132/95) {
@@ -222,6 +235,35 @@
 		.answer-text {
 			font-size: calc((132vh / 100 * 2.6) - 2.5pt);
 		}
+	}
+
+	.hidden {
+		display: none !important;
+	}
+
+	.wrong-answer-display {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 999;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		padding: 10%;
+	}
+
+	.wrong-answer-x {
+		height: 100%;
+		fill: #f00;
+		font-size: 15500%;
+		font-family: Verdana, Geneva, Tahoma, sans-serif;
+		font-weight: bolder;
+		background-color: #0f1961;
+		border: 15px solid #f00;
 	}
 </style>
 
@@ -256,19 +298,30 @@
 										y="50"
 										text-anchor="middle"
 										dominant-baseline="central">
-										{answer.Points ? answer.Points : ""}
+										{answer.Points ? answer.Points : ''}
 									</text>
 								</svg>
 							</div>
 							<div
 								class="answer-text full-center"
 								class:answer-text-revealed={answer.Revealed}>
-								<span>{answer.Text ? answer.Text : ""}</span>
+								<span>{answer.Text ? answer.Text : ''}</span>
 							</div>
 						</div>
 					</div>
 				</div>
 			{/each}
+			<div class="wrong-answer-display" class:hidden={!wrongAnswer}>
+				<svg viewBox="0 0 2000 2000" class="wrong-answer-x">
+					<text
+						x="1000"
+						y="935"
+						text-anchor="middle"
+						dominant-baseline="central">
+						X
+					</text>
+				</svg>
+			</div>
 		</div>
 	</div>
 </div>
