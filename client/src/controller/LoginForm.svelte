@@ -44,7 +44,9 @@
 
 <form on:submit|preventDefault="{handleLogin}">
 	<label for="name">Code</label>
-	<input type="text" name="code" disabled="{loading}">
+   <div class="ui input">
+      <input type="text" name="code" disabled="{loading}">
+   </div>
 </form>
 
 {#if loading}

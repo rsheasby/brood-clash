@@ -20,13 +20,14 @@
     "page": "^1.11.5",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
+    "semantic-ui": "^2.4.2",
     "sirv-cli": "^0.4.4"
   },
   "scripts": {
     "build": "rollup -c",
     "autobuild": "rollup -c -w",
     "dev": "run-p start:dev autobuild",
-    "start": "sirv public --single",
-    "start:dev": "sirv public --single --dev"
+    "start": "sirv public --single --host 0.0.0.0",
+    "start:dev": "sirv public --single --dev --host 0.0.0.0"
   }
 }
