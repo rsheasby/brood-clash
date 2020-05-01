@@ -256,14 +256,14 @@
 										y="50"
 										text-anchor="middle"
 										dominant-baseline="central">
-										{answer.Points}
+										{answer.Points ? answer.Points : ""}
 									</text>
 								</svg>
 							</div>
 							<div
 								class="answer-text full-center"
 								class:answer-text-revealed={answer.Revealed}>
-								<span>{answer.Text}</span>
+								<span>{answer.Text ? answer.Text : ""}</span>
 							</div>
 						</div>
 					</div>
