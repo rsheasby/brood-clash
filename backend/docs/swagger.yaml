@@ -51,7 +51,7 @@ paths:
           description: Success
         "400":
           description: Couldn't parse ID param into UUID
-        "403":
+        "401":
           description: Unauthorised
         "404":
           description: Answer doesn't exist

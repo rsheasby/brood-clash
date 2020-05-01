@@ -34,7 +34,7 @@
                     "400": {
                         "description": "Couldn't parse ID param into UUID"
                     },
-                    "403": {
+                    "401": {
                         "description": "Unauthorised"
                     },
                     "404": {

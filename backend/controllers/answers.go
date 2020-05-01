@@ -16,7 +16,7 @@ import (
 // @Security CodeAuth
 // @Success 204 "Success"
 // @Failure 400 "Couldn't parse ID param into UUID"
-// @Failure 403 "Unauthorised"
+// @Failure 401 "Unauthorised"
 // @Failure 404 "Answer doesn't exist"
 // @Failure 418 {string} string "Answer already revealed"
 // @Router /answers/{id}/reveal [post]
