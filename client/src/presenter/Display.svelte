@@ -40,6 +40,7 @@
 				});
 				break;
 			case 'revealAnswer':
+				document.getElementById("success").play();
 				updateAnswer(update.Update);
 				break;
 			case 'incorrectAnswer':
@@ -271,6 +272,9 @@
 <div id="display" class="center-container">
 	<div id="ring" class="center-container">
 		<div id="container">
+			<audio id="success" preload="auto">
+				<source src="success.mp3" type="audio/mpeg"/>
+			</audio>
 			{#each answers as answer, i}
 				<div class="answer-revealer" class:reveal={answer.Revealed}>
 					<div class="answer-inner">
