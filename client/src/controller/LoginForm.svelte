@@ -1,5 +1,5 @@
 <script>
-	import { ApiClient, DefaultApi } from 'brood_clash';
+	import * as api from 'brood_clash';
 	import * as auth from '../auth.js';
 
 	let loading = false;
@@ -25,11 +25,11 @@
 			return;
 		}
 
-		ApiClient.instance.authentications.ApiKey.apiKey = auth.getCode();
-		const client = new DefaultApi();
+		// ApiClient.instance.authentications.ApiKey.apiKey = auth.getCode();
+		// const client = new DefaultApi();
 
 		try {
-			await client.authTest();
+			await client.Test();
 			window.location = '/controller/add-questions';
 		} catch (e) {
 			if (e.status === 403) {

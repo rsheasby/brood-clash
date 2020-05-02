@@ -6,6 +6,8 @@ import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
+import typescript from '@rollup/plugin-typescript';
+import json from '@rollup/plugin-json';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -46,6 +48,8 @@ export default {
 		commonjs(),
 		builtins(),
 		globals(),
+      json(),
+      typescript(),
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production

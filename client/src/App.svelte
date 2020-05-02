@@ -13,7 +13,7 @@
     page('/controller/login', () => void (component = LoginForm));
     page('/controller/add-questions', () => void (component = QuestionsForm));
     page('/controller/controller', () => void (component = Controller));
-    page('/controller/*', () => void (window.location = '/controller/login'));
+    page('/controller/*', '/controller/login');
     page('*', () => void (component = NotFound));
     page();
 </script>
