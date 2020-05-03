@@ -1,6 +1,9 @@
 package main
 
 import (
+	"time"
+
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/rsheasby/brood-clash/backend/controllers"
 	_ "github.com/rsheasby/brood-clash/backend/docs"
@@ -25,6 +28,17 @@ func main() {
 	// Global Middleware
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"POST", "GET", "DELETE", "PUT"},
+		AllowHeaders:     []string{"Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		AllowOriginFunc: func(origin string) bool {
+			return true
+		},
+		MaxAge: 12 * time.Hour,
+	}))
 
 	// Serve Swagger Docs
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

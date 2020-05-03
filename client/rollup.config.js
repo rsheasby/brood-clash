@@ -6,6 +6,7 @@ import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
+import autoPreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 
@@ -27,7 +28,8 @@ export default {
 			// a separate file — better for performance
 			css: css => {
 				css.write('public/bundle.css');
-			}
+			},
+			preprocess: autoPreprocess()
 		}),
 
 		babel({

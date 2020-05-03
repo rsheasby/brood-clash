@@ -5,7 +5,7 @@
     import QuestionsForm from './controller/QuestionsForm.svelte';
     import Controller from './controller/Controller.svelte';
     import NotFound from './NotFound.svelte';
-    import PleaseWait from './PleaseWait.svelte';
+	 import PleaseWait from './PleaseWait.svelte';
 
     let component = PleaseWait;
 
