@@ -287,9 +287,8 @@ anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-"api@link:api":
-  version "0.0.0"
-  uid ""
+"api@file:api":
+  version "1.0.0"
 
 asn1.js@^4.0.0:
   version "4.10.1"

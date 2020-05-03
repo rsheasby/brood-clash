@@ -1,0 +1,12 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+  },
+  "author": "",
+  "license": "ISC"
+}
