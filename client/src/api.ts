@@ -1,4 +1,4 @@
-import { DefaultApi, Configuration } from 'api';
+import { DefaultApi, Configuration } from '../api';
 
 export let ApiClient = new DefaultApi(new Configuration({
    apiKey: "",

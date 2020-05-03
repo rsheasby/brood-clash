@@ -1,6 +1,6 @@
 <script lang="typescript">
 	import {onMount} from 'svelte';
-	import {ApiClient, SetApiKey} from '../api';
+	import {ApiClient, SetApiKey} from '../../api';
 
 	let questions;
 	let currentQuestion;
@@ -10,9 +10,8 @@
 
 	onMount(async () => {
 		SetApiKey('1234');
-		ApiClient.test().then(result => {
-			console.log(result);
-		});
+		let result = await ApiClient.test();
+		console.log(result);
 	});
 
 	//  function nextQuestion() {
