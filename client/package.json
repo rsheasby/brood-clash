@@ -20,7 +20,7 @@
     "svelte-preprocess": "^3.7.4"
   },
   "dependencies": {
-    "api": "file:api",
+    "api": "link:api",
     "axios": "^0.19.2",
     "file-saver": "^2.0.2",
     "page": "^1.11.5",

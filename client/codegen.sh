@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CMD='openapi-generator'
-OUTPUT_DIR='api'
+OUTPUT_DIR='api/codegen'
 SWAGGER_FILE='../backend/docs/swagger.yaml'
 
 $CMD generate \

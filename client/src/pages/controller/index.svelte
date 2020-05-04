@@ -1,6 +1,6 @@
 <script lang="typescript">
 	import {onMount} from 'svelte';
-	import {ApiClient, SetApiKey} from '../../api';
+	import {ApiClient, SetApiKey} from 'api';
 
 	let questions;
 	let currentQuestion;
