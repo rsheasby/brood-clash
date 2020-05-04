@@ -8,12 +8,6 @@
 	let client;
 	let done = false;
 
-	onMount(async () => {
-		SetApiKey('1234');
-		let result = await ApiClient.test();
-		console.log(result);
-	});
-
 	//  function nextQuestion() {
 	//  	const nextId = currentQuestion ? currentQuestion.id + 1 : 1;
 	//      currentQuestion = questions.find(q => q.id === nextId);

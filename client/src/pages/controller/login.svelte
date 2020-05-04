@@ -1,57 +1,87 @@
-<script>
-	// import * as api from 'api';
+<script lang="typescript">
+	import { goto } from '@sveltech/routify';
 
-	let loading = false;
-	let error = false;
+	import { ApiClient, SetApiKey } from 'api';
 
-	// async function handleLogin(event) {
-	// 	await login(event.target.code.value);
-	// }
+	const UNEXPECTED_BEHAVIOR: string = "Something unexpected happened. Please try again later.";
+	const INVALID_CODE: string = "The provided code is invalid.";
 
-	// async function login(code) {
-	// 	if (loading) {
-	// 		return;
-	// 	}
+	let loading: boolean = false;
+	let error: string = undefined;
 
-	// 	loading = true;
-	// 	error = undefined;
+	async function handleLogin(event) {
+		if (loading) {
+			return;
+		}
 
-	// 	try {
-	// 		auth.setCode(code);
-	// 	} catch (e) {
-	// 		error = "Invalid code.";
-	// 		loading = false;
-	// 		return;
-	// 	}
+		loading = true;
+		error = undefined;
 
-	// 	// ApiClient.instance.authentications.ApiKey.apiKey = auth.getCode();
-	// 	// const client = new DefaultApi();
+		try {
+			await login(event.target.code.value);
+		} catch (e) {
+			console.error(e);
 
-	// 	try {
-	// 		await client.Test();
-	// 		window.location = '/controller/add-questions';
-	// 	} catch (e) {
-	// 		if (e.status === 403) {
-	// 			error = "Invalid code.";
-	// 		} else {
-	// 			error = "Something unexpected happened. Please refresh and try again.";
-	// 		}
-	// 		loading = false;
-	// 	}
-	// }
+			error = UNEXPECTED_BEHAVIOR;
+			loading = false;
+		}
+	}
+
+	async function login(code: string) {
+		// TODO: Temporary delay so you can see the effect of the loading state.
+		await sleep(2000);
+
+		if (!/^\d{4}$/.test(code)) {
+			error = INVALID_CODE;
+			loading = false;
+			return;
+		}
+
+		SetApiKey(code);
+		try {
+			let response = await ApiClient.test();
+
+			if (response.status === 204) {
+				$goto('/controller');
+			} else {
+				error = UNEXPECTED_BEHAVIOR;
+				loading = false;
+				return;
+			}
+		} catch (e) {
+			const status = e && e.response && e.response.status;
+			if (status === 401) {
+				error = INVALID_CODE;
+				loading = false;
+				return;
+			}
+
+			throw e;
+		}
+	}
+
+	// TODO: Temporary function so you can see the effects of the loading state.
+	function sleep(duration: number): Promise<void> {
+		return new Promise((resolve) => {
+			setTimeout(() => resolve(), duration);
+		});
+	}
 </script>
 
-<!-- <form on:submit|preventDefault="{handleLogin}">
-	<label for="name">Code</label>
-   <div class="ui input">
-      <input type="text" name="code" disabled="{loading}">
-   </div>
-</form>
+<style>
+	form {
+		margin: 16px;
+	}
+</style>
 
-{#if loading}
-	<p>Loading...</p>
-{/if}
+<form on:submit|preventDefault="{handleLogin}">
+	<div class="ui action input">
+		<input type="text" placeholder="Code" name="code" disabled="{loading}">
+		<!-- TODO: the button resizes while loading, maybe set a specific width for it to always be. -->
+		<button type="submit" class="ui primary button" class:loading="{loading}">{loading ? 'Loading' : 'Log in'}</button>
+	</div>
+</form>
 
 {#if error}
 	<p>{error}</p>
-{/if} -->
+{/if}
