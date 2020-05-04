@@ -51,10 +51,6 @@
 </script>
 
 <style>
-	h1 {
-		color: purple;
-	}
-
 	.center-container {
 		display: flex;
 		flex-direction: row;
