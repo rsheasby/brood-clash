@@ -5,6 +5,6 @@
         <a href="/controller/login">Controller</a>
     </li>
     <li>
-        <a href="/presenter">Presenter</a>
+        <a href="/presenter/display">Presenter</a>
     </li>
 </ul>
