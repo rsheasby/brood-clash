@@ -69,19 +69,52 @@
 </script>
 
 <style>
-	form {
-		margin: 16px;
+	.container {
+		width: 100%;
+		height: 100%;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		background-color: #001f54;
+	}
+
+	#submit-button {
+		width: 135px;
+	}
+
+	.shake {
+		animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+		transform: translate3d(0, 0, 0);
+		backface-visibility: hidden;
+		perspective: 1000px;
+	}
+
+	@keyframes shake {
+		10%, 90% {
+		transform: translate3d(-1px, 0, 0);
+		}
+
+		20%, 80% {
+		transform: translate3d(2px, 0, 0);
+		}
+
+		30%, 50%, 70% {
+		transform: translate3d(-4px, 0, 0);
+		}
+
+		40%, 60% {
+		transform: translate3d(4px, 0, 0);
+		}
 	}
 </style>
 
-<form on:submit|preventDefault="{handleLogin}">
-	<div class="ui action input">
-		<input type="text" placeholder="Code" name="code" disabled="{loading}">
-		<!-- TODO: the button resizes while loading, maybe set a specific width for it to always be. -->
-		<button type="submit" class="ui primary button" class:loading="{loading}">{loading ? 'Loading' : 'Log in'}</button>
-	</div>
-</form>
-
-{#if error}
-	<p>{error}</p>
-{/if}
+<div class="container">
+	<form on:submit|preventDefault="{handleLogin}">
+		<div class="ui massive right action input {error ? 'error shake' : ''}">
+			<input type="text" placeholder="Code" name="code" minlength="4" maxlength="4" pattern="\d{'{'}4{'}'}" disabled="{loading}" />
+			<button id="submit-button" type="submit" class="ui massive primary button" class:loading="{loading}">{loading ? 'Loading' : 'Log in'}</button>
+		</div>
+	</form>
+</div>
