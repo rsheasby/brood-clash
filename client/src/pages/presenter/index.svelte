@@ -1,4 +1,4 @@
-<script>
+<script lang="typescript">
 	import {onMount} from 'svelte';
 
 	// This array will be updated every time a question gets added, deleted, or
@@ -9,7 +9,8 @@
 
 	let ws;
 	onMount(async () => {
-		ws = new WebSocket('ws://localhost:8080/presenter/websocket');
+		// The websocket stuff is all untyped unfortunately. Swagger can't really model websocket communication.
+		ws = new WebSocket(`ws://${location.hostname}:8080/presenter/websocket`);
 		ws.onmessage = event => handleUpdate(JSON.parse(event.data));
 	});
 
@@ -24,7 +25,8 @@
 
 	function displayX() {
 		wrongAnswer = true;
-		document.getElementById('buzzer').play();
+		let buzzerSound = <HTMLAudioElement>document.getElementById('buzzer');
+		buzzerSound.play();
 		setTimeout(() => {
 			wrongAnswer = false;
 		}, 1000);
@@ -40,7 +42,8 @@
 				});
 				break;
 			case 'revealAnswer':
-				document.getElementById("success").play();
+				let successSound = <HTMLAudioElement>document.getElementById("success");
+				successSound.play();
 				updateAnswer(update.Update);
 				break;
 			case 'incorrectAnswer':
