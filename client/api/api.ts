@@ -13,7 +13,7 @@ export let ApiClient = new DefaultApi(new Configuration({
 axios.default.interceptors.response.use(config => config, error => {
 	if (location.pathname != loginPath)
 		window.history.replaceState({}, '', loginPath);
-	return error;
+	return Promise.reject(error);
 });
 
 export function SetApiKey(key: string) {
