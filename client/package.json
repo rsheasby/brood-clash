@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "devDependencies": {
     "@babel/core": "^7.8.0",
+    "@fullhuman/postcss-purgecss": "^2.1.2",
     "@openapitools/openapi-generator-cli": "^1.0.12-4.3.0",
     "@rollup/plugin-json": "^4.0.3",
     "@rollup/plugin-typescript": "^4.1.1",
     "@sveltech/routify": "^1.6.6",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "npm-run-all": "^4.1.5",
+    "postcss-load-config": "^2.1.0",
     "rollup": "^1.29.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.0.0",
@@ -17,7 +19,8 @@
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^4.0.4",
     "svelte": "^3.16.7",
-    "svelte-preprocess": "^3.7.4"
+    "svelte-preprocess": "^3.7.4",
+    "tailwindcss": "^1.4.4"
   },
   "dependencies": {
     "api": "link:api",
