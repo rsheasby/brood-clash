@@ -11,8 +11,10 @@ export let ApiClient = new DefaultApi(new Configuration({
 }));
 
 axios.default.interceptors.response.use(config => config, error => {
-	if (location.pathname != loginPath)
+	const status = error && error.response && error.response.status;
+	if (status === 401 && location.pathname != loginPath) {
 		window.history.replaceState({}, '', loginPath);
+	}
 	return Promise.reject(error);
 });
 
