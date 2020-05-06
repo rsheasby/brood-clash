@@ -1,66 +1,43 @@
-<script>
-    import { onMount } from 'svelte';
+<script lang="typescript">
+	import { onMount } from 'svelte';
 
-    let questions = [];
-    let loading = true;
-    let client;
+	import { ApiClient } from 'api';
 
-   //  onMount(async () => {
-   //      ApiClient.instance.authentications.ApiKey.apiKey = window.localStorage.getItem('code');
-   //  	client = new DefaultApi();
-   //      questions = await client.getQuestions();
-   //      loading = false;
-   //  });
+	import { goto } from '@sveltech/routify';
 
-   //  function addQuestion() {
-   //      if (!questions) {
-   //          questions = [];
-   //      }
+	let loading = true;
 
-   //      const question = {
-   //      	text: '',
-   //      	answers: []
-   //      };
-   //      for (let i = 0; i < 8; ++i) {
-   //          const answer = {
-   //          	text: '',
-   //          	points: undefined
-   //          };
-   //          question.answers.push(answer);
-   //      }
-   //      questions = [ ...questions, question ];
-   //  }
+	let questions: any[];
 
-   //  async function uploadQuestions() {
-   //  	loading = true;
-   //  	try {
-   //          await client.createQuestions(questions);
-   //          // TODO: we should prompt if the user wants to be redirected, not
-   //          // not just do it.
-   //          window.location = '/controller/controller';
-   //  	} catch (e) {
-   //  		console.error("Could not upload questions:", e);
-   //  		loading = false;
-   //  	}
-   //  }
+	let error: string;
+
+	onMount(async () => {
+		try {
+			let response = await ApiClient.getAllQuestions();
+			questions = response.data;
+		} catch (e) {
+		}
+
+		loading = false;
+	});
+
+	async function selectQuestion(questionId) {
+		loading = true;
+		await ApiClient.selectQuestion(questionId);
+		$goto('/controller');
+	}
 </script>
 
-{#if loading}
-    <p>Loading, please wait...</p>
+{#if error}
+	<p>{error}</p>
 {/if}
-<!--
-    TODO: we can maybe look at this to clean up the page and make it a
-    little more usable: https://alligator.io/css/collapsible/
--->
-<!-- {#each questions as question}
-    Question:
-    <input type="text" bind:value="{question.text}" disabled="{loading}"> <br />
-    {#each question.answers as answer}
-        Answer:
-        <input type="text" bind:value="{answer.text}" disabled="{loading}">
-        Points:
-        <input type="number" bind:value="{answer.points}" disabled="{loading}"> <br />
-    {/each}
-{/each}
-<button on:click|preventDefault="{addQuestion}" disabled="{loading}">Add question.</button>
-<button on:click|preventDefault="{uploadQuestions}" disabled="{loading}">Upload.</button> -->
+
+{#if loading}
+	<p>Loading, please wait...</p>
+{:else}
+	<ul>
+	{#each questions as question}
+		<li><div class="text-blue-500 hover:text-blue-800" on:click="{selectQuestion(question.ID)}">{question.Text}</div></li>
+	{/each}
+	</ul>
+{/if}
