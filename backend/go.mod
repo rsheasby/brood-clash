@@ -8,7 +8,7 @@ require (
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.2
 	github.com/go-openapi/spec v0.19.7 // indirect
-	github.com/go-openapi/swag v0.19.8 // indirect
+	github.com/go-openapi/swag v0.19.9 // indirect
 	github.com/golang/protobuf v1.3.5 // indirect
 	github.com/google/uuid v1.1.1
 	github.com/gorilla/websocket v1.4.2 // indirect
@@ -19,7 +19,7 @@ require (
 	github.com/rotisserie/eris v0.3.0
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.5
-	golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e // indirect
+	golang.org/x/net v0.0.0-20200506145744-7e3656a0809f // indirect
 	golang.org/x/sys v0.0.0-20200331124033-c3d80250170d // indirect
-	golang.org/x/tools v0.0.0-20200403190813-44a64ad78b9b // indirect
+	golang.org/x/tools v0.0.0-20200506181757-c20a87c16a39 // indirect
 )

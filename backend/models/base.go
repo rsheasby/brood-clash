@@ -8,7 +8,7 @@ import (
 )
 
 type BaseModel struct {
-	ID uuid.UUID `gorm:"type:string;primary_key;auto_increment:false" readonly:"true"`
+	ID uuid.UUID `gorm:"type:string;primary_key;auto_increment:false" readonly:"true" json:"id"`
 }
 
 func (base *BaseModel) BeforeCreate(scope *gorm.Scope) error {

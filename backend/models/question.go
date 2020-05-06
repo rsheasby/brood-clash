@@ -2,7 +2,7 @@ package models
 
 type Question struct {
 	BaseModel
-	Text         string
-	Answers      []Answer `json:",omitempty"`
-	HasBeenShown bool     `readonly:"true"`
+	Text         string   `json:"text"`
+	Answers      []Answer `json:"answers,omitempty"`
+	HasBeenShown bool     `json:"hasBeenShown" readonly:"true"`
 }
