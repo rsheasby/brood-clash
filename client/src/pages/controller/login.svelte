@@ -1,5 +1,4 @@
 <script lang="typescript">
-	import { tick } from 'svelte';
 	import { goto } from '@sveltech/routify';
 
 	import { ApiClient, SetApiKey } from 'api';
@@ -14,7 +13,6 @@
 
 		loading = true;
 		error = false;
-		await tick();
 
 		try {
 			await login(event.target.code.value);
@@ -26,12 +24,11 @@
 
 	async function login(code: string) {
 		if (!/^\d{4}$/.test(code)) {
+			await requestAnimationFrame();
 			error = true;
 			loading = false;
 			return;
 		}
-
-		await sleep(500);
 
 		SetApiKey(code);
 		try {
@@ -54,6 +51,12 @@
 	function sleep(duration: number): Promise<void> {
 		return new Promise((resolve) => {
 			setTimeout(() => resolve(), duration);
+		});
+	}
+
+	function requestAnimationFrame(): Promise<void> {
+		return new Promise(resolve => {
+			window.requestAnimationFrame(() => resolve());
 		});
 	}
 </script>
