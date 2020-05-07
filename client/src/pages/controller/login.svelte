@@ -23,13 +23,6 @@
 	}
 
 	async function login(code: string) {
-		if (!/^\d{4}$/.test(code)) {
-			await requestAnimationFrame();
-			error = true;
-			loading = false;
-			return;
-		}
-
 		await sleep(1000);
 
 		SetApiKey(code);
