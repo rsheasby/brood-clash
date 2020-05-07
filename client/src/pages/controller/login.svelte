@@ -69,23 +69,23 @@
 	@keyframes shake {
 		10%,
 		90% {
-			transform: translate(-1px, 0);
+			transform: translate(-3px, 0);
 		}
 
 		20%,
 		80% {
-			transform: translate(2px, 0);
+			transform: translate(4px, 0);
 		}
 
 		30%,
 		50%,
 		70% {
-			transform: translate(-4px, 0);
+			transform: translate(-6px, 0);
 		}
 
 		40%,
 		60% {
-			transform: translate(4px, 0);
+			transform: translate(6px, 0);
 		}
 	}
 </style>
@@ -109,7 +109,7 @@
 			<input
 				type="text"
 				class="p-3 sm:text-xl min-w-0 border-gray-500 flex-shrink
-				rounded-l-md border-2 {error ? 'border-red-600' : 'border-r'}"
+				rounded-l-md border-2" class:border-red-600="{error}"
 				placeholder="Code"
 				name="code"
 				minlength="4"
@@ -119,8 +119,8 @@
 			<button
 				type="submit"
 				class="p-3 sm:text-xl border-gray-500 bg-blue-600
-				active:bg-blue-700 hover:bg-blue-500 flex-none w-20 rounded-r-md
-				border-2 border-l-0 text-gray-200">
+				active:bg-blue-700 hover:bg-blue-500 flex-none w-24 rounded-r-md
+				border-2 border-l-0 text-gray-200" class:loading="{loading}">
 				Log in
 			</button>
 		</div>
