@@ -29,8 +29,8 @@
     height: 1.5em;
     border-radius: 50%;
     border: 0.25em solid #fff;
-    border-color: #f7fafc #a0aec0 #f7fafc #a0aec0;
-    animation: loading 0.625s linear infinite;
+    border-color: #f7fafc transparent #f7fafc transparent;
+    animation: loading 0.75s easeInOutBack infinite;
   }
 
   @keyframes loading {

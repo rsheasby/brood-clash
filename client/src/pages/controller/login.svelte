@@ -30,6 +30,8 @@
 			return;
 		}
 
+		await sleep(1000);
+
 		SetApiKey(code);
 		try {
 			let response = await ApiClient.test();
@@ -47,7 +49,6 @@
 		}
 	}
 
-	// TODO: Temporary function so you can see the effects of the loading state.
 	function sleep(duration: number): Promise<void> {
 		return new Promise((resolve) => {
 			setTimeout(() => resolve(), duration);
@@ -111,7 +112,7 @@
 			class:shake={error}>
 			<input
 				type="text"
-				class="p-3 sm:text-xl min-w-0 border-gray-500 flex-shrink
+				class="p-3 sm:text-xl font-semibold min-w-0 border-gray-500 flex-shrink
 				rounded-l-md border-2" class:border-red-600="{error}"
 				placeholder="Code"
 				name="code"
@@ -121,7 +122,7 @@
 				disabled={loading} />
 			<button
 				type="submit"
-				class="p-3 sm:text-xl border-gray-500 bg-blue-600
+				class="p-3 sm:text-xl font-semibold border-gray-500 bg-blue-600
 				active:bg-blue-700 hover:bg-blue-500 flex-none w-24 rounded-r-md
 				border-2 border-l-0 text-gray-200" class:loading="{loading}">
 				Log in

@@ -2359,6 +2359,14 @@ pkg-up@^2.0.0:
   dependencies:
     find-up "^2.1.0"
 
+postcss-easings@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-easings/-/postcss-easings-2.0.0.tgz#79bde7ce71c838ef7371a59d293e08b337b1802b"
+  integrity sha512-oJUmnrPwayx47y+jrRKSofHOjRjdJCOyqNXZURQkAVEra93ShqUcN8WYIuT/pWQeGe2I/pxxFfw7mOUGBrxCRQ==
+  dependencies:
+    postcss "^7.0.2"
+    postcss-value-parser "^3.3.0"
+
 postcss-functions@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/postcss-functions/-/postcss-functions-3.0.0.tgz#0e94d01444700a481de20de4d55fb2640564250e"
@@ -2430,7 +2438,7 @@ postcss@^6.0.9:
     source-map "^0.6.1"
     supports-color "^5.4.0"
 
-postcss@^7.0.11, postcss@^7.0.18, postcss@^7.0.21, postcss@^7.0.27:
+postcss@^7.0.11, postcss@^7.0.18, postcss@^7.0.2, postcss@^7.0.21, postcss@^7.0.27:
   version "7.0.29"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.29.tgz#d3a903872bd52280b83bce38cdc83ce55c06129e"
   integrity sha512-ba0ApvR3LxGvRMMiUa9n0WR4HjzcYm7tS+ht4/2Nd0NLtHpPIH77fuB9Xh1/yJVz9O/E/95Y/dn8ygWsyffXtw==
