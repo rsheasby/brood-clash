@@ -1,41 +1,49 @@
 <script lang="typescript">
-	import {onMount} from 'svelte';
-	import {url} from '@sveltech/routify';
+	import { onMount } from 'svelte';
+	import { url } from '@sveltech/routify';
 
-	import { ApiClient } from 'api';
+	import { ApiClient, codegen } from 'api';
 
-	let question: any;
+	let question: codegen.ModelsQuestion;
 
 	let loading: boolean = true;
 
 	onMount(async () => {
 		try {
 			let response = await ApiClient.getCurrentQuestion();
-			question = response.data;
-		} catch (e) {
-			const status = e && e.response && e.response.status;
-			if (status !== 404) {
-				console.error(e);
+			const status = response && response.status;
+			if (status === 200) {
+				question = response.data;
+			} else if (status === 404) {
+				// This is so the back button works correctly,
+				// instead of infinitely redirecting forward again
+				history.replaceState({}, '', '/controller/questions');
 			}
+		} catch (e) {
+			console.error(e);
 		}
 
 		loading = false;
 	});
 </script>
 
+<svelte:head>
+	<style>
+		body {
+			background-color: #001f54;
+		}
+	</style>
+</svelte:head>
+
 {#if loading}
 	<p>Loading, please wait...</p>
-{:else if !question}
-	<!-- TODO: alternatively, we could automatically redirect. -->
-	<p>No question selected. Please go to the <a class="text-blue-500 hover:text-blue-800" href="{$url('/controller/questions')}">questions page</a> to select one.</p>
-{:else}
-	<p>{question.Text}</p>
-	{#each question.Answers as answer}
-		<p>{answer.Points} - {answer.Text}</p>
+{:else if question}
+	<p>{question.text}</p>
+	{#each question.answers as answer}
+		<p>{answer.points} - {answer.text}</p>
 	{/each}
 {/if}
 
-<a class="text-blue-500 hover:text-blue-800" href="{$url('/controller/questions')}">
+<a class="text-blue-500 hover:text-blue-800" href="/controller/questions">
 	<button>Back to questions</button>
 </a>
-

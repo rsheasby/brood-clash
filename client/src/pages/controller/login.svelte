@@ -13,6 +13,7 @@
 
 		loading = true;
 		error = false;
+		await sleep(1000);
 
 		try {
 			await login(event.target.code.value);
@@ -23,8 +24,6 @@
 	}
 
 	async function login(code: string) {
-		await sleep(1000);
-
 		SetApiKey(code);
 		try {
 			let response = await ApiClient.test();
@@ -49,7 +48,7 @@
 	}
 
 	function requestAnimationFrame(): Promise<void> {
-		return new Promise(resolve => {
+		return new Promise((resolve) => {
 			window.requestAnimationFrame(() => resolve());
 		});
 	}
@@ -95,29 +94,30 @@
 	</style>
 </svelte:head>
 
-<div class="flex items-center justify-center h-full w-full p-5">
+<div class="flex-center hw-full p-5">
 	<form
 		class="max-w-full"
 		novalidate="novalidate"
 		on:submit|preventDefault={handleLogin}>
 		<div
-			class="bg-gray-400 p-5 rounded max-w-full flex flex-row"
+			class="card flex flex-row"
 			class:shake={error}>
 			<input
 				type="text"
-				class="p-3 sm:text-xl font-semibold min-w-0 border-gray-500 flex-shrink
-				rounded-l-md border-2" class:border-red-600="{error}"
+				class="input rounded-r-none sm:text-xl min-w-0 flex-shrink"
+				class:border-red-600={error}
 				placeholder="Code"
 				name="code"
 				minlength="4"
 				maxlength="4"
 				pattern="\d{'{'}4{'}'}"
+				autocomplete="off"
 				disabled={loading} />
 			<button
 				type="submit"
-				class="p-3 sm:text-xl font-semibold border-gray-500 bg-blue-600
-				active:bg-blue-700 hover:bg-blue-500 flex-none w-24 rounded-r-md
-				border-2 border-l-0 text-gray-200" class:loading="{loading}">
+				class="button-primary rounded-l-none border-l-0 sm:text-xl
+				flex-none w-24 border-l-0"
+				class:loading>
 				Log in
 			</button>
 		</div>
