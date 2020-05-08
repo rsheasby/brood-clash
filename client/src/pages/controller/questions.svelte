@@ -55,7 +55,7 @@
 	{#if loading}
 		<div class="loading text-6xl" />
 	{:else}
-		<div class="card grid grid-cols-1 gap-3">
+		<div class="card grid grid-cols-1 gap-3 max-w-full" style="width: 600px;">
 			<!--
 				TODO: I wanted to put this button at the bottom but it didn't
 				work out well cus it overlapped with the questions, but it's not
@@ -80,7 +80,7 @@
 
 			{#each questions as question}
 				<button
-					class="button-primary box-content w-64 max-w-full"
+					class="button-primary box-content max-w-full"
 					on:click={selectQuestion(question.id)}>
 					{question.text}
 				</button>
