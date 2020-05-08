@@ -65,7 +65,20 @@
 	}
 
 	.button-primary:active {
-		@apply bg-blue-700 
+		@apply bg-blue-700
+	}
+
+	.button-warning {
+		@apply input;
+		@apply text-gray-200 bg-red-600;
+	}
+
+	.button-warning:hover {
+		@apply bg-red-500;
+	}
+
+	.button-warning:active {
+		@apply bg-red-700;
 	}
 
 	.card {
