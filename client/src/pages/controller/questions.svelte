@@ -55,7 +55,7 @@
 	{#if loading}
 		<div class="loading text-6xl" />
 	{:else}
-		<div class="card grid grid-cols-1 gap-3">
+		<div class="card grid grid-cols-1 gap-3 max-w-full" style="width: 600px;">
 			{#if currentQuestionExists}
 				<button
 					class="button-primary -m-5 mb-0 rounded-t-sm rounded-b-none
@@ -66,7 +66,7 @@
 			{/if}
 			{#each questions as question}
 				<button
-					class="button-primary box-content w-64 max-w-full"
+					class="button-primary box-content max-w-full"
 					on:click={selectQuestion(question.id)}>
 					{question.text}
 				</button>
