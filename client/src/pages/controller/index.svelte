@@ -4,27 +4,28 @@
 
 	import { ApiClient, codegen } from 'api';
 
-	let question: codegen.ModelsQuestion;
-
-	let loading: boolean = true;
+	let questionPromise: Promise<codegen.ModelsQuestion> = new Promise((resolve) => {});
 
 	onMount(async () => {
+		questionPromise = loadQuestion();
+	});
+
+	async function loadQuestion(): Promise<codegen.ModelsQuestion> {
 		try {
-			let response = await ApiClient.getCurrentQuestion();
+			const response = await ApiClient.getCurrentQuestion();
 			const status = response && response.status;
 			if (status === 200) {
-				question = response.data;
+				return response.data;
 			} else if (status === 404) {
-				// This is so the back button works correctly,
-				// instead of infinitely redirecting forward again
 				history.replaceState({}, '', '/controller/questions');
+			} else {
+				throw new Error("Something unexpected happened.");
 			}
 		} catch (e) {
 			console.error(e);
+			throw new Error("Something unexpected happened.");
 		}
-
-		loading = false;
-	});
+	}
 </script>
 
 <svelte:head>
@@ -35,14 +36,16 @@
 	</style>
 </svelte:head>
 
-{#if loading}
+{#await questionPromise}
 	<p>Loading, please wait...</p>
-{:else if question}
+{:then question}
 	<p>{question.text}</p>
 	{#each question.answers as answer}
 		<p>{answer.points} - {answer.text}</p>
 	{/each}
-{/if}
+{:catch error}
+	<p>{error}</p>
+{/await}
 
 <a class="text-blue-500 hover:text-blue-800" href="/controller/questions">
 	<button>Back to questions</button>
