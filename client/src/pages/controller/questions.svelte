@@ -56,19 +56,6 @@
 		<div class="loading text-6xl" />
 	{:else}
 		<div class="card grid grid-cols-1 gap-3 max-w-full" style="width: 600px;">
-			<!--
-				TODO: I wanted to put this button at the bottom but it didn't
-				work out well cus it overlapped with the questions, but it's not
-				much better at the top since you can't distinguish between the
-				buttons. I then tried adding a shadow to the bottom of the top
-				button, but I couldn't find that in Tailwind.
-			-->
-			<button class="button-primary -m-5 mb-0 rounded-t-sm rounded-b-none
-				border-0"
-				on:click={$goto('/controller/questions-form')}>
-				Add Questions
-			</button>
-
 			{#if currentQuestionExists}
 				<button
 					class="button-primary -m-5 mb-0 rounded-t-sm rounded-b-none
@@ -85,6 +72,12 @@
 					{question.text}
 				</button>
 			{/each}
+
+			<button class="button-primary -m-5 mt-0 rounded-b-sm rounded-t-none
+				border-0"
+				on:click={$goto('/controller/questions-form')}>
+				Add Questions
+			</button>
 		</div>
 	{/if}
 </div>
