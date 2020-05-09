@@ -75,7 +75,7 @@
 
 			<button class="button-primary -m-5 mt-0 rounded-b-sm rounded-t-none
 				border-0"
-				on:click={$goto('/controller/questions-form')}>
+				on:click={$goto('/controller/questions/add')}>
 				Add Questions
 			</button>
 		</div>
