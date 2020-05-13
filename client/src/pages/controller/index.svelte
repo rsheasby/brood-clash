@@ -4,10 +4,15 @@
 
 	import { ApiClient, codegen } from 'api';
 
-	let questionPromise: Promise<codegen.ModelsQuestion> = new Promise((resolve) => {});
+	let question;
+	let error;
 
 	onMount(async () => {
-		questionPromise = loadQuestion();
+		try {
+			question = await loadQuestion();
+		} catch (e) {
+			error = e;
+		}
 	});
 
 	async function loadQuestion(): Promise<codegen.ModelsQuestion> {
@@ -26,6 +31,39 @@
 			throw new Error("Something unexpected happened.");
 		}
 	}
+
+	async function reveal(answer: codegen.ModelsAnswer) {
+		try {
+			if (answer.revealed) {
+				return;
+			}
+
+			const response = await ApiClient.revealAnswer(answer.id);
+			const status = response && response.status;
+			if (status === 204) {
+				answer.revealed = true;
+				question = question;
+			} else {
+				// TODO: Notify the user that something went wrong.
+			}
+		} catch (e) {
+			console.error(e);
+			// TODO: Notify the user that something went wrong.
+		}
+	}
+
+	async function wrongAnswer() {
+		try {
+			const response = await ApiClient.incorrectAnswer();
+			const status = response && response.status;
+			if (status !== 200) {
+				// TODO: Notify the user that something went wrong.
+			}
+		} catch (e) {
+			console.error(e);
+			// TODO: Notify the user that something went wrong.
+		}
+	}
 </script>
 
 <svelte:head>
@@ -36,16 +74,24 @@
 	</style>
 </svelte:head>
 
-{#await questionPromise}
-	<p>Loading, please wait...</p>
-{:then question}
-	<p>{question.text}</p>
-	{#each question.answers as answer}
-		<p>{answer.points} - {answer.text}</p>
-	{/each}
-{:catch error}
+{#if error}
 	<p>{error}</p>
-{/await}
+{:else if !question}
+	<p>Loading, please wait...</p>
+{:else}
+	<p style="color: white">{question.text}</p>
+	{#each question.answers as answer (answer.id)}
+		<p style="color: white">{answer.points} - {answer.text}</p>
+		{#if !answer.revealed}
+			<button on:click={() => reveal(answer)}>Reveal</button>
+		{:else}
+			<p>Revealed!</p>
+		{/if}
+	{/each}
+{/if}
+
+
+<button on:click={wrongAnswer}>Wrong answer.</button>
 
 <a class="text-blue-500 hover:text-blue-800" href="/controller/questions">
 	<button>Back to questions</button>
