@@ -81,6 +81,19 @@
 		@apply bg-red-700;
 	}
 
+	.button-neutral {
+		@apply input;
+		@apply text-gray-200 bg-gray-600;
+	}
+
+	.button-neutral:hover {
+		@apply bg-gray-500;
+	}
+
+	.button-neutral:active {
+		@apply bg-gray-700;
+	}
+
 	.card {
 		@apply bg-gray-300 p-5 rounded-sm max-w-full;
 	}

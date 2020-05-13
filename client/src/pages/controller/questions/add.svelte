@@ -3,19 +3,13 @@
 
 	import { ApiClient, codegen } from 'api';
 
-	let questions = [ newQuestion() ];
+	let question: codegen.ModelsQuestion = newQuestion();
 
 	function newQuestion(): codegen.ModelsQuestion {
-		let question: codegen.ModelsQuestion = {
-			answers: [],
+		return {
+			answers: [ newAnswer() ],
 			text: ""
 		};
-
-		for (let i = 0; i < 8; ++i) {
-			question.answers.push(newAnswer());
-		}
-
-		return question;
 	}
 
 	function newAnswer(): codegen.ModelsAnswer {
@@ -25,26 +19,40 @@
 		};
 	}
 
-	async function submitQuestions() {
+	/**
+	 * @return true if the question is successfully created, false otherwise.
+	 */
+	async function submitQuestion(): Promise<boolean> {
 		try {
-			// TODO: not sure how to inform the user whether the operation was
-			// successful.
-			const response = await ApiClient.postQuestions(questions);
+			const response = await ApiClient.postQuestions([ question ]);
 			const status = response && response.status;
-			if (status === 201) {
-				$goto('/controller/questions');
-			} else if (status === 202) {
-				// TODO: Not sure what to do here. Not sure how to tell which
-				// questions were created successfully since it doesn't look
-				// like the function returns the created questions.
-			}
+			return status === 201;
 		} catch (e) {
-			// TODO: Iono what to do???
+			console.error(e);
+			return false;
 		}
 	}
 
-	function addQuestion() {
-		questions = [ ...questions, newQuestion() ];
+	async function submitAndAddAnother() {
+		const success = await submitQuestion();
+		if (!success) {
+			// TODO: not sure how to inform the user the creation failed.
+		} else {
+			question = newQuestion();
+		}
+	}
+
+	async function submitAndBackToQuestions() {
+		const success = await submitQuestion();
+		if (!success) {
+			// TODO: Not sure how to inform the user the creation failed.
+		} else {
+			$goto('/controller/questions');
+		}
+	}
+
+	function canAddAnswer(): boolean {
+		return question.answers.length < 8;
 	}
 </script>
 
@@ -58,37 +66,58 @@
 
 <div class="flex-center hw-full p-5 sm:text-xl">
 	<div class="card grid grid-cols-1 gap-3">
-		<form
-			id="questions-form" class="grid grid-cols-1 gap-3"
-			on:submit|preventDefault={submitQuestions}>
-			{#each questions as question}
-				<input
-					class="input box-content w-auto max-w-full" type="text"
-					required placeholder="Question"
-					bind:value={question.text} />
-				{#each question.answers as answer, i}
-					<div class="grid grid-cols-4 gap-3">
-						<input class="input col-span-3 box-content w-auto
-							max-w-full" type="text" required
-							placeholder="Answer {i}"
-							bind:value={answer.text}/>
-						<input class="input col-span-1 box-content w-auto
-							max-w-full" type="number" required
-							placeholder="Points"
-							bind:value={answer.points} />
-					</div>
-				{/each}
+		<form id="questions-form" class="grid grid-cols-1 gap-3">
+			<input
+				class="input box-content w-auto max-w-full" type="text"
+				required placeholder="Question"
+				bind:value={question.text} />
+			{#each question.answers as answer, i}
+				<div class="grid grid-cols-4 gap-3">
+					<input class="input col-span-3 box-content w-auto
+						max-w-full" type="text" required
+						placeholder="Answer {i + 1}"
+						bind:value={answer.text}/>
+					<input class="input col-span-1 box-content w-auto
+						max-w-full" type="number" required
+						placeholder="Points"
+						bind:value={answer.points} />
+				</div>
 			{/each}
+			<!--
+				Have to put it into a function because using an angle bracket
+				(e.g. '<' for less than) in the directive breaks syntax
+				highlighting.
+			-->
+			{#if canAddAnswer()}
+				<!--
+					Alternatively we can have a number input box where you type how
+					many answers you want, or have a pseudo input field for a new
+					question, then when you start typing in it, add another question
+					and turn it into a real input box. The problem with this is it
+					will defocus once you make that pseudo box a real box and I don't
+					want to deal with the complexities of that right now.
+				-->
+				<button class="button-neutral box-content w-auto w-max-full"
+					on:click={() => question.answers = [ ...question.answers, newAnswer() ]}>
+					Add another answer
+				</button>
+			{/if}
 		</form>
 		<div class="grid grid-cols-3 gap-3">
 			<button class="button-warning box-content w-auto w-max-full"
 				on:click={() => $goto('/controller/questions')}>
 				Cancel
 			</button>
+
 			<button class="button-primary box-content w-auto w-max-full"
-				on:click={addQuestion}>Add question</button>
+				on:click={submitAndAddAnother}>
+				Submit and add another
+			</button>
+
 			<button class="button-primary box-content w-auto w-max-full"
-				type="submit" form="questions-form">Submit</button>
+				on:click={submitAndBackToQuestions}>
+				Submit
+			</button>
 		</div>
 	</div>
 </div>
