@@ -16,7 +16,7 @@
 
 	function updateAnswer(answer) {
 		answers.forEach((a, i) => {
-			if (a.ID === answer.ID) {
+			if (a.id === answer.id) {
 				answers[i] = answer;
 				return;
 			}
@@ -35,9 +35,9 @@
 	function handleUpdate(update) {
 		switch (update.Type) {
 			case 'stateUpdate':
-				question = update.Update.Text;
+				question = update.Update.text;
 				answers = [];
-				update.Update.Answers.forEach((a, i) => {
+				update.Update.answers.forEach((a, i) => {
 					answers[i] = a;
 				});
 				break;
@@ -275,7 +275,7 @@
 				<source src="success.mp3" type="audio/mpeg"/>
 			</audio>
 			{#each answers as answer, i}
-				<div class="answer-revealer" class:reveal={answer.Revealed}>
+				<div class="answer-revealer" class:reveal={answer.revealed}>
 					<div class="answer-inner">
 						<div class="answer answer-unshown full-center">
 							<div class="unshown-answer-container">
@@ -302,14 +302,14 @@
 										y="50"
 										text-anchor="middle"
 										dominant-baseline="central">
-										{answer.Points ? answer.Points : ''}
+										{answer.points ? answer.points : ''}
 									</text>
 								</svg>
 							</div>
 							<div
 								class="answer-text full-center"
-								class:answer-text-revealed={answer.Revealed}>
-								<span>{answer.Text ? answer.Text : ''}</span>
+								class:answer-text-revealed={answer.revealed}>
+								<span>{answer.text ? answer.text : ''}</span>
 							</div>
 						</div>
 					</div>
