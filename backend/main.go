@@ -23,6 +23,8 @@ import (
 // @name Authorization
 
 func main() {
+	go serveStatic()
+
 	r := gin.New()
 
 	// Global Middleware

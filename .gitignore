@@ -2,3 +2,4 @@ swagger-codegen-cli.jar
 .idea/
 *.db
 .DS_Store
+brood-clash-*

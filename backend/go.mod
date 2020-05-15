@@ -14,6 +14,7 @@ require (
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/jinzhu/gorm v1.9.12
 	github.com/mailru/easyjson v0.7.1 // indirect
+	github.com/markbates/pkger v0.15.1
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/olahol/melody v0.0.0-20180227134253-7bd65910e5ab
 	github.com/rotisserie/eris v0.3.0
