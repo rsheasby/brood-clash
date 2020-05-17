@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/rsheasby/brood-clash/backend/config"
 	"github.com/rsheasby/brood-clash/backend/controllers"
 	_ "github.com/rsheasby/brood-clash/backend/docs"
 	"github.com/rsheasby/brood-clash/backend/middleware"
@@ -23,12 +24,20 @@ import (
 // @name Authorization
 
 func main() {
-	go serveStatic()
+	if !config.GinDebug {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
+	if config.ServeStaticFiles {
+		go serveStatic()
+	}
 
 	r := gin.New()
 
 	// Global Middleware
-	r.Use(gin.Logger())
+	if config.GinLog {
+		r.Use(gin.Logger())
+	}
 	r.Use(gin.Recovery())
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},

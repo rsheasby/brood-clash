@@ -3,3 +3,4 @@ swagger-codegen-cli.jar
 *.db
 .DS_Store
 brood-clash-*
+/backend/backend

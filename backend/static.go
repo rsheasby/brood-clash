@@ -41,5 +41,10 @@ func serveStatic() {
 		}
 	})
 
+	localIP := getLocalIP()
+
+	fmt.Println("Brood Clash is up and running!")
+	fmt.Printf("Navigate to \"%s:5000/presenter\" on the presenter.\n", localIP)
+	fmt.Printf("Then, navigate to \"%s:5000/controller\" on the controller.\n", localIP)
 	http.ListenAndServe(":5000", handler)
 }
