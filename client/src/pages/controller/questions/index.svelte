@@ -55,7 +55,9 @@
 	{#if loading}
 		<div class="loading text-6xl" />
 	{:else}
-		<div class="card grid grid-cols-1 gap-3 max-w-full" style="width: 600px;">
+		<div
+			class="card grid grid-cols-1 gap-3 max-w-full"
+			style="width: 600px;">
 			{#if currentQuestionExists}
 				<button
 					class="button-primary -m-5 mb-0 rounded-t-sm rounded-b-none
@@ -73,8 +75,9 @@
 				</button>
 			{/each}
 
-			<button class="button-primary -m-5 mt-0 rounded-b-sm rounded-t-none
-				border-0"
+			<button
+				class="button-primary -m-5 rounded-b-sm rounded-t-none border-0"
+				class:mt-0={questions.length !== 0}
 				on:click={$goto('/controller/questions/add')}>
 				Add Questions
 			</button>
