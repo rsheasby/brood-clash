@@ -18,13 +18,16 @@
 		try {
 			let response = await ApiClient.getAllQuestions();
 			let currentQuestion = (await currentQuestionPromise).data;
+			console.log(response);
+			console.log(currentQuestion);
 			if (currentQuestion && currentQuestion.id) {
 				questions = response.data.filter(
 					(q) => q.id != currentQuestion.id
 				);
 				currentQuestionExists = true;
+			} else {
+				questions = response.data;
 			}
-			questions = response.data;
 		} catch (e) {
 			console.error(e);
 		}
@@ -77,7 +80,7 @@
 
 			<button
 				class="button-primary -m-5 rounded-b-sm rounded-t-none border-0"
-				class:mt-0={questions.length !== 0}
+				class:mt-0={questions.length !== 0 || currentQuestionExists}
 				on:click={$goto('/controller/questions/add')}>
 				Add Questions
 			</button>
