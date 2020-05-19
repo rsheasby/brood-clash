@@ -18,8 +18,6 @@
 		try {
 			let response = await ApiClient.getAllQuestions();
 			let currentQuestion = (await currentQuestionPromise).data;
-			console.log(response);
-			console.log(currentQuestion);
 			if (currentQuestion && currentQuestion.id) {
 				questions = response.data.filter(
 					(q) => q.id != currentQuestion.id
