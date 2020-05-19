@@ -1,17 +1,18 @@
 <script lang="typescript">
 	import { onMount } from 'svelte';
-	import { url } from '@sveltech/routify';
-
 	import { ApiClient, codegen } from 'api';
+	import { goto } from '@sveltech/routify';
 
-	let question;
-	let error;
+	let question: codegen.ModelsQuestion;
+	let loading: boolean = true;
 
 	onMount(async () => {
 		try {
 			question = await loadQuestion();
+			loading = false;
 		} catch (e) {
-			error = e;
+			console.error(e);
+			history.replaceState({}, '', '/controller/questions');
 		}
 	});
 
@@ -24,11 +25,11 @@
 			} else if (status === 404) {
 				history.replaceState({}, '', '/controller/questions');
 			} else {
-				throw new Error("Something unexpected happened.");
+				throw new Error('Something unexpected happened.');
 			}
 		} catch (e) {
 			console.error(e);
-			throw new Error("Something unexpected happened.");
+			throw new Error('Something unexpected happened.');
 		}
 	}
 
@@ -74,25 +75,42 @@
 	</style>
 </svelte:head>
 
-{#if error}
-	<p>{error}</p>
-{:else if !question}
-	<p>Loading, please wait...</p>
-{:else}
-	<p style="color: white">{question.text}</p>
-	{#each question.answers as answer (answer.id)}
-		<p style="color: white">{answer.points} - {answer.text}</p>
-		{#if !answer.revealed}
-			<button on:click={() => reveal(answer)}>Reveal</button>
-		{:else}
-			<p>Revealed!</p>
-		{/if}
-	{/each}
-{/if}
+<div class="flex-center hw-full p-5 sm:text-xl">
+	{#if loading}
+		<div class="loading text-6xl" />
+	{:else}
+		<div
+			class="card grid grid-cols-1 gap-3 max-w-full"
+			style="width: 600px;">
 
+			<div
+				class="text-gray-200 bg-blue-600 p-3 font-semibold -m-5 mb-0
+				rounded-t-sm rounded-b-none">
+				{question.text}
+			</div>
 
-<button on:click={wrongAnswer}>Wrong answer.</button>
+			{#each question.answers as answer (answer.id)}
+				<button
+					class:button-neutral={answer.revealed}
+					class:button-primary={!answer.revealed}
+					class:cursor-default={answer.revealed}
+					class="max-w-full hover:bg-gray-600 active:bg-gray-600"
+					on:click={() => {
+						if (!answer.revealed) reveal(answer);
+					}}>
+					{answer.points} - {answer.text}{answer.revealed ? ' ✔' : ''}
+				</button>
+			{/each}
 
-<a class="text-blue-500 hover:text-blue-800" href="/controller/questions">
-	<button>Back to questions</button>
-</a>
+			<button class="button-warning" on:click={wrongAnswer}>
+				Wrong answer.
+			</button>
+
+			<button
+				on:click={$goto('/controller/questions')}
+				class="button-primary -m-5 mt-0 rounded-t-none rounded-b-sm">
+				Back to questions
+			</button>
+		</div>
+	{/if}
+</div>
