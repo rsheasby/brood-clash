@@ -48,7 +48,6 @@
 			deletingTimeoutId = undefined;
 		}
 
-
 		if (deletingQuestionId === question.id) {
 			await deleteQuestion(question);
 		} else {
@@ -62,7 +61,7 @@
 			const response = await ApiClient.deleteQuestion(question.id);
 			const status = response && response.status;
 			if (status === 204) {
-				questions = questions.filter(q => q.id !== question.id);
+				questions = questions.filter((q) => q.id !== question.id);
 			}
 		} catch (e) {
 			// TODO: Not sure how to inform user deletion was unsuccessful.
@@ -73,12 +72,10 @@
 
 	async function promptDeleteConfirm(question) {
 		deletingQuestionId = question.id;
-		deletingTimeoutId = setTimeout(
-			() => {
-				deletingQuestionId = null;
-				deletingTimeoutId = null;
-			}, 5000
-		);
+		deletingTimeoutId = setTimeout(() => {
+			deletingQuestionId = null;
+			deletingTimeoutId = null;
+		}, 5000);
 	}
 </script>
 
@@ -110,23 +107,25 @@
 				</button>
 			{/if}
 
-			<div class="grid grid-cols-4 gap-1 max-w-full">
-				{#each questions as question}
+			{#each questions as question}
+				<div class="grid grid-cols-4 gap-0 max-w-full">
 					<button
-						class="box-content col-span-3 max-w-full"
+						class="box-content col-span-3 max-w-full rounded-r-none
+						mr-0"
 						class:button-primary={!question.hasBeenShown}
 						class:button-neutral={question.hasBeenShown}
 						on:click={selectQuestion(question.id)}>
-						{question.text}{question.hasBeenShown ? " ✔" : ""}
+						{question.text}{question.hasBeenShown ? ' ✔' : ''}
 					</button>
 					<button
-						class="button-warning box-content max-w-full"
+						class="button-warning box-content max-w-full
+						rounded-l-none ml-0"
 						on:click={deleteQuestionClicked(question)}
 						disabled={question.deleting}>
-						{ question.id === deletingQuestionId ? "Confirm" : "Delete" }
+						{question.id === deletingQuestionId ? 'Confirm' : 'Delete'}
 					</button>
-				{/each}
-			</div>
+				</div>
+			{/each}
 
 			<button
 				class="button-primary -m-5 rounded-b-sm rounded-t-none border-0"
