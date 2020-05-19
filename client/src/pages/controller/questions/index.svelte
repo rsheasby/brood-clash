@@ -13,6 +13,9 @@
 
 	let currentQuestionExists: boolean = false;
 
+	let deletingQuestionId = undefined;
+	let deletingTimeoutId = undefined;
+
 	onMount(async () => {
 		let currentQuestionPromise = ApiClient.getCurrentQuestion();
 		try {
@@ -37,6 +40,45 @@
 		loading = true;
 		await ApiClient.selectQuestion(questionId);
 		$goto('/controller');
+	}
+
+	async function deleteQuestionClicked(question) {
+		if (deletingTimeoutId) {
+			clearTimeout(deletingTimeoutId);
+			deletingTimeoutId = undefined;
+		}
+
+
+		if (deletingQuestionId === question.id) {
+			await deleteQuestion(question);
+		} else {
+			await promptDeleteConfirm(question);
+		}
+	}
+
+	async function deleteQuestion(question) {
+		try {
+			question.deleting = true;
+			const response = await ApiClient.deleteQuestion(question.id);
+			const status = response && response.status;
+			if (status === 204) {
+				questions = questions.filter(q => q.id !== question.id);
+			}
+		} catch (e) {
+			// TODO: Not sure how to inform user deletion was unsuccessful.
+		} finally {
+			question.deleting = false;
+		}
+	}
+
+	async function promptDeleteConfirm(question) {
+		deletingQuestionId = question.id;
+		deletingTimeoutId = setTimeout(
+			() => {
+				deletingQuestionId = null;
+				deletingTimeoutId = null;
+			}, 5000
+		);
 	}
 </script>
 
@@ -68,13 +110,23 @@
 				</button>
 			{/if}
 
-			{#each questions as question}
-				<button
-					class="button-primary box-content max-w-full"
-					on:click={selectQuestion(question.id)}>
-					{question.text}
-				</button>
-			{/each}
+			<div class="grid grid-cols-4 gap-1 max-w-full">
+				{#each questions as question}
+					<button
+						class="box-content col-span-3 max-w-full"
+						class:button-primary={!question.hasBeenShown}
+						class:button-neutral={question.hasBeenShown}
+						on:click={selectQuestion(question.id)}>
+						{question.text}{question.hasBeenShown ? " ✔" : ""}
+					</button>
+					<button
+						class="button-warning box-content max-w-full"
+						on:click={deleteQuestionClicked(question)}
+						disabled={question.deleting}>
+						{ question.id === deletingQuestionId ? "Confirm" : "Delete" }
+					</button>
+				{/each}
+			</div>
 
 			<button
 				class="button-primary -m-5 rounded-b-sm rounded-t-none border-0"
