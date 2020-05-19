@@ -43,11 +43,6 @@ func SelectQuestion(id uuid.UUID) (result *models.Question, err error) {
 		return nil, ErrIDNotFound
 	}
 
-	if result.HasBeenShown {
-		tx.Rollback()
-		return nil, ErrHasAlreadyBeenShown
-	}
-
 	result.HasBeenShown = true
 	err = tx.Save(result).Error
 	if err != nil {
