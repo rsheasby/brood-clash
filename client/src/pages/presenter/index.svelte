@@ -131,6 +131,8 @@
 		height: 100%;
 		width: 100%;
 		box-sizing: border-box;
+		transform-style: preserve-3d;
+		backface-visibility: hidden;
 	}
 
 	.answer-shown {
