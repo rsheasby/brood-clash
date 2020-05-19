@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/google/uuid"
 	"github.com/rsheasby/brood-clash/backend/models"
@@ -26,6 +27,12 @@ func InsertQuestion(question models.Question) error {
 	if totalPoints > 100 {
 		return fmt.Errorf("answer points can't total to over 100")
 	}
+
+	//Sort answers
+	sort.Slice(question.Answers, func(i, j int) bool {
+		return question.Answers[i].Points > question.Answers[j].Points
+	})
+
 	err := db.Create(&question).Error
 	if err != nil {
 		return fmt.Errorf("unable to insert question: %v", err)
