@@ -50,10 +50,6 @@
 			$goto('/controller/questions');
 		}
 	}
-
-	function canAddAnswer(): boolean {
-		return question.answers.length < 8;
-	}
 </script>
 
 <svelte:head>
@@ -83,12 +79,7 @@
 						bind:value={answer.points} />
 				</div>
 			{/each}
-			<!--
-				Have to put it into a function because using an angle bracket
-				(e.g. '<' for less than) in the directive breaks syntax
-				highlighting.
-			-->
-			{#if canAddAnswer()}
+			{#if question.answers.length < 8}
 				<!--
 					Alternatively we can have a number input box where you type how
 					many answers you want, or have a pseudo input field for a new
