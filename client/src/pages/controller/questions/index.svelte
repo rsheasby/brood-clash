@@ -1,26 +1,48 @@
 <script lang="typescript">
 	import { onMount } from 'svelte';
+	import { goto } from '@sveltech/routify';
 
 	import { ApiClient, codegen } from 'api';
-
-	import { goto } from '@sveltech/routify';
 
 	let loading: boolean = true;
 
 	let questions: codegen.ModelsQuestion[] = [];
-
-	let error: string;
 
 	let currentQuestionExists: boolean = false;
 
 	let deletingQuestionId = undefined;
 	let deletingTimeoutId = undefined;
 
-	onMount(async () => {
-		let currentQuestionPromise = ApiClient.getCurrentQuestion();
+	let resetGameTimeoutId = undefined;
+
+	let questionsExist: boolean = false;
+	$: questionsExist = questions.length > 0 || currentQuestionExists;
+
+	onMount(init);
+
+	async function init() {
+		loading = true;
+
+		questions = [];
+		currentQuestionExists = false;
+
+		deletingQuestionId = undefined;
+		if (deletingTimeoutId) {
+			clearTimeout(deletingTimeoutId);
+		}
+		deletingTimeoutId = undefined;
+
+		if (resetGameTimeoutId) {
+			clearTimeout(resetGameTimeoutId);
+		}
+		resetGameTimeoutId = undefined;
+
 		try {
+			const currentQuestionPromise = getCurrentQuestion();
+
 			let response = await ApiClient.getAllQuestions();
-			let currentQuestion = (await currentQuestionPromise).data;
+
+			let currentQuestion = await currentQuestionPromise;
 			if (currentQuestion && currentQuestion.id) {
 				questions = response.data.filter(
 					(q) => q.id != currentQuestion.id
@@ -34,7 +56,22 @@
 		}
 
 		loading = false;
-	});
+	}
+
+	async function getCurrentQuestion() {
+		let response = await ApiClient.getCurrentQuestion();
+		let status = response && response.status;
+		if (status === 200) {
+			return response.data;
+		} else if (status === 404) {
+			return null;
+		} else {
+			throw {
+				message: 'Could not retrieve current question',
+				response: response
+			};
+		}
+	}
 
 	async function selectQuestion(questionId) {
 		loading = true;
@@ -77,6 +114,30 @@
 			deletingTimeoutId = null;
 		}, 5000);
 	}
+
+	async function handleReset() {
+		if (resetGameTimeoutId) {
+			clearTimeout(resetGameTimeoutId);
+			resetGameTimeoutId = null;
+			await reset();
+		} else {
+			promptResetConfirm();
+		}
+	}
+
+	async function reset() {
+		const response = await ApiClient.resetGameState();
+		const status = response && response.status;
+		if (status === 204) {
+			await init();
+		}
+	}
+
+	async function promptResetConfirm() {
+		resetGameTimeoutId = setTimeout(() => {
+			resetGameTimeoutId = null;
+		}, 5000);
+	}
 </script>
 
 <svelte:head>
@@ -86,10 +147,6 @@
 		}
 	</style>
 </svelte:head>
-
-{#if error}
-	<p>{error}</p>
-{/if}
 
 <div class="flex-center hw-full p-5 sm:text-xl">
 	{#if loading}
@@ -127,12 +184,22 @@
 				</div>
 			{/each}
 
-			<button
-				class="button-primary -m-5 rounded-b-sm rounded-t-none border-0"
-				class:mt-0={questions.length !== 0 || currentQuestionExists}
-				on:click={$goto('/controller/questions/add')}>
-				Add Questions
-			</button>
+			<div class="grid gap-0 max-w-full {questionsExist ? 'grid-cols-2' : 'grid-cols-1'}">
+				<button
+					class="button-primary -m-5 rounded-b-sm rounded-t-none border-0
+						{questionsExist ? 'mt-0 mr-0' : ''}"
+					on:click={$goto('/controller/questions/add')}>
+					Add Questions
+				</button>
+				
+				{#if questionsExist}
+					<button
+						class="button-warning -m-5 rounded-b-sm rounded-t-none border-0 mt-0 ml-0"
+		  				on:click={handleReset}>
+						{resetGameTimeoutId ? 'Confirm reset' : 'Reset questions' }
+					</button>
+				{/if}
+			</div>
 		</div>
 	{/if}
 </div>
