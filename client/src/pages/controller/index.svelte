@@ -4,12 +4,10 @@
 	import { goto } from '@sveltech/routify';
 
 	let question: codegen.ModelsQuestion;
-	let loading: boolean = true;
 
 	onMount(async () => {
 		try {
 			question = await loadQuestion();
-			loading = false;
 		} catch (e) {
 			console.error(e);
 			history.replaceState({}, '', '/controller/questions');
@@ -76,7 +74,7 @@
 </svelte:head>
 
 <div class="flex-center hw-full p-5 sm:text-xl">
-	{#if loading}
+	{#if !question}
 		<div class="loading text-6xl" />
 	{:else}
 		<div
