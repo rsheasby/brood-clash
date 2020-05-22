@@ -97,7 +97,7 @@ func DeleteQuestion(questionId uuid.UUID) (err error) {
 		return err
 	}
 
-	if *gs.QuestionID == questionId {
+	if gs.QuestionID != nil && *gs.QuestionID == questionId {
 		err = tx.Model(&models.GameState{}).Update("question_id", nil).Error
 		if err != nil {
 			tx.Rollback()
