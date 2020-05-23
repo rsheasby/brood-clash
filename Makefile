@@ -10,6 +10,7 @@
 LDFLAGS = "-s -w"
 RELEASETAGS = "release"
 OUTPUTPREFIX = "brood-clash"
+UPXFLAGS = --lzma --best
 
 build:
 	cd client &&\
@@ -21,5 +22,5 @@ build:
 	cd backend &&\
 		pkger &&\
 		xgo -tags $(RELEASETAGS) -ldflags $(LDFLAGS) -out $(OUTPUTPREFIX) -targets "linux/amd64,darwin-10.11/amd64,windows-7.0/386" . &&\
-		upx $(OUTPUTPREFIX)-* 
+		upx $(UPXFLAGS) $(OUTPUTPREFIX)-* 
 	mv backend/$(OUTPUTPREFIX)-* .
