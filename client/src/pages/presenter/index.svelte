@@ -273,7 +273,7 @@
 <div id="display" class="center-container">
 	<div id="ring" class="center-container">
 		<div id="container">
-			<audio id="success" preload="auto">
+			<audio id="success" preload="auto" class="hidden">
 				<source src="success.mp3" type="audio/mpeg"/>
 			</audio>
 			{#each answers as answer, i}
@@ -317,7 +317,7 @@
 					</div>
 				</div>
 			{/each}
-			<audio id="buzzer" preload="auto">
+			<audio id="buzzer" preload="auto" class="hidden" style="display:hidden">
 				<source src="buzzer.mp3" type="audio/mpeg"/>
 			</audio>
 			<div class="wrong-answer-display" class:hidden={!wrongAnswer}>

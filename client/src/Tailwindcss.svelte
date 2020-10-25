@@ -52,7 +52,7 @@
 	}
 
 	.input {
-		@apply p-3 border-gray-600 font-semibold rounded-md border-2;
+		@apply p-3 border-gray-600 font-semibold rounded-md border-2 shadow-none;
 	}
 
 	.button-primary {

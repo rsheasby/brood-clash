@@ -24,3 +24,4 @@ build:
 		xgo -tags $(RELEASETAGS) -ldflags $(LDFLAGS) -out $(OUTPUTPREFIX) -targets "linux/amd64,darwin-10.11/amd64,windows-7.0/386" . &&\
 		upx $(UPXFLAGS) $(OUTPUTPREFIX)-* 
 	mv backend/$(OUTPUTPREFIX)-* .
+	chmod +x $(OUTPUTPREFIX)-*
