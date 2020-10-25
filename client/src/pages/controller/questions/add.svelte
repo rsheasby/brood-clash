@@ -4,6 +4,7 @@
 	import { ApiClient, codegen } from 'api';
 
 	let question: codegen.ModelsQuestion = newQuestion();
+	let attemptedSubmit: boolean = false;
 
 	function newQuestion(): codegen.ModelsQuestion {
 		return {
@@ -23,6 +24,7 @@
 	 * @return true if the question is successfully created, false otherwise.
 	 */
 	async function submitQuestion(): Promise<boolean> {
+		attemptedSubmit = true;
 		try {
 			const response = await ApiClient.postQuestions([ question ]);
 			const status = response && response.status;
@@ -50,12 +52,21 @@
 			$goto('/controller/questions');
 		}
 	}
+
+	async function addAnotherAnswer() {
+		attemptedSubmit = false;
+		question.answers = [ ...question.answers, newAnswer() ]
+	}
 </script>
 
 <svelte:head>
 	<style>
 		body {
 			background-color: #001f54;
+		}
+
+		.-m-2px {
+			margin: -2px;
 		}
 	</style>
 </svelte:head>
@@ -64,17 +75,17 @@
 	<div class="card grid grid-cols-1 gap-3">
 		<form id="questions-form" class="grid grid-cols-1 gap-3">
 			<input
-				class="input box-content w-auto max-w-full" type="text"
+				class="input box-content w-auto max-w-full border-4" type="text"
 				required placeholder="Question"
 				bind:value={question.text} />
 			{#each question.answers as answer, i}
 				<div class="grid grid-cols-4 gap-3">
-					<input class="input col-span-3 box-content w-auto
-						max-w-full" type="text" required
+					<input class="input col-span-3 w-auto
+									  max-w-full {answer.text === '' && attemptedSubmit ? 'border-red-500 border-4 -m-2px' : ''}" type="text" required
 						placeholder="Answer {i + 1}"
 						bind:value={answer.text}/>
-					<input class="input col-span-1 box-content w-auto
-						max-w-full" type="number" required
+					<input class="input col-span-1 w-auto
+						max-w-full {answer.points === undefined && attemptedSubmit ? 'border-red-500 border-4 -m-2px' : ''}" type="number" required
 						placeholder="Points"
 						bind:value={answer.points} />
 				</div>
@@ -89,7 +100,7 @@
 					want to deal with the complexities of that right now.
 				-->
 				<button class="button-neutral box-content w-auto w-max-full"
-					on:click={() => question.answers = [ ...question.answers, newAnswer() ]}>
+					on:click={() => addAnotherAnswer()}>
 					Add another answer
 				</button>
 			{/if}
