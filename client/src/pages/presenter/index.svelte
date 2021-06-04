@@ -23,11 +23,15 @@
 		});
 	}
 
+	let timeoutId: any;
+
 	function displayX() {
 		wrongAnswer = true;
 		let buzzerSound = <HTMLAudioElement>document.getElementById('buzzer');
+		buzzerSound.currentTime = 0;
 		buzzerSound.play();
-		setTimeout(() => {
+		clearTimeout(timeoutId);
+		timeoutId = setTimeout(() => {
 			wrongAnswer = false;
 		}, 1000);
 	}
