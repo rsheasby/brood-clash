@@ -5,7 +5,6 @@
 #   go: src.techknowlogick.com/xgo
 # docker
 #   docker: techknowlogick/xgo:latest
-# upx
 
 LDFLAGS = "-s -w"
 RELEASETAGS = "release"
@@ -21,7 +20,6 @@ build:
 	cp -r client/public backend/static
 	cd backend &&\
 		pkger &&\
-		xgo -tags $(RELEASETAGS) -ldflags $(LDFLAGS) -out $(OUTPUTPREFIX) -targets "linux/amd64,darwin-10.11/amd64,windows-7.0/386" . &&\
-		upx $(UPXFLAGS) $(OUTPUTPREFIX)-* 
+		xgo -tags $(RELEASETAGS) -ldflags $(LDFLAGS) -out $(OUTPUTPREFIX) -targets "linux/amd64,darwin-10.11/amd64,windows-7.0/386" .
 	mv backend/$(OUTPUTPREFIX)-* .
 	chmod +x $(OUTPUTPREFIX)-*
