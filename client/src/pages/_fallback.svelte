@@ -7,4 +7,7 @@
     <li>
         <a href="/presenter">Presenter</a>
     </li>
+    <li>
+        <a href="/current-question">Current Question</a>
+    </li>
 </ul>
