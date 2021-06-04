@@ -26,6 +26,10 @@
 	async function submitQuestion(): Promise<boolean> {
 		attemptedSubmit = true;
 		if (question.text === '') return false;
+		question.answers = question.answers.filter(
+			(a) => a.text !== '' || a.points
+		);
+		if (question.answers.length === 0) addAnotherAnswer();
 		try {
 			const response = await ApiClient.postQuestions([question]);
 			const status = response && response.status;
