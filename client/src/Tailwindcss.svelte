@@ -1,4 +1,8 @@
 <style global lang="postcss">
+	body {
+		touch-action: manipulation;
+	}
+
 	@tailwind base;
 
 	.loading {
