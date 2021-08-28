@@ -1,14 +1,17 @@
 package main
 
 import (
+	"embed"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"net/http"
 	"time"
-
-	"github.com/markbates/pkger"
 )
+
+//go:embed static
+var staticFs embed.FS
 
 func getLocalIP() string {
 	conn, err := net.Dial("udp", "8.8.8.8:80")
@@ -24,19 +27,18 @@ func getLocalIP() string {
 
 func serveStatic() {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		dir := pkger.Dir("/static")
-		index, err := dir.Open("/index.html")
+		index, err := staticFs.Open("static/index.html")
 		if err != nil {
 			panic(fmt.Errorf("Couldn't open index.html: %v", err))
 		}
 		if r.URL.Path == "/" {
-			http.ServeContent(w, r, "index.html", time.Unix(0, 0), index)
+			http.ServeContent(w, r, "index.html", time.Unix(0, 0), index.(io.ReadSeeker))
 		} else {
-			file, err := dir.Open(r.URL.Path)
+			file, err := staticFs.Open("static" + r.URL.Path)
 			if err != nil {
-				http.ServeContent(w, r, r.URL.Path, time.Unix(0, 0), index)
+				http.ServeContent(w, r, r.URL.Path, time.Unix(0, 0), index.(io.ReadSeeker))
 			} else {
-				http.ServeContent(w, r, r.URL.Path, time.Unix(0, 0), file)
+				http.ServeContent(w, r, r.URL.Path, time.Unix(0, 0), file.(io.ReadSeeker))
 			}
 		}
 	})

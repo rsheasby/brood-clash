@@ -47,6 +47,7 @@
 				break;
 			case 'revealAnswer':
 				let successSound = <HTMLAudioElement>document.getElementById("success");
+				successSound.currentTime = 0;
 				successSound.play();
 				updateAnswer(update.Update);
 				break;

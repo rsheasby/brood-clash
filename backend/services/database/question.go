@@ -44,7 +44,7 @@ func SelectQuestion(id uuid.UUID) (result *models.Question, err error) {
 	tx := db.Begin()
 
 	result = new(models.Question)
-	err = tx.Take(result, "id = ?", id).Related(&result.Answers).Error
+	err = tx.Take(result, "id = ?", id).Error
 	if err != nil {
 		tx.Rollback()
 		return nil, ErrIDNotFound
@@ -57,7 +57,7 @@ func SelectQuestion(id uuid.UUID) (result *models.Question, err error) {
 		return nil, err
 	}
 
-	err = tx.Model(&models.GameState{}).Update("question_id", result.ID).Error
+	err = tx.Model(&models.GameState{}).Where("1 = 1").Update("question_id", result.ID).Error
 	if err != nil {
 		tx.Rollback()
 		return nil, err
@@ -76,7 +76,7 @@ func DeleteQuestion(questionId uuid.UUID) (err error) {
 	tx := db.Begin()
 
 	q := new(models.Question)
-	err = tx.Find(&q, "id = ?", questionId).Related(&q.Answers).Error
+	err = tx.Preload("Answers").Find(&q, "id = ?", questionId).Error
 	if err != nil {
 		tx.Rollback()
 		return ErrIDNotFound
@@ -98,7 +98,7 @@ func DeleteQuestion(questionId uuid.UUID) (err error) {
 	}
 
 	if gs.QuestionID != nil && *gs.QuestionID == questionId {
-		err = tx.Model(&models.GameState{}).Update("question_id", nil).Error
+		err = tx.Model(&models.GameState{}).Where("1 = 1").Update("question_id", nil).Error
 		if err != nil {
 			tx.Rollback()
 			return err
@@ -124,7 +124,7 @@ func GetCurrentQuestionWithAnswers() (result *models.Question, err error) {
 		return nil, ErrNoCurrentQuestion
 	}
 	result = new(models.Question)
-	err = db.Take(result, "id = ?", gs.QuestionID).Related(&result.Answers).Error
+	err = db.Preload("Answers").Take(result, "id = ?", gs.QuestionID).Error
 	if err != nil {
 		return nil, fmt.Errorf("unable to get current Question/Answers: %v", err)
 	}

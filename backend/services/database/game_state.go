@@ -7,7 +7,7 @@ import (
 )
 
 func initGameState() {
-	count := new(int)
+	count := new(int64)
 	db.Model(&models.GameState{}).Count(count)
 	switch {
 	case *count == 0:
@@ -22,19 +22,19 @@ func initGameState() {
 func ResetGame() (err error) {
 	tx := db.Begin()
 
-	err = tx.Model(models.GameState{}).Update("question_id", nil).Error
+	err = tx.Model(models.GameState{}).Where("1 = 1").Update("question_id", nil).Error
 	if err != nil {
 		tx.Rollback()
 		return
 	}
 
-	err = tx.Model(models.Question{}).Update("has_been_shown", false).Error
+	err = tx.Model(models.Question{}).Where("1 = 1").Update("has_been_shown", false).Error
 	if err != nil {
 		tx.Rollback()
 		return
 	}
 
-	err = tx.Model(models.Answer{}).Update("revealed", false).Error
+	err = tx.Model(models.Answer{}).Where("1 = 1").Update("revealed", false).Error
 	if err != nil {
 		tx.Rollback()
 		return
